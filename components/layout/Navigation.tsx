@@ -1,5 +1,6 @@
 import { AppBar, Container, Toolbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 /**
@@ -36,6 +37,10 @@ export default function Navigation() {
             <Typography color="text.secondary" variant="body2">
               Alpha
             </Typography>
+          </Box>
+          {/* Connect button */}
+          <Box sx={{ flexGrow: 0 }}>
+            <ConnectButton />
           </Box>
         </Toolbar>
       </Container>
