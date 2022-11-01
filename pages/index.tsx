@@ -7,7 +7,12 @@ import Layout from "components/layout/Layout";
 export default function Home() {
   return (
     <Layout>
-      <Typography variant="h4">Dear Web3, I bet...</Typography>
+      <Typography variant="h4" fontWeight={700} gutterBottom>
+        Dear Web3,
+      </Typography>
+      <Typography variant="h5" fontWeight={700}>
+        I bet...
+      </Typography>
     </Layout>
   );
 }
