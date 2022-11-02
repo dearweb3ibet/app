@@ -8,4 +8,11 @@ export const components: Components = {
       },
     },
   },
+  MuiLink: {
+    styleOverrides: {
+      root: {
+        textDecoration: "none",
+      },
+    },
+  },
 };
