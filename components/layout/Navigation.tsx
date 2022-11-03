@@ -46,6 +46,7 @@ export default function Navigation() {
           </Box>
           {/* My bets link */}
           <Box sx={{ flexGrow: 0, mr: 4 }}>
+            {/* TODO: Use real link */}
             <Link href="/" passHref legacyBehavior>
               <Typography
                 component="a"
@@ -61,6 +62,7 @@ export default function Navigation() {
           </Box>
           {/* Top 100 link */}
           <Box sx={{ flexGrow: 0, mr: 4 }}>
+            {/* TODO: Use real link */}
             <Link href="/" passHref legacyBehavior>
               <Typography
                 component="a"
