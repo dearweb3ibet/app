@@ -70,7 +70,13 @@ function BetParams(props: { betId: string }) {
             betSecondMember={data.secondMember}
             onSuccess={() => refetch()}
           />
-          <BetVerifyButton />
+          <BetVerifyButton
+            betId={BigNumber.from(props.betId)}
+            betFirstMember={data.firstMember}
+            betSecondMember={data.secondMember}
+            betWinner={data.winner}
+            onSuccess={() => refetch()}
+          />
           <LoadingButton
             variant="outlined"
             onClick={() => {
@@ -95,8 +101,11 @@ function BetAcceptButton(props: {
   onSuccess: Function;
 }) {
   const { showToastSuccess } = useToast();
-  // Account state
   const { address } = useAccount();
+  const isButtonEnabled =
+    props.betFirstMember !== address &&
+    props.betSecondMember === ethers.constants.AddressZero;
+
   // Contract states
   const contractArgs: any = [props.betId, { value: props.betRate }];
   const { config: contractConfig } = usePrepareContractWrite({
@@ -104,6 +113,7 @@ function BetAcceptButton(props: {
     abi: betContractAbi,
     functionName: "accept",
     args: contractArgs,
+    enabled: isButtonEnabled,
   });
   const {
     data: contractWriteData,
@@ -115,12 +125,6 @@ function BetAcceptButton(props: {
       hash: contractWriteData?.hash,
     });
 
-  // TODO: Disable if winner is not empty
-  const isDisabled =
-    !contractWrite ||
-    props.betFirstMember === address ||
-    props.betSecondMember !== ethers.constants.AddressZero;
-
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Bet is accepted!");
@@ -131,7 +135,7 @@ function BetAcceptButton(props: {
   return (
     <LoadingButton
       variant="contained"
-      disabled={isDisabled}
+      disabled={!contractWrite || !isButtonEnabled}
       loading={isContractWriteLoading || isTransactionLoading}
       onClick={() => contractWrite?.()}
     >
@@ -140,10 +144,52 @@ function BetAcceptButton(props: {
   );
 }
 
-// TODO: Implement button
-function BetVerifyButton() {
+function BetVerifyButton(props: {
+  betId: BigNumber;
+  betFirstMember: string;
+  betSecondMember: string;
+  betWinner: string;
+  onSuccess: Function;
+}) {
+  const { showToastSuccess } = useToast();
+  const isButtonEnabled =
+    props.betFirstMember !== ethers.constants.AddressZero &&
+    props.betSecondMember !== ethers.constants.AddressZero &&
+    props.betWinner === ethers.constants.AddressZero;
+
+  // Contract states
+  const contractArgs: any = [props.betId];
+  const { config: contractConfig } = usePrepareContractWrite({
+    address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
+    abi: betContractAbi,
+    functionName: "verify",
+    args: contractArgs,
+    enabled: isButtonEnabled,
+  });
+  const {
+    data: contractWriteData,
+    isLoading: isContractWriteLoading,
+    write: contractWrite,
+  } = useContractWrite(contractConfig);
+  const { isLoading: isTransactionLoading, isSuccess: isTransactionSuccess } =
+    useWaitForTransaction({
+      hash: contractWriteData?.hash,
+    });
+
+  useEffect(() => {
+    if (isTransactionSuccess) {
+      showToastSuccess("Bet is verified, winner is determined!");
+      props.onSuccess();
+    }
+  }, [isTransactionSuccess]);
+
   return (
-    <LoadingButton variant="contained" disabled={true}>
+    <LoadingButton
+      variant="contained"
+      disabled={!contractWrite || !isButtonEnabled}
+      loading={isContractWriteLoading || isTransactionLoading}
+      onClick={() => contractWrite?.()}
+    >
       Verify
     </LoadingButton>
   );
