@@ -48,8 +48,9 @@ export default function NewBet() {
     date: yup.string().required(),
   });
 
-  // Network and contract states
+  // Account state
   const { address } = useAccount();
+  // Contract states
   const { config: contractConfig } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
     abi: betContractAbi,
