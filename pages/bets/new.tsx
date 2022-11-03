@@ -16,10 +16,12 @@ import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
+import Link from "next/link";
 import { useState } from "react";
 import {
+  useAccount,
+  useContractEvent,
   useContractWrite,
-  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -47,7 +49,7 @@ export default function NewBet() {
   });
 
   // Network and contract states
-  const { chain } = useNetwork();
+  const { address } = useAccount();
   const { config: contractConfig } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
     abi: betContractAbi,
@@ -63,6 +65,7 @@ export default function NewBet() {
     useWaitForTransaction({
       hash: contractWriteData?.hash,
     });
+  const [madeBetId, setMadeBetId] = useState<string | undefined>();
 
   const isFormDisabled =
     isContractWriteLoading || isTransactionLoading || isTransactionSuccess;
@@ -86,6 +89,18 @@ export default function NewBet() {
       { value: rate },
     ];
   }
+
+  // Listen contract events to get id of made bet
+  useContractEvent({
+    address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
+    abi: betContractAbi,
+    eventName: "Transfer",
+    listener(from, to, tokenId) {
+      if (from === ethers.constants.AddressZero && to === address) {
+        setMadeBetId(tokenId.toString());
+      }
+    },
+  });
 
   return (
     <Layout>
@@ -184,17 +199,14 @@ export default function NewBet() {
         </Formik>
       </Box>
       {/* Success message */}
-      {isTransactionSuccess && (
+      {madeBetId && (
         <Box sx={{ mt: 4 }}>
           <Typography variant="h4" fontWeight={700} gutterBottom>
             Bet is made!
           </Typography>
-          <MuiLink
-            href={`${chain?.blockExplorers?.default.url}/tx/${contractWriteData?.hash}`}
-            target="_blank"
-          >
-            Transaction
-          </MuiLink>
+          <Link href={`/bets/${madeBetId}`} legacyBehavior passHref>
+            <MuiLink>Link</MuiLink>
+          </Link>
         </Box>
       )}
     </Layout>
