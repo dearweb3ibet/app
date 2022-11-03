@@ -1,14 +1,7 @@
-import { LoadingButton } from "@mui/lab";
-import {
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { HugeLoadingButton } from "components/buttons";
 import FormikHelper from "components/helpers/FormikHelper";
-import Layout from "components/layout/Layout";
+import Layout from "components/layout";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
@@ -58,12 +51,7 @@ function CreatedBetMessage(props: { betId: string }) {
         🤞 Congrats, your bet is published!
       </Typography>
       <Link href={`/bets/${props.betId}`} legacyBehavior passHref>
-        <Button
-          variant="contained"
-          sx={{ borderRadius: 32, fontSize: 18, px: 4, py: 2 }}
-        >
-          Open
-        </Button>
+        <HugeLoadingButton variant="contained">Open</HugeLoadingButton>
       </Link>
     </Box>
   );
@@ -307,20 +295,14 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 mb: 4,
               }}
             >
-              <LoadingButton
+              <HugeLoadingButton
                 loading={isContractWriteLoading || isTransactionLoading}
                 variant="contained"
                 type="submit"
                 disabled={isFormDisabled || !contractWrite}
-                sx={{
-                  borderRadius: 32,
-                  fontSize: 24,
-                  px: 5,
-                  py: 2.5,
-                }}
               >
                 Make Bet
-              </LoadingButton>
+              </HugeLoadingButton>
             </Box>
           </Form>
         )}

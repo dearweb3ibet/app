@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import Layout from "components/layout/Layout";
+import Layout from "components/layout";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import useToast from "hooks/useToast";
