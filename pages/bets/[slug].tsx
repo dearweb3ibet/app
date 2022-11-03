@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import Layout from "components/layout/Layout";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
+import useToast from "hooks/useToast";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
@@ -91,9 +92,9 @@ function BetAcceptButton(props: {
   betRate: BigNumber;
   betFirstMember: string;
   betSecondMember: string;
-  // betWinner: string,
   onSuccess: Function;
 }) {
+  const { showToastSuccess } = useToast();
   // Account state
   const { address } = useAccount();
   // Contract states
@@ -122,7 +123,7 @@ function BetAcceptButton(props: {
 
   useEffect(() => {
     if (isTransactionSuccess) {
-      // TODO: Show alert with success message
+      showToastSuccess("Bet is accepted!");
       props.onSuccess();
     }
   }, [isTransactionSuccess]);

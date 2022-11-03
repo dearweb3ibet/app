@@ -2,6 +2,7 @@ import { ThemeProvider } from "@mui/material";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
+import { SnackbarProvider } from "notistack";
 import { theme } from "theme";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -32,7 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
+          <SnackbarProvider maxSnack={3}>
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </ThemeProvider>
       </RainbowKitProvider>
     </WagmiConfig>
