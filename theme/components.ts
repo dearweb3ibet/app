@@ -25,6 +25,19 @@ export const components: Components = {
           },
         },
       },
+      {
+        props: { variant: "outlined" },
+        style: {
+          color: "#000000",
+          borderColor: "#000000",
+          "& .MuiButton-startIcon svg path": {
+            stroke: "#000000",
+          },
+          "&:hover": {
+            borderColor: "#000000",
+          },
+        },
+      },
     ],
   },
   MuiLink: {

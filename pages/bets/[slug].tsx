@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import Layout from "components/layout";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
-import useToast from "hooks/useToast";
+import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
@@ -100,7 +100,7 @@ function BetAcceptButton(props: {
   betSecondMember: string;
   onSuccess: Function;
 }) {
-  const { showToastSuccess } = useToast();
+  const { showToastSuccess } = useToasts();
   const { address } = useAccount();
   const isButtonEnabled =
     props.betFirstMember !== address &&
@@ -151,7 +151,7 @@ function BetVerifyButton(props: {
   betWinner: string;
   onSuccess: Function;
 }) {
-  const { showToastSuccess } = useToast();
+  const { showToastSuccess } = useToasts();
   const isButtonEnabled =
     props.betFirstMember !== ethers.constants.AddressZero &&
     props.betSecondMember !== ethers.constants.AddressZero &&

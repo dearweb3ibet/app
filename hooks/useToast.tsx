@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 /**
  * Hook for work with toasts.
  */
-export default function useToast() {
+export default function useToasts() {
   const { enqueueSnackbar } = useSnackbar();
 
   let showToastSuccess = function (message: string) {

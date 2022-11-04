@@ -1,4 +1,11 @@
-import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Link as MuiLink,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { HugeLoadingButton } from "components/buttons";
 import FormikHelper from "components/helpers/FormikHelper";
 import Layout from "components/layout";
@@ -6,6 +13,7 @@ import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
+import useToasts from "hooks/useToast";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -38,6 +46,15 @@ export default function NewBet() {
 }
 
 function CreatedBetMessage(props: { betId: string }) {
+  const { showToastSuccess } = useToasts();
+  const [betLink, setBetLink] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (global.window) {
+      setBetLink(`${global.window.location.origin}/bets/${props.betId}`);
+    }
+  }, [global.window]);
+
   return (
     <Box
       sx={{
@@ -50,9 +67,28 @@ function CreatedBetMessage(props: { betId: string }) {
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
         🤞 Congrats, your bet is published!
       </Typography>
-      <Link href={`/bets/${props.betId}`} legacyBehavior passHref>
-        <HugeLoadingButton variant="contained">Open</HugeLoadingButton>
-      </Link>
+      {betLink && (
+        <>
+          {/* Link */}
+          <Box sx={{ border: 3, borderRadius: 3, px: 4, py: 2, mb: 3 }}>
+            <Link href={betLink} legacyBehavior passHref>
+              <MuiLink sx={{ fontWeight: 700, textAlign: "center" }}>
+                🔗 {betLink}
+              </MuiLink>
+            </Link>
+          </Box>
+          {/* Copy link button */}
+          <HugeLoadingButton
+            variant="contained"
+            onClick={() => {
+              navigator.clipboard.writeText(betLink);
+              showToastSuccess("Link copied");
+            }}
+          >
+            Copy Link
+          </HugeLoadingButton>
+        </>
+      )}
     </Box>
   );
 }
