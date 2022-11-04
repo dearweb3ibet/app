@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 /**
  * Component to place bet input into children.
  */
-export default function BetInputBox(props: {
+export default function BetInputWrapper(props: {
   title: string;
   subtitle?: string;
   color?: string;

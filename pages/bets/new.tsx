@@ -1,10 +1,13 @@
 import { Box, Link as MuiLink, MenuItem, Typography } from "@mui/material";
-import BetBox from "components/bet/BetBox";
-import BetInputBox from "components/bet/BetInputBox";
-import { HugeLoadingButton } from "components/buttons";
+import BetInputWrapper from "components/bet/BetInputWrapper";
 import FormikHelper from "components/helpers/FormikHelper";
 import Layout from "components/layout";
-import { BetInputSelect, BetInputTextField } from "components/styled";
+import {
+  BetBox,
+  BetInputSelect,
+  BetInputTextField,
+  HugeLoadingButton,
+} from "components/styled";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
@@ -170,7 +173,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
           <Form>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Rate input */}
-            <BetInputBox
+            <BetInputWrapper
               title="I bet"
               subtitle={chain?.nativeCurrency?.symbol}
               color="#2B6EFD"
@@ -186,9 +189,9 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 helperText={touched.rate && errors.rate}
                 disabled={isFormDisabled}
               />
-            </BetInputBox>
+            </BetInputWrapper>
             {/* Symbol input */}
-            <BetInputBox title="That" color="#410c92" sx={{ mb: 3 }}>
+            <BetInputWrapper title="That" color="#410c92" sx={{ mb: 3 }}>
               <BetInputSelect
                 id="symbol"
                 name="symbol"
@@ -199,13 +202,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 <MenuItem value="ETHUSD">ETH</MenuItem>
                 <MenuItem value="BTCUSD">BTC</MenuItem>
               </BetInputSelect>
-            </BetInputBox>
+            </BetInputWrapper>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               will be cost
             </Typography>
             {/* Min price input */}
-            <BetInputBox
+            <BetInputWrapper
               title="More than"
               subtitle="USD"
               color="#1DB954"
@@ -221,13 +224,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 helperText={touched.minPrice && errors.minPrice}
                 disabled={isFormDisabled}
               />
-            </BetInputBox>
+            </BetInputWrapper>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and
             </Typography>
             {/* Min price input */}
-            <BetInputBox
+            <BetInputWrapper
               title="Less than"
               subtitle="USD"
               color="#FF4400"
@@ -243,9 +246,9 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 helperText={touched.maxPrice && errors.maxPrice}
                 disabled={isFormDisabled}
               />
-            </BetInputBox>
+            </BetInputWrapper>
             {/* Date */}
-            <BetInputBox title="On" color="#4B144B" sx={{ mb: 6 }}>
+            <BetInputWrapper title="On" color="#4B144B" sx={{ mb: 6 }}>
               <BetInputTextField
                 id="date"
                 name="date"
@@ -257,14 +260,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 disabled={isFormDisabled}
                 sx={{ width: 180 }}
               />
-            </BetInputBox>
+            </BetInputWrapper>
             {/* Submit button */}
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                mb: 4,
               }}
             >
               <HugeLoadingButton
