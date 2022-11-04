@@ -1,14 +1,10 @@
-import {
-  Box,
-  Link as MuiLink,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Link as MuiLink, MenuItem, Typography } from "@mui/material";
+import BetBox from "components/bet/BetBox";
+import BetInputBox from "components/bet/BetInputBox";
 import { HugeLoadingButton } from "components/buttons";
 import FormikHelper from "components/helpers/FormikHelper";
 import Layout from "components/layout";
+import { BetInputSelect, BetInputTextField } from "components/styled";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
@@ -56,14 +52,7 @@ function CreatedBetMessage(props: { betId: string }) {
   }, [global.window]);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        mt: 4,
-      }}
-    >
+    <BetBox>
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
         🤞 Congrats, your bet is published!
       </Typography>
@@ -89,7 +78,7 @@ function CreatedBetMessage(props: { betId: string }) {
           </HugeLoadingButton>
         </>
       )}
-    </Box>
+    </BetBox>
   );
 }
 
@@ -168,21 +157,8 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
   });
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        mt: 4,
-      }}
-    >
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        textAlign="center"
-        gutterBottom
-        sx={{ mb: 3 }}
-      >
+    <BetBox>
+      <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
         🙏 Dear Web3,
       </Typography>
       <Formik
@@ -194,13 +170,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
           <Form>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Rate input */}
-            <CreateBetInputBox
+            <BetInputBox
               title="I bet"
               subtitle={chain?.nativeCurrency?.symbol}
               color="#2B6EFD"
               sx={{ mb: 2 }}
             >
-              <TextField
+              <BetInputTextField
                 id="rate"
                 name="rate"
                 type="number"
@@ -209,50 +185,33 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 error={touched.rate && Boolean(errors.rate)}
                 helperText={touched.rate && errors.rate}
                 disabled={isFormDisabled}
-                variant="standard"
-                sx={{
-                  width: 120,
-                  bgcolor: "#FFFFFF",
-                  borderRadius: 4,
-                  py: 1,
-                  px: 2,
-                }}
               />
-            </CreateBetInputBox>
+            </BetInputBox>
             {/* Symbol input */}
-            <CreateBetInputBox title="That" color="#333333" sx={{ mb: 3 }}>
-              <Select
-                labelId="symbol-label"
+            <BetInputBox title="That" color="#410c92" sx={{ mb: 3 }}>
+              <BetInputSelect
                 id="symbol"
                 name="symbol"
                 value={values.symbol}
                 onChange={handleChange}
                 disabled={isFormDisabled}
-                variant="standard"
-                sx={{
-                  width: 160,
-                  bgcolor: "#FFFFFF",
-                  borderRadius: 4,
-                  py: 1,
-                  px: 2,
-                }}
               >
                 <MenuItem value="ETHUSD">ETH</MenuItem>
                 <MenuItem value="BTCUSD">BTC</MenuItem>
-              </Select>
-            </CreateBetInputBox>
+              </BetInputSelect>
+            </BetInputBox>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               will be cost
             </Typography>
             {/* Min price input */}
-            <CreateBetInputBox
+            <BetInputBox
               title="More than"
               subtitle="USD"
               color="#1DB954"
               sx={{ mb: 3 }}
             >
-              <TextField
+              <BetInputTextField
                 id="minPrice"
                 name="minPrice"
                 type="number"
@@ -261,28 +220,20 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 error={touched.minPrice && Boolean(errors.minPrice)}
                 helperText={touched.minPrice && errors.minPrice}
                 disabled={isFormDisabled}
-                variant="standard"
-                sx={{
-                  width: 120,
-                  bgcolor: "#FFFFFF",
-                  borderRadius: 4,
-                  py: 1,
-                  px: 2,
-                }}
               />
-            </CreateBetInputBox>
+            </BetInputBox>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and
             </Typography>
             {/* Min price input */}
-            <CreateBetInputBox
+            <BetInputBox
               title="Less than"
               subtitle="USD"
               color="#FF4400"
               sx={{ mb: 2 }}
             >
-              <TextField
+              <BetInputTextField
                 id="maxPrice"
                 name="maxPrice"
                 type="number"
@@ -291,19 +242,11 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 error={touched.maxPrice && Boolean(errors.maxPrice)}
                 helperText={touched.maxPrice && errors.maxPrice}
                 disabled={isFormDisabled}
-                variant="standard"
-                sx={{
-                  width: 120,
-                  bgcolor: "#FFFFFF",
-                  borderRadius: 4,
-                  py: 1,
-                  px: 2,
-                }}
               />
-            </CreateBetInputBox>
+            </BetInputBox>
             {/* Date */}
-            <CreateBetInputBox title="On" color="#4B144B" sx={{ mb: 6 }}>
-              <TextField
+            <BetInputBox title="On" color="#4B144B" sx={{ mb: 6 }}>
+              <BetInputTextField
                 id="date"
                 name="date"
                 type="date"
@@ -312,16 +255,9 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 error={touched.date && Boolean(errors.date)}
                 helperText={touched.date && errors.date}
                 disabled={isFormDisabled}
-                variant="standard"
-                sx={{
-                  width: 180,
-                  bgcolor: "#FFFFFF",
-                  borderRadius: 4,
-                  py: 1,
-                  px: 2,
-                }}
+                sx={{ width: 180 }}
               />
-            </CreateBetInputBox>
+            </BetInputBox>
             {/* Submit button */}
             <Box
               sx={{
@@ -343,50 +279,6 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
           </Form>
         )}
       </Formik>
-    </Box>
-  );
-}
-
-function CreateBetInputBox(props: {
-  title: string;
-  subtitle?: string;
-  color?: string;
-  sx?: any;
-  children: any;
-}) {
-  const [subtitle, setSubtitle] = useState<string | undefined>();
-
-  useEffect(() => {
-    setSubtitle(props.subtitle);
-  }, [props.subtitle]);
-
-  return (
-    <Box
-      sx={{
-        width: 540,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        bgcolor: props.color || "#000000",
-        py: 2,
-        px: 4,
-        borderRadius: 3,
-        ...props.sx,
-      }}
-    >
-      <Typography
-        sx={{
-          color: "#FFFFFF",
-          fontSize: 32,
-          fontWeight: 700,
-          minWidth: 180,
-          mr: 3,
-        }}
-      >
-        {props.title}
-      </Typography>
-      {props.children}
-      <Typography sx={{ color: "#FFFFFF", ml: 2 }}>{subtitle}</Typography>
-    </Box>
+    </BetBox>
   );
 }
