@@ -1,5 +1,5 @@
 import { Box, Link as MuiLink, MenuItem, Typography } from "@mui/material";
-import BetInputWrapper from "components/bet/BetInputWrapper";
+import BetParamsWrapper from "components/bet/BetParamsWrapper";
 import FormikHelper from "components/helpers/FormikHelper";
 import Layout from "components/layout";
 import {
@@ -173,7 +173,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
           <Form>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Rate input */}
-            <BetInputWrapper
+            <BetParamsWrapper
               title="I bet"
               subtitle={chain?.nativeCurrency?.symbol}
               color="#2B6EFD"
@@ -189,9 +189,9 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 helperText={touched.rate && errors.rate}
                 disabled={isFormDisabled}
               />
-            </BetInputWrapper>
+            </BetParamsWrapper>
             {/* Symbol input */}
-            <BetInputWrapper title="That" color="#410c92" sx={{ mb: 3 }}>
+            <BetParamsWrapper title="That" color="#410c92" sx={{ mb: 3 }}>
               <BetInputSelect
                 id="symbol"
                 name="symbol"
@@ -202,13 +202,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 <MenuItem value="ETHUSD">ETH</MenuItem>
                 <MenuItem value="BTCUSD">BTC</MenuItem>
               </BetInputSelect>
-            </BetInputWrapper>
+            </BetParamsWrapper>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               will be cost
             </Typography>
             {/* Min price input */}
-            <BetInputWrapper
+            <BetParamsWrapper
               title="More than"
               subtitle="USD"
               color="#1DB954"
@@ -224,13 +224,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 helperText={touched.minPrice && errors.minPrice}
                 disabled={isFormDisabled}
               />
-            </BetInputWrapper>
+            </BetParamsWrapper>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and
             </Typography>
-            {/* Min price input */}
-            <BetInputWrapper
+            {/* Max price input */}
+            <BetParamsWrapper
               title="Less than"
               subtitle="USD"
               color="#FF4400"
@@ -246,9 +246,9 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 helperText={touched.maxPrice && errors.maxPrice}
                 disabled={isFormDisabled}
               />
-            </BetInputWrapper>
+            </BetParamsWrapper>
             {/* Date */}
-            <BetInputWrapper title="On" color="#4B144B" sx={{ mb: 6 }}>
+            <BetParamsWrapper title="On" color="#4B144B" sx={{ mb: 6 }}>
               <BetInputTextField
                 id="date"
                 name="date"
@@ -260,7 +260,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 disabled={isFormDisabled}
                 sx={{ width: 180 }}
               />
-            </BetInputWrapper>
+            </BetParamsWrapper>
             {/* Submit button */}
             <Box
               sx={{

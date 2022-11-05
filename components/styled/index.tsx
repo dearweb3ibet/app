@@ -2,10 +2,14 @@ import { LoadingButton, LoadingButtonProps } from "@mui/lab";
 import {
   Box,
   BoxProps,
+  Link,
+  LinkProps,
   Select,
   SelectProps,
   TextField,
   TextFieldProps,
+  Typography,
+  TypographyProps,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -24,6 +28,20 @@ export const BetBox = styled(Box)<BoxProps>(({ theme }) => ({
   marginTop: "24px",
   marginBottom: "24px",
 }));
+
+export const BetParamsLink = styled(Link)<LinkProps>(({ theme }) => ({
+  backgroundColor: "#FFFFFF",
+  borderRadius: "12px",
+  padding: "14px 20px",
+}));
+
+export const BetParamsTypography = styled(Typography)<TypographyProps>(
+  ({ theme }) => ({
+    backgroundColor: "#FFFFFF",
+    borderRadius: "12px",
+    padding: "14px 20px",
+  })
+);
 
 export const BetInputTextField = styled(TextField)<TextFieldProps>(
   ({ theme }) => ({

@@ -2,9 +2,9 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 /**
- * Component to place bet input into children.
+ * Component to place bet params (or bet input) into children.
  */
-export default function BetInputWrapper(props: {
+export default function BetParamsWrapper(props: {
   title: string;
   subtitle?: string;
   color?: string;

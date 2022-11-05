@@ -1,16 +1,23 @@
-import { LoadingButton } from "@mui/lab";
-import { Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Divider, Stack, Typography } from "@mui/material";
+import BetParamsWrapper from "components/bet/BetParamsWrapper";
 import Layout from "components/layout";
+import {
+  BetBox,
+  BetParamsLink,
+  BetParamsTypography,
+  HugeLoadingButton,
+} from "components/styled";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { addressToShortAddress } from "utils/converters";
 import {
   useAccount,
   useContractRead,
   useContractWrite,
+  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -28,6 +35,10 @@ export default function Bet() {
 }
 
 function BetParams(props: { betId: string }) {
+  // Network state
+  const { chain } = useNetwork();
+  const chainAddressLink = `${chain?.blockExplorers?.default.url}/address/`;
+  // Contract states
   const { data, isSuccess, refetch, isFetching } = useContractRead({
     address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
     abi: betContractAbi,
@@ -37,63 +48,163 @@ function BetParams(props: { betId: string }) {
 
   if (!isFetching && isSuccess && data) {
     return (
-      <Box>
-        <Typography variant="h4" fontWeight={700} gutterBottom>
-          Bet #{props.betId}
+      <BetBox>
+        <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
+          🤞 Bet #{props.betId}
         </Typography>
-        <Typography gutterBottom>symbol: {data.symbol}</Typography>
-        <Typography gutterBottom>
-          minPrice: {data.minPrice.toString()}
+        {/* First member */}
+        <BetParamsWrapper title="Account" color="#333333" sx={{ mb: 2 }}>
+          <BetParamsLink
+            href={`${chainAddressLink}/${data.firstMember.toString()}`}
+            target="_blank"
+          >
+            🔗 {addressToShortAddress(data.firstMember.toString())}
+          </BetParamsLink>
+        </BetParamsWrapper>
+        {/* Rate */}
+        <BetParamsWrapper
+          title="Bet"
+          subtitle={chain?.nativeCurrency?.symbol}
+          color="#2B6EFD"
+          sx={{ mb: 2 }}
+        >
+          <BetParamsTypography>
+            {ethers.utils.formatEther(data.rate)}
+          </BetParamsTypography>
+        </BetParamsWrapper>
+        {/* Created date */}
+        <BetParamsWrapper title="On" color="#fa4878" sx={{ mb: 2 }}>
+          {/* TODO: Display real created date */}
+          <BetParamsTypography>TODO</BetParamsTypography>
+        </BetParamsWrapper>
+        {/* Symbol */}
+        <BetParamsWrapper title="That" color="#410c92" sx={{ mb: 2 }}>
+          <BetParamsTypography>
+            {data.symbol.replace("USD", "")}
+          </BetParamsTypography>
+        </BetParamsWrapper>
+        {/* Text divider */}
+        <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
+          will be cost
         </Typography>
-        <Typography gutterBottom>
-          maxPrice: {data.maxPrice.toString()}
+        {/* Min price */}
+        <BetParamsWrapper
+          title="More than"
+          subtitle="USD"
+          color="#1DB954"
+          sx={{ mb: 2 }}
+        >
+          <BetParamsTypography>{data.minPrice.toString()}</BetParamsTypography>
+        </BetParamsWrapper>
+        {/* Text divider */}
+        <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
+          and
         </Typography>
-        <Typography gutterBottom>
-          dayStartTimestamp: {data.dayStartTimestamp.toString()}
-        </Typography>
-        <Typography gutterBottom>
-          rate: {ethers.utils.formatEther(data.rate)}
-        </Typography>
-        <Typography gutterBottom>
-          firstMember: {data.firstMember.toString()}
-        </Typography>
-        <Typography gutterBottom>
-          secondMember: {data.secondMember.toString()}
-        </Typography>
-        <Typography gutterBottom>winner: {data.winner.toString()}</Typography>
+        {/* Min price */}
+        <BetParamsWrapper
+          title="Less than"
+          subtitle="USD"
+          color="#FF4400"
+          sx={{ mb: 2 }}
+        >
+          <BetParamsTypography>{data.maxPrice.toString()}</BetParamsTypography>
+        </BetParamsWrapper>
+        {/* Day start timestamp */}
+        <BetParamsWrapper title="On" color="#4B144B">
+          <BetParamsTypography>
+            {new Date(
+              data.dayStartTimestamp.toNumber() * 1000
+            ).toLocaleDateString()}
+          </BetParamsTypography>
+        </BetParamsWrapper>
+        {/* If second member defined */}
+        {data.secondMember !== ethers.constants.AddressZero && (
+          <>
+            {/* Text divider */}
+            <Typography
+              fontWeight={700}
+              textAlign="center"
+              sx={{ mt: 2, mb: 2 }}
+            >
+              but
+            </Typography>
+            {/* Second member */}
+            <BetParamsWrapper title="Account" color="#666666" sx={{ mb: 2 }}>
+              <BetParamsLink
+                href={`${chainAddressLink}/${data.secondMember.toString()}`}
+                target="_blank"
+              >
+                🔗 {addressToShortAddress(data.secondMember.toString())}
+              </BetParamsLink>
+            </BetParamsWrapper>
+            {/* Text divider */}
+            <Typography fontWeight={700} textAlign="center">
+              thinks otherwise
+            </Typography>
+          </>
+        )}
+        {/* If winner defined */}
+        {data.winner !== ethers.constants.AddressZero && (
+          <>
+            {/* Text divider */}
+            <Divider sx={{ width: 540, mt: 4, mb: 4 }} />
+            <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
+              in the end, the bet was won by
+            </Typography>
+            {/* Winner */}
+            <BetParamsWrapper title="Account" color="#fd8e24" sx={{ mb: 2 }}>
+              {data.winner === ethers.constants.AddressZero ? (
+                <BetParamsTypography>❓ Undefined</BetParamsTypography>
+              ) : (
+                <BetParamsLink
+                  href={`${chainAddressLink}/${data.winner.toString()}`}
+                  target="_blank"
+                >
+                  🔗 {addressToShortAddress(data.winner.toString())}
+                </BetParamsLink>
+              )}
+            </BetParamsWrapper>
+            {/* Winning */}
+            <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
+              with
+            </Typography>
+            <BetParamsWrapper
+              title="Winning"
+              subtitle={chain?.nativeCurrency?.symbol}
+              color="#13bb0c"
+            >
+              <BetParamsTypography>
+                {ethers.utils.formatEther(data.rate.mul(BigNumber.from(2)))}
+              </BetParamsTypography>
+            </BetParamsWrapper>
+          </>
+        )}
+
         {/* Buttons */}
-        <Stack sx={{ mt: 3 }} direction="row" spacing={1}>
-          <BetAcceptButton
+        <Stack direction="row" spacing={2} sx={{ mt: 6 }}>
+          <BetBecomeOpponentButton
             betId={BigNumber.from(props.betId)}
             betRate={data.rate}
             betFirstMember={data.firstMember}
             betSecondMember={data.secondMember}
             onSuccess={() => refetch()}
           />
-          <BetVerifyButton
+          <BetDetermineWinnerButton
             betId={BigNumber.from(props.betId)}
             betFirstMember={data.firstMember}
             betSecondMember={data.secondMember}
             betWinner={data.winner}
             onSuccess={() => refetch()}
           />
-          <LoadingButton
-            variant="outlined"
-            onClick={() => {
-              refetch();
-            }}
-          >
-            Refetch
-          </LoadingButton>
         </Stack>
-      </Box>
+      </BetBox>
     );
   }
 
   return <></>;
 }
 
-function BetAcceptButton(props: {
+function BetBecomeOpponentButton(props: {
   betId: BigNumber;
   betRate: BigNumber;
   betFirstMember: string;
@@ -127,24 +238,24 @@ function BetAcceptButton(props: {
 
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Bet is accepted!");
+      showToastSuccess("Now you are the bet opponent!");
       props.onSuccess();
     }
   }, [isTransactionSuccess]);
 
   return (
-    <LoadingButton
+    <HugeLoadingButton
       variant="contained"
       disabled={!contractWrite || !isButtonEnabled}
       loading={isContractWriteLoading || isTransactionLoading}
       onClick={() => contractWrite?.()}
     >
-      Accept
-    </LoadingButton>
+      Become opponent
+    </HugeLoadingButton>
   );
 }
 
-function BetVerifyButton(props: {
+function BetDetermineWinnerButton(props: {
   betId: BigNumber;
   betFirstMember: string;
   betSecondMember: string;
@@ -178,19 +289,19 @@ function BetVerifyButton(props: {
 
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Bet is verified, winner is determined!");
+      showToastSuccess("Winner is determined! The winning is sent!");
       props.onSuccess();
     }
   }, [isTransactionSuccess]);
 
   return (
-    <LoadingButton
+    <HugeLoadingButton
       variant="contained"
       disabled={!contractWrite || !isButtonEnabled}
       loading={isContractWriteLoading || isTransactionLoading}
       onClick={() => contractWrite?.()}
     >
-      Verify
-    </LoadingButton>
+      Determine winner
+    </HugeLoadingButton>
   );
 }
