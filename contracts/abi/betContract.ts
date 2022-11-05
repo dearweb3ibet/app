@@ -281,6 +281,11 @@ export const betContractAbi = [
       {
         components: [
           {
+            internalType: "uint256",
+            name: "createdDate",
+            type: "uint256",
+          },
+          {
             internalType: "string",
             name: "symbol",
             type: "string",

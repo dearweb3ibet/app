@@ -74,8 +74,9 @@ function BetParams(props: { betId: string }) {
         </BetParamsWrapper>
         {/* Created date */}
         <BetParamsWrapper title="On" color="#fa4878" sx={{ mb: 2 }}>
-          {/* TODO: Display real created date */}
-          <BetParamsTypography>TODO</BetParamsTypography>
+          <BetParamsTypography>
+            {new Date(data.createdDate.toNumber() * 1000).toLocaleDateString()}
+          </BetParamsTypography>
         </BetParamsWrapper>
         {/* Symbol */}
         <BetParamsWrapper title="That" color="#410c92" sx={{ mb: 2 }}>
