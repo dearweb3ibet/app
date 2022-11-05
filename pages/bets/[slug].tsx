@@ -175,7 +175,7 @@ function BetParams(props: { betId: string }) {
               color="#13bb0c"
             >
               <BetParamsTypography>
-                {ethers.utils.formatEther(data.rate.mul(BigNumber.from(2)))}
+                {ethers.utils.formatEther(data.winning)}
               </BetParamsTypography>
             </BetParamsWrapper>
           </>

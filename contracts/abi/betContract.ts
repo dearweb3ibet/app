@@ -6,6 +6,11 @@ export const betContractAbi = [
         name: "betCheckerAddress",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -269,6 +274,19 @@ export const betContractAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -324,6 +342,11 @@ export const betContractAbi = [
             internalType: "address",
             name: "winner",
             type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "winning",
+            type: "uint256",
           },
         ],
         internalType: "struct Bet.Params",
@@ -488,6 +511,19 @@ export const betContractAbi = [
       },
     ],
     name: "setBetCheckerAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+    ],
+    name: "setFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
