@@ -3,6 +3,8 @@ import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
+import packageJson from "package.json";
+
 /**
  * Component with navigation.
  */
@@ -24,7 +26,6 @@ export default function Navigation() {
                 variant="h6"
                 component="a"
                 sx={{
-                  ml: 1,
                   mr: 1,
                   fontWeight: 700,
                   color: "inherit",
@@ -35,17 +36,33 @@ export default function Navigation() {
               </Typography>
             </Link>
             <Typography color="text.secondary" variant="body2">
-              Alpha
+              {packageJson.version}
             </Typography>
           </Box>
           {/* New bet button */}
-          <Box sx={{ flexGrow: 0, mr: 4 }}>
+          <Box sx={{ flexGrow: 0, mr: 3.5 }}>
             <Link href="/bets/new" legacyBehavior>
               <Button variant="contained">Make Bet</Button>
             </Link>
           </Box>
+          {/* All bets link */}
+          <Box sx={{ flexGrow: 0, mr: 3.5 }}>
+            {/* TODO: Use real link */}
+            <Link href="/" passHref legacyBehavior>
+              <Typography
+                component="a"
+                sx={{
+                  fontWeight: 700,
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Explore
+              </Typography>
+            </Link>
+          </Box>
           {/* My bets link */}
-          <Box sx={{ flexGrow: 0, mr: 4 }}>
+          <Box sx={{ flexGrow: 0, mr: 3.5 }}>
             {/* TODO: Use real link */}
             <Link href="/" passHref legacyBehavior>
               <Typography
@@ -61,7 +78,7 @@ export default function Navigation() {
             </Link>
           </Box>
           {/* Top 100 link */}
-          <Box sx={{ flexGrow: 0, mr: 4 }}>
+          <Box sx={{ flexGrow: 0, mr: 3.5 }}>
             {/* TODO: Use real link */}
             <Link href="/" passHref legacyBehavior>
               <Typography
@@ -78,7 +95,7 @@ export default function Navigation() {
           </Box>
           {/* Connect button */}
           <Box sx={{ flexGrow: 0 }}>
-            <ConnectButton />
+            <ConnectButton showBalance={false} />
           </Box>
         </Toolbar>
       </Container>
