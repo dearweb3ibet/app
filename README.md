@@ -1,5 +1,7 @@
 # dearweb3ibet app
 
+🔗 Live Demo - https://dearweb3ibet-app.vercel.app/
+
 ## Commands
 
 - Install dependencies - `npm install`
