@@ -1,14 +1,17 @@
-import { Box, Typography } from "@mui/material";
+import { alpha, Box, SxProps, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 /**
- * Component to place bet params (or bet input) into children.
+ * Component to place data or input into children.
  */
-export default function BetParamsWrapper(props: {
+export default function WidgetWrapper(props: {
   title: string;
+  titleSx?: SxProps;
   subtitle?: string;
+  subtitleSx?: SxProps;
   color?: string;
-  sx?: any;
+  colorAlpha?: number;
+  sx?: SxProps;
   children: any;
 }) {
   const [subtitle, setSubtitle] = useState<string | undefined>();
@@ -24,7 +27,7 @@ export default function BetParamsWrapper(props: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        bgcolor: props.color || "#000000",
+        bgcolor: alpha(props.color || "#000000", props.colorAlpha || 1),
         py: 2,
         px: 4,
         borderRadius: 3,
@@ -38,12 +41,15 @@ export default function BetParamsWrapper(props: {
           fontWeight: 700,
           minWidth: 180,
           mr: 3,
+          ...props.titleSx,
         }}
       >
         {props.title}
       </Typography>
       {props.children}
-      <Typography sx={{ color: "#FFFFFF", ml: 2 }}>{subtitle}</Typography>
+      <Typography sx={{ color: "#FFFFFF", ml: 2, ...props.subtitleSx }}>
+        {subtitle}
+      </Typography>
     </Box>
   );
 }

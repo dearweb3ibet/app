@@ -1,10 +1,10 @@
 import { Divider, Stack, Typography } from "@mui/material";
-import BetParamsWrapper from "components/bet/BetParamsWrapper";
+import WidgetWrapper from "components/bet/WidgetWrapper";
 import Layout from "components/layout";
 import {
-  BetBox,
-  BetParamsLink,
-  BetParamsTypography,
+  CentralizedBox,
+  WidgetLink,
+  WidgetTypography,
   HugeLoadingButton,
 } from "components/styled";
 import { betContractAbi } from "contracts/abi/betContract";
@@ -48,76 +48,74 @@ function BetParams(props: { betId: string }) {
 
   if (!isFetching && isSuccess && data) {
     return (
-      <BetBox>
+      <CentralizedBox>
         <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
           🤞 Bet #{props.betId}
         </Typography>
         {/* First member */}
-        <BetParamsWrapper title="Account" color="#333333" sx={{ mb: 2 }}>
-          <BetParamsLink
+        <WidgetWrapper title="Account" color="#333333" sx={{ mb: 2 }}>
+          <WidgetLink
             href={`${chainAddressLink}/${data.firstMember.toString()}`}
             target="_blank"
           >
             🔗 {addressToShortAddress(data.firstMember.toString())}
-          </BetParamsLink>
-        </BetParamsWrapper>
+          </WidgetLink>
+        </WidgetWrapper>
         {/* Rate */}
-        <BetParamsWrapper
+        <WidgetWrapper
           title="Bet"
           subtitle={chain?.nativeCurrency?.symbol}
           color="#2B6EFD"
           sx={{ mb: 2 }}
         >
-          <BetParamsTypography>
+          <WidgetTypography>
             {ethers.utils.formatEther(data.rate)}
-          </BetParamsTypography>
-        </BetParamsWrapper>
+          </WidgetTypography>
+        </WidgetWrapper>
         {/* Created date */}
-        <BetParamsWrapper title="On" color="#fa4878" sx={{ mb: 2 }}>
-          <BetParamsTypography>
+        <WidgetWrapper title="On" color="#fa4878" sx={{ mb: 2 }}>
+          <WidgetTypography>
             {new Date(data.createdDate.toNumber() * 1000).toLocaleDateString()}
-          </BetParamsTypography>
-        </BetParamsWrapper>
+          </WidgetTypography>
+        </WidgetWrapper>
         {/* Symbol */}
-        <BetParamsWrapper title="That" color="#410c92" sx={{ mb: 2 }}>
-          <BetParamsTypography>
-            {data.symbol.replace("USD", "")}
-          </BetParamsTypography>
-        </BetParamsWrapper>
+        <WidgetWrapper title="That" color="#410c92" sx={{ mb: 2 }}>
+          <WidgetTypography>{data.symbol.replace("USD", "")}</WidgetTypography>
+        </WidgetWrapper>
         {/* Text divider */}
         <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
           will be cost
         </Typography>
         {/* Min price */}
-        <BetParamsWrapper
+        <WidgetWrapper
           title="More than"
           subtitle="USD"
           color="#1DB954"
           sx={{ mb: 2 }}
         >
-          <BetParamsTypography>{data.minPrice.toString()}</BetParamsTypography>
-        </BetParamsWrapper>
+          <WidgetTypography>{data.minPrice.toString()}</WidgetTypography>
+        </WidgetWrapper>
         {/* Text divider */}
         <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
           and
         </Typography>
         {/* Min price */}
-        <BetParamsWrapper
+        <WidgetWrapper
           title="Less than"
           subtitle="USD"
           color="#FF4400"
           sx={{ mb: 2 }}
         >
-          <BetParamsTypography>{data.maxPrice.toString()}</BetParamsTypography>
-        </BetParamsWrapper>
+          <WidgetTypography>{data.maxPrice.toString()}</WidgetTypography>
+        </WidgetWrapper>
         {/* Day start timestamp */}
-        <BetParamsWrapper title="On" color="#4B144B">
-          <BetParamsTypography>
+        <WidgetWrapper title="On" color="#4B144B">
+          <WidgetTypography>
             {new Date(
               data.dayStartTimestamp.toNumber() * 1000
             ).toLocaleDateString()}
-          </BetParamsTypography>
-        </BetParamsWrapper>
+          </WidgetTypography>
+        </WidgetWrapper>
         {/* If second member defined */}
         {data.secondMember !== ethers.constants.AddressZero && (
           <>
@@ -130,14 +128,14 @@ function BetParams(props: { betId: string }) {
               but
             </Typography>
             {/* Second member */}
-            <BetParamsWrapper title="Account" color="#666666" sx={{ mb: 2 }}>
-              <BetParamsLink
+            <WidgetWrapper title="Account" color="#666666" sx={{ mb: 2 }}>
+              <WidgetLink
                 href={`${chainAddressLink}/${data.secondMember.toString()}`}
                 target="_blank"
               >
                 🔗 {addressToShortAddress(data.secondMember.toString())}
-              </BetParamsLink>
-            </BetParamsWrapper>
+              </WidgetLink>
+            </WidgetWrapper>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center">
               thinks otherwise
@@ -153,31 +151,31 @@ function BetParams(props: { betId: string }) {
               in the end, the bet was won by
             </Typography>
             {/* Winner */}
-            <BetParamsWrapper title="Account" color="#fd8e24" sx={{ mb: 2 }}>
+            <WidgetWrapper title="Account" color="#fd8e24" sx={{ mb: 2 }}>
               {data.winner === ethers.constants.AddressZero ? (
-                <BetParamsTypography>❓ Undefined</BetParamsTypography>
+                <WidgetTypography>❓ Undefined</WidgetTypography>
               ) : (
-                <BetParamsLink
+                <WidgetLink
                   href={`${chainAddressLink}/${data.winner.toString()}`}
                   target="_blank"
                 >
                   🔗 {addressToShortAddress(data.winner.toString())}
-                </BetParamsLink>
+                </WidgetLink>
               )}
-            </BetParamsWrapper>
+            </WidgetWrapper>
             {/* Winning */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
               with
             </Typography>
-            <BetParamsWrapper
+            <WidgetWrapper
               title="Winning"
               subtitle={chain?.nativeCurrency?.symbol}
               color="#13bb0c"
             >
-              <BetParamsTypography>
+              <WidgetTypography>
                 {ethers.utils.formatEther(data.winning)}
-              </BetParamsTypography>
-            </BetParamsWrapper>
+              </WidgetTypography>
+            </WidgetWrapper>
           </>
         )}
 
@@ -198,7 +196,7 @@ function BetParams(props: { betId: string }) {
             onSuccess={() => refetch()}
           />
         </Stack>
-      </BetBox>
+      </CentralizedBox>
     );
   }
 

@@ -21,7 +21,7 @@ export const HugeLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   })
 );
 
-export const BetBox = styled(Box)<BoxProps>(({ theme }) => ({
+export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -29,13 +29,13 @@ export const BetBox = styled(Box)<BoxProps>(({ theme }) => ({
   marginBottom: "24px",
 }));
 
-export const BetParamsLink = styled(Link)<LinkProps>(({ theme }) => ({
+export const WidgetLink = styled(Link)<LinkProps>(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   borderRadius: "12px",
   padding: "14px 20px",
 }));
 
-export const BetParamsTypography = styled(Typography)<TypographyProps>(
+export const WidgetTypography = styled(Typography)<TypographyProps>(
   ({ theme }) => ({
     backgroundColor: "#FFFFFF",
     borderRadius: "12px",
@@ -43,7 +43,7 @@ export const BetParamsTypography = styled(Typography)<TypographyProps>(
   })
 );
 
-export const BetInputTextField = styled(TextField)<TextFieldProps>(
+export const WidgetInputTextField = styled(TextField)<TextFieldProps>(
   ({ theme }) => ({
     width: "120px",
     backgroundColor: "#FFFFFF",
@@ -63,7 +63,7 @@ export const BetInputTextField = styled(TextField)<TextFieldProps>(
   })
 );
 
-export const BetInputSelect = styled(Select)<SelectProps>(({ theme }) => ({
+export const WidgetInputSelect = styled(Select)<SelectProps>(({ theme }) => ({
   width: "120px",
   backgroundColor: "#FFFFFF",
   borderRadius: "12px",

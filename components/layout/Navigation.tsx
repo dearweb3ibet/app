@@ -77,10 +77,9 @@ export default function Navigation() {
               </Typography>
             </Link>
           </Box>
-          {/* Top 100 link */}
+          {/* Top 100 accounts link */}
           <Box sx={{ flexGrow: 0, mr: 3.5 }}>
-            {/* TODO: Use real link */}
-            <Link href="/" passHref legacyBehavior>
+            <Link href="/accounts/top" passHref legacyBehavior>
               <Typography
                 component="a"
                 sx={{
