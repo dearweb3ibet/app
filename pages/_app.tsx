@@ -2,6 +2,7 @@ import { ThemeProvider } from "@mui/material";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
+import NextNProgress from "nextjs-progressbar";
 import { SnackbarProvider } from "notistack";
 import { theme } from "theme";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
@@ -34,6 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <RainbowKitProvider chains={chains}>
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={3}>
+            <NextNProgress height={4} />
             <Component {...pageProps} />
           </SnackbarProvider>
         </ThemeProvider>
