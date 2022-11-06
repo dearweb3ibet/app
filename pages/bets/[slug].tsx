@@ -50,7 +50,7 @@ function BetParams(props: { betId: string }) {
     return (
       <CentralizedBox>
         <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
-          🤞 Bet #{props.betId}
+          🤝 Bet #{props.betId}
         </Typography>
         {/* First member */}
         <WidgetWrapper title="Account" color="#333333" sx={{ mb: 2 }}>

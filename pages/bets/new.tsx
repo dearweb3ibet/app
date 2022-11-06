@@ -57,7 +57,7 @@ function CreatedBetMessage(props: { betId: string }) {
   return (
     <CentralizedBox>
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
-        🤞 Congrats, your bet is published!
+        🤟 Congrats, your bet is published!
       </Typography>
       {betLink && (
         <>
@@ -162,7 +162,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
   return (
     <CentralizedBox>
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
-        🙏 Dear Web3,
+        🤞 Dear Web3,
       </Typography>
       <Formik
         initialValues={formValues}
