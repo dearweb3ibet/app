@@ -1,15 +1,16 @@
-import { Typography } from "@mui/material";
-import Layout from "components/layout";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 /**
  * Home page.
  */
 export default function Home() {
-  return (
-    <Layout>
-      <Typography variant="h4" fontWeight={700} gutterBottom>
-        Welcome to dearweb3ibet!
-      </Typography>
-    </Layout>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/bets/new");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <></>;
 }
