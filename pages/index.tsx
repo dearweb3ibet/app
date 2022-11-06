@@ -9,7 +9,6 @@ export default function Home() {
 
   useEffect(() => {
     router.push("/bets/new");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <></>;
