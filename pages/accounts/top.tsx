@@ -50,7 +50,7 @@ export default function TopAccounts() {
           textAlign="center"
           sx={{ mb: 1.5 }}
         >
-          🏆 Top 100 accounts,
+          🏆 Top 100 Accounts,
         </Typography>
         {/* Subtitle */}
         <Typography

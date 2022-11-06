@@ -45,7 +45,7 @@ export default function Navigation() {
               <Button variant="contained">Make Bet</Button>
             </Link>
           </Box>
-          {/* All bets link */}
+          {/* Explore bets link */}
           <Box sx={{ flexGrow: 0, mr: 3.5 }}>
             {/* TODO: Use real link */}
             <Link href="/" passHref legacyBehavior>
@@ -57,23 +57,7 @@ export default function Navigation() {
                   textDecoration: "none",
                 }}
               >
-                Explore
-              </Typography>
-            </Link>
-          </Box>
-          {/* My bets link */}
-          <Box sx={{ flexGrow: 0, mr: 3.5 }}>
-            {/* TODO: Use real link */}
-            <Link href="/" passHref legacyBehavior>
-              <Typography
-                component="a"
-                sx={{
-                  fontWeight: 700,
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-              >
-                My Bets
+                Explore Bets
               </Typography>
             </Link>
           </Box>
@@ -88,7 +72,7 @@ export default function Navigation() {
                   textDecoration: "none",
                 }}
               >
-                Top 100
+                Top 100 Accounts
               </Typography>
             </Link>
           </Box>
