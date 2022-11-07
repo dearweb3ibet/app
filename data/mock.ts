@@ -44,18 +44,15 @@ export const accounts = [
   },
 ];
 
-export const ethChartLabels = [
-  "December '22",
-  "January '23",
-  "February '23",
-  "March '23",
-  "April '23",
-  "May '23",
-  "June '23",
-  "July '23",
+export const ethChartData = [
+  { x: 7, y: 1700, r: 12 },
+  { x: 14, y: 1600, r: 9 },
+  { x: 14, y: 2200, r: 15 },
+  { x: 28, y: 2800, r: 18 },
+  { x: 28, y: 1600, r: 28 },
+  { x: 56, y: 3200, r: 32 },
+  { x: 56, y: 4800, r: 14 },
 ];
-
-export const ethChartValues = [2200, 2600, 2000, 4800, 5200, 2000, 5000, 8000];
 
 export const ethLastBets = [
   {

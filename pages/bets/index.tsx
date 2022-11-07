@@ -1,49 +1,19 @@
 import { Divider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import {
-  CategoryScale,
   Chart as ChartJS,
   Legend,
   LinearScale,
-  LineElement,
   PointElement,
   Tooltip,
 } from "chart.js";
 import BetList from "components/bet/BetList";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
-import { ethChartLabels, ethChartValues, ethLastBets } from "data/mock";
-import { Line } from "react-chartjs-2";
+import { ethChartData, ethLastBets } from "data/mock";
+import { Bubble } from "react-chartjs-2";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend
-);
-
-export const chartOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-  },
-};
-
-export const ethChartData = {
-  labels: ethChartLabels,
-  datasets: [
-    {
-      label: "USD",
-      data: ethChartValues,
-      borderColor: "#2B6EFD",
-      backgroundColor: "#2B6EFD",
-    },
-  ],
-};
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 /**
  * Page with bets.
@@ -51,6 +21,30 @@ export const ethChartData = {
  * TODO: Use real data instead of mock data
  */
 export default function Bets() {
+  const chartOptions = {
+    scales: {
+      x: {
+        beginAtZero: true,
+        title: {
+          text: "Days from Now",
+          display: true,
+        },
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          text: "USD",
+          display: true,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
   return (
     <Layout>
       <CentralizedBox>
@@ -63,7 +57,18 @@ export default function Bets() {
           📈 Trend based on bets published by all accounts
         </Typography>
         <Box sx={{ width: 720, mb: 3 }}>
-          <Line options={chartOptions} data={ethChartData} />
+          <Bubble
+            options={chartOptions}
+            data={{
+              datasets: [
+                {
+                  label: "Avg USD Price",
+                  data: ethChartData,
+                  backgroundColor: "rgba(43, 110, 253, 0.5)",
+                },
+              ],
+            }}
+          />
         </Box>
         {/* Last bets */}
         <Divider sx={{ width: 540, mt: 5, mb: 5 }} />
