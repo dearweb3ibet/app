@@ -4,11 +4,14 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 import packageJson from "package.json";
+import { useAccount } from "wagmi";
 
 /**
  * Component with navigation.
  */
 export default function Navigation() {
+  const { isConnected, address } = useAccount();
+
   return (
     <AppBar
       color="inherit"
@@ -45,10 +48,26 @@ export default function Navigation() {
               <Button variant="contained">Make Bet</Button>
             </Link>
           </Box>
+          {/* Account link */}
+          {isConnected && (
+            <Box sx={{ flexGrow: 0, mr: 3.5 }}>
+              <Link href={`/accounts/${address}`} passHref legacyBehavior>
+                <Typography
+                  component="a"
+                  sx={{
+                    fontWeight: 700,
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Account
+                </Typography>
+              </Link>
+            </Box>
+          )}
           {/* Explore bets link */}
           <Box sx={{ flexGrow: 0, mr: 3.5 }}>
-            {/* TODO: Use real link */}
-            <Link href="/" passHref legacyBehavior>
+            <Link href="/bets" passHref legacyBehavior>
               <Typography
                 component="a"
                 sx={{
@@ -57,7 +76,7 @@ export default function Navigation() {
                   textDecoration: "none",
                 }}
               >
-                Explore Bets
+                Explore
               </Typography>
             </Link>
           </Box>
@@ -72,7 +91,7 @@ export default function Navigation() {
                   textDecoration: "none",
                 }}
               >
-                Top 100 Accounts
+                Top 100
               </Typography>
             </Link>
           </Box>
