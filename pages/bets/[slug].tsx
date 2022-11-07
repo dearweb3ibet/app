@@ -1,12 +1,12 @@
 import { Divider, Stack, Typography } from "@mui/material";
-import WidgetWrapper from "components/bet/WidgetWrapper";
 import Layout from "components/layout";
 import {
   CentralizedBox,
+  HugeLoadingButton,
   WidgetLink,
   WidgetTypography,
-  HugeLoadingButton,
 } from "components/styled";
+import WidgetWrapper from "components/widget/WidgetWrapper";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import useToasts from "hooks/useToast";

@@ -1,5 +1,4 @@
 import { alpha, Box, SxProps, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 
 /**
  * Component to place data or input into children.

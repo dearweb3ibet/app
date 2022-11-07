@@ -1,8 +1,7 @@
 import { Typography } from "@mui/material";
-import WidgetWrapper from "components/bet/WidgetWrapper";
 import Layout from "components/layout";
 import { CentralizedBox, WidgetLink } from "components/styled";
-import { useEffect, useState } from "react";
+import WidgetWrapper from "components/widget/WidgetWrapper";
 import { addressToShortAddress } from "utils/converters";
 import { useNetwork } from "wagmi";
 

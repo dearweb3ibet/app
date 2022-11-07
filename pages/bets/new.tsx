@@ -1,20 +1,20 @@
 import { Box, Link as MuiLink, MenuItem, Typography } from "@mui/material";
-import WidgetWrapper from "components/bet/WidgetWrapper";
 import FormikHelper from "components/helpers/FormikHelper";
 import Layout from "components/layout";
 import {
   CentralizedBox,
+  HugeLoadingButton,
   WidgetInputSelect,
   WidgetInputTextField,
-  HugeLoadingButton,
 } from "components/styled";
+import WidgetWrapper from "components/widget/WidgetWrapper";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useAccount,
   useContractEvent,
