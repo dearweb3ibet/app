@@ -37,7 +37,6 @@ export default function Bet() {
 function BetParams(props: { betId: string }) {
   // Network state
   const { chain } = useNetwork();
-  const chainAddressLink = `${chain?.blockExplorers?.default.url}/address/`;
   // Contract states
   const { data, isSuccess, refetch, isFetching } = useContractRead({
     address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
@@ -55,7 +54,7 @@ function BetParams(props: { betId: string }) {
         {/* First member */}
         <WidgetWrapper title="Account" color="#333333" sx={{ mb: 2 }}>
           <WidgetLink
-            href={`${chainAddressLink}/${data.firstMember.toString()}`}
+            href={`/accounts/${data.firstMember.toString()}`}
             target="_blank"
           >
             🔗 {addressToShortAddress(data.firstMember.toString())}
@@ -130,7 +129,7 @@ function BetParams(props: { betId: string }) {
             {/* Second member */}
             <WidgetWrapper title="Account" color="#666666" sx={{ mb: 2 }}>
               <WidgetLink
-                href={`${chainAddressLink}/${data.secondMember.toString()}`}
+                href={`/accounts/${data.secondMember.toString()}`}
                 target="_blank"
               >
                 🔗 {addressToShortAddress(data.secondMember.toString())}
@@ -156,7 +155,7 @@ function BetParams(props: { betId: string }) {
                 <WidgetTypography>❓ Undefined</WidgetTypography>
               ) : (
                 <WidgetLink
-                  href={`${chainAddressLink}/${data.winner.toString()}`}
+                  href={`/accounts/${data.winner.toString()}`}
                   target="_blank"
                 >
                   🔗 {addressToShortAddress(data.winner.toString())}

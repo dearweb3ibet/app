@@ -68,7 +68,7 @@ export default function TopAccounts() {
             sx={{ width: 480, mb: 2 }}
           >
             <WidgetLink
-              href={`${chain?.blockExplorers?.default.url}/address/${account.address}`}
+              href={`/accounts/${account.address}`}
               target="_blank"
               sx={{ minWidth: 180 }}
             >
