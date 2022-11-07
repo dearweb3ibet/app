@@ -46,13 +46,7 @@ export default function NewBet() {
 
 function CreatedBetMessage(props: { betId: string }) {
   const { showToastSuccess } = useToasts();
-  const [betLink, setBetLink] = useState<string | undefined>();
-
-  useEffect(() => {
-    if (global.window) {
-      setBetLink(`${global.window.location.origin}/bets/${props.betId}`);
-    }
-  }, [global.window]);
+  const betLink = `${global.window.location.origin}/bets/${props.betId}`;
 
   return (
     <CentralizedBox>

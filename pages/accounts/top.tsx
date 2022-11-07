@@ -12,12 +12,7 @@ import { useNetwork } from "wagmi";
 export default function TopAccounts() {
   // Network states
   const { chain } = useNetwork();
-  const [chainCurrencySymbol, setChainCurrencySymbol] = useState<
-    string | undefined
-  >();
-  const [chainAddressLink, setChainAddressLink] = useState<
-    string | undefined
-  >();
+
   // Mock data
   // TODO: Replace mock data with real data from contract
   const winningSize = 0.32;
@@ -34,11 +29,6 @@ export default function TopAccounts() {
     { address: "0x916ed5586bb328e0ec1a428af060dc3d10919d84", wins: 1 },
     { address: "0x57571d366a00b3389b0adf30a114bc7da7a11580", wins: 1 },
   ];
-
-  useEffect(() => {
-    setChainCurrencySymbol(chain?.nativeCurrency?.symbol);
-    setChainAddressLink(`${chain?.blockExplorers?.default.url}/address/`);
-  }, [chain]);
 
   return (
     <Layout>
@@ -60,8 +50,7 @@ export default function TopAccounts() {
         >
           Between which three random ones will share{" "}
           <strong>
-            {/* {winningSize} {chain?.nativeCurrency?.symbol} */}
-            {winningSize} {chainCurrencySymbol}
+            {winningSize} {chain?.nativeCurrency?.symbol}
           </strong>{" "}
           on{" "}
           <strong>
@@ -80,7 +69,7 @@ export default function TopAccounts() {
             sx={{ width: 480, mb: 2 }}
           >
             <WidgetLink
-              href={`${chainAddressLink}/${account.address}`}
+              href={`${chain?.blockExplorers?.default.url}/address/${account.address}`}
               target="_blank"
               sx={{ minWidth: 180 }}
             >

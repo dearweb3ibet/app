@@ -4,6 +4,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import NextNProgress from "nextjs-progressbar";
 import { SnackbarProvider } from "notistack";
+import { useEffect, useState } from "react";
 import { theme } from "theme";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -30,13 +31,20 @@ const wagmiClient = createClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  // Fix for hydration error (docs - https://github.com/vercel/next.js/discussions/35773#discussioncomment-3484225)
+  useEffect(() => {
+    setPageLoaded(true);
+  }, []);
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={3}>
             <NextNProgress height={4} />
-            <Component {...pageProps} />
+            {pageLoaded ? <Component {...pageProps} /> : null}
           </SnackbarProvider>
         </ThemeProvider>
       </RainbowKitProvider>

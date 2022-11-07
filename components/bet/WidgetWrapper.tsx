@@ -14,12 +14,6 @@ export default function WidgetWrapper(props: {
   sx?: SxProps;
   children: any;
 }) {
-  const [subtitle, setSubtitle] = useState<string | undefined>();
-
-  useEffect(() => {
-    setSubtitle(props.subtitle);
-  }, [props.subtitle]);
-
   return (
     <Box
       sx={{
@@ -48,7 +42,7 @@ export default function WidgetWrapper(props: {
       </Typography>
       {props.children}
       <Typography sx={{ color: "#FFFFFF", ml: 2, ...props.subtitleSx }}>
-        {subtitle}
+        {props.subtitle}
       </Typography>
     </Box>
   );
