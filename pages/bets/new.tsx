@@ -1,5 +1,5 @@
 import { Box, Link as MuiLink, MenuItem, Typography } from "@mui/material";
-import FormikHelper from "components/helpers/FormikHelper";
+import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
 import {
   CentralizedBox,
