@@ -130,10 +130,9 @@ export default function Account() {
           </Stack>
         )}
         {/* Bets */}
-        <Divider sx={{ width: 540, mt: 5, mb: 5 }} />
-        {/* Bio */}
         {account?.bets && (
           <>
+            <Divider sx={{ width: 540, mt: 5, mb: 5 }} />
             <Typography
               variant="h6"
               fontWeight={700}
