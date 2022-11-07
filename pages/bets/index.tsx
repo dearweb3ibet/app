@@ -9,8 +9,10 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
+import BetList from "components/bet/BetList";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
+import { ethChartLabels, ethChartValues, ethLastBets } from "data/mock";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -31,25 +33,12 @@ export const chartOptions = {
   },
 };
 
-const chartLabels = [
-  "December '22",
-  "January '23",
-  "February '23",
-  "March '23",
-  "April '23",
-  "May '23",
-  "June '23",
-  "July '23",
-];
-
-// Mock data
-// TODO: Replace mock data with real data from contract
 export const ethChartData = {
-  labels: chartLabels,
+  labels: ethChartLabels,
   datasets: [
     {
       label: "USD",
-      data: [2200, 2600, 2000, 4800, 5200, 2000, 5000, 8000],
+      data: ethChartValues,
       borderColor: "#2B6EFD",
       backgroundColor: "#2B6EFD",
     },
@@ -58,6 +47,8 @@ export const ethChartData = {
 
 /**
  * Page with bets.
+ *
+ * TODO: Use real data instead of mock data
  */
 export default function Bets() {
   return (
@@ -79,9 +70,7 @@ export default function Bets() {
         <Typography variant="h6" textAlign="center" sx={{ mb: 3 }}>
           🤝 Last bets
         </Typography>
-        <Typography variant="h6" textAlign="center" sx={{ mb: 3 }}>
-          ...
-        </Typography>
+        <BetList bets={ethLastBets} />
       </CentralizedBox>
     </Layout>
   );
