@@ -1,8 +1,15 @@
 import { Instagram, Person, Telegram, Twitter } from "@mui/icons-material";
-import { Avatar, Box, Link, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 import { Stack } from "@mui/system";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { addressToShortAddress } from "utils/converters";
@@ -28,6 +35,29 @@ export default function Account() {
         telegram: "https://t.me/",
         instagram: "https://www.instagram.com/",
       },
+      bets: [
+        {
+          id: 1,
+          symbol: "ETHUSD",
+          minPrice: 1300,
+          maxPrice: 1500,
+          dayStartTimestamp: 1669852800,
+        },
+        {
+          id: 2,
+          symbol: "BTCUSD",
+          minPrice: 30000,
+          maxPrice: 35000,
+          dayStartTimestamp: 1671062400,
+        },
+        {
+          id: 3,
+          symbol: "FILUSD",
+          minPrice: 100,
+          maxPrice: 150,
+          dayStartTimestamp: 1671062400,
+        },
+      ],
     },
     {
       avatar:
@@ -83,21 +113,57 @@ export default function Account() {
         {account?.links && (
           <Stack direction="row" spacing={2}>
             {account.links.twitter && (
-              <Link href={account.links.twitter} target="_blank">
+              <MuiLink href={account.links.twitter} target="_blank">
                 <Twitter />
-              </Link>
+              </MuiLink>
             )}
             {account.links.telegram && (
-              <Link href={account.links.telegram} target="_blank">
+              <MuiLink href={account.links.telegram} target="_blank">
                 <Telegram />
-              </Link>
+              </MuiLink>
             )}
             {account.links.instagram && (
-              <Link href={account.links.instagram} target="_blank">
+              <MuiLink href={account.links.instagram} target="_blank">
                 <Instagram />
-              </Link>
+              </MuiLink>
             )}
           </Stack>
+        )}
+        {/* Bets */}
+        <Divider sx={{ width: 540, mt: 5, mb: 5 }} />
+        {/* Bio */}
+        {account?.bets && (
+          <>
+            <Typography
+              variant="h6"
+              fontWeight={700}
+              textAlign="center"
+              sx={{ mb: 3 }}
+            >
+              🤝 Account bets
+            </Typography>
+            {account.bets.map((bet: any, index: number) => (
+              <Stack
+                key={index}
+                direction="row"
+                divider={<Divider orientation="vertical" flexItem />}
+                spacing={2}
+                sx={{ mb: 1.5 }}
+              >
+                <Link href={`/bets/${bet.id}`} legacyBehavior passHref>
+                  <MuiLink>
+                    <Typography fontWeight={700}>#{bet.id}</Typography>
+                  </MuiLink>
+                </Link>
+                <Typography>{bet.symbol}</Typography>
+                <Typography>&lt; {bet.minPrice}</Typography>
+                <Typography>&gt; {bet.maxPrice}</Typography>
+                <Typography>
+                  {new Date(bet.dayStartTimestamp * 1000).toLocaleDateString()}
+                </Typography>
+              </Stack>
+            ))}
+          </>
         )}
       </CentralizedBox>
     </Layout>
