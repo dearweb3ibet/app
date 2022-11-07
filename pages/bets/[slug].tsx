@@ -98,7 +98,7 @@ function BetParams(props: { betId: string }) {
         <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
           and
         </Typography>
-        {/* Min price */}
+        {/* Max price */}
         <WidgetWrapper
           title="Less than"
           subtitle="USD"
