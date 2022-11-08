@@ -199,7 +199,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
             </WidgetWrapper>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
-              will be cost
+              will cost
             </Typography>
             {/* Min price input */}
             <WidgetWrapper

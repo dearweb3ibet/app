@@ -3,7 +3,7 @@ export const accounts = [
     avatar:
       "https://i.pinimg.com/736x/93/96/39/939639532ae4e49a416ea138837ea752.jpg",
     address: "0x4306D7a79265D2cb85Db0c5a55ea5F4f6F73C4B1",
-    bio: "My name is Alice...",
+    bio: "Alice, crypto enthusiast & investor",
     links: {
       twitter: "https://twitter.com/",
       telegram: "https://t.me/",
@@ -37,7 +37,7 @@ export const accounts = [
     avatar:
       "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/1a8a9b138344219.621bda2347cfd.jpg",
     address: "0x3F121f9a16bd6C83D325985417aDA3FE0f517B7D",
-    bio: "My name is Bob...",
+    bio: "Bob, skeptic",
     links: {
       twitter: "https://twitter.com/",
     },

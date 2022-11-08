@@ -33,7 +33,7 @@ export default function TopAccounts() {
           textAlign="center"
           sx={{ maxWidth: 480, mb: 3 }}
         >
-          Between which three random ones will share{" "}
+          Between which three random accounts will share{" "}
           <strong>
             {winningSize} {chain?.nativeCurrency?.symbol}
           </strong>{" "}

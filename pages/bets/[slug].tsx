@@ -62,7 +62,7 @@ function BetParams(props: { betId: string }) {
         </WidgetWrapper>
         {/* Rate */}
         <WidgetWrapper
-          title="Bet"
+          title="Bets"
           subtitle={chain?.nativeCurrency?.symbol}
           color="#2B6EFD"
           sx={{ mb: 2 }}
@@ -83,7 +83,7 @@ function BetParams(props: { betId: string }) {
         </WidgetWrapper>
         {/* Text divider */}
         <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
-          will be cost
+          will cost
         </Typography>
         {/* Min price */}
         <WidgetWrapper
