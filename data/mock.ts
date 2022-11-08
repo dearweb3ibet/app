@@ -42,6 +42,15 @@ export const accounts = [
       twitter: "https://twitter.com/",
     },
   },
+  {
+    avatar:
+      "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/1a8a9b138344219.621bda2347cfd.jpg",
+    address: "0x31232882fAC453C2f81ce6963802731863499DC5",
+    bio: "Bob, skeptic",
+    links: {
+      twitter: "https://twitter.com/",
+    },
+  },
 ];
 
 export const ethChartData = [
