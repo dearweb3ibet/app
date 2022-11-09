@@ -2,7 +2,7 @@ import { Divider, Stack, Typography } from "@mui/material";
 import Layout from "components/layout";
 import {
   CentralizedBox,
-  HugeLoadingButton,
+  XxlLoadingButton,
   WidgetLink,
   WidgetTypography,
 } from "components/styled";
@@ -242,14 +242,14 @@ function BetBecomeOpponentButton(props: {
   }, [isTransactionSuccess]);
 
   return (
-    <HugeLoadingButton
+    <XxlLoadingButton
       variant="contained"
       disabled={!contractWrite || !isButtonEnabled}
       loading={isContractWriteLoading || isTransactionLoading}
       onClick={() => contractWrite?.()}
     >
       Become opponent
-    </HugeLoadingButton>
+    </XxlLoadingButton>
   );
 }
 
@@ -293,13 +293,13 @@ function BetDetermineWinnerButton(props: {
   }, [isTransactionSuccess]);
 
   return (
-    <HugeLoadingButton
+    <XxlLoadingButton
       variant="contained"
       disabled={!contractWrite || !isButtonEnabled}
       loading={isContractWriteLoading || isTransactionLoading}
       onClick={() => contractWrite?.()}
     >
       Determine winner
-    </HugeLoadingButton>
+    </XxlLoadingButton>
   );
 }

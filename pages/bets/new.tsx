@@ -3,7 +3,7 @@ import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
 import {
   CentralizedBox,
-  HugeLoadingButton,
+  XxlLoadingButton,
   WidgetInputSelect,
   WidgetInputTextField,
 } from "components/styled";
@@ -64,7 +64,7 @@ function CreatedBetMessage(props: { betId: string }) {
             </Link>
           </Box>
           {/* Copy link button */}
-          <HugeLoadingButton
+          <XxlLoadingButton
             variant="contained"
             onClick={() => {
               navigator.clipboard.writeText(betLink);
@@ -72,7 +72,7 @@ function CreatedBetMessage(props: { betId: string }) {
             }}
           >
             Copy Link
-          </HugeLoadingButton>
+          </XxlLoadingButton>
         </>
       )}
     </CentralizedBox>
@@ -263,14 +263,14 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
                 alignItems: "center",
               }}
             >
-              <HugeLoadingButton
+              <XxlLoadingButton
                 loading={isContractWriteLoading || isTransactionLoading}
                 variant="contained"
                 type="submit"
                 disabled={isFormDisabled || !contractWrite}
               >
                 Make Bet
-              </HugeLoadingButton>
+              </XxlLoadingButton>
             </Box>
           </Form>
         )}

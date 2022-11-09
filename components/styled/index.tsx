@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const HugeLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
+export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme }) => ({
     fontSize: "24px",
     borderRadius: "78px",
