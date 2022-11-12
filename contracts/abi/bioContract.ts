@@ -161,6 +161,25 @@ export const bioContractAbi = [
         name: "owner",
         type: "address",
       },
+    ],
+    name: "getURI",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
       {
         internalType: "address",
         name: "operator",

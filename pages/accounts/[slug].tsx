@@ -4,18 +4,23 @@ import {
   Box,
   Divider,
   Link as MuiLink,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import BetList from "components/bet/BetList";
 import Layout from "components/layout";
 import { CentralizedBox, XlLoadingButton } from "components/styled";
+import { bioContractAbi } from "contracts/abi/bioContract";
 import { accounts } from "data/mock";
+import { ethers } from "ethers";
+import useError from "hooks/useError";
+import useIpfs from "hooks/useIpfs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { addressToShortAddress } from "utils/converters";
-import { useAccount } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 
 /**
  * Page with an account.
@@ -37,79 +42,97 @@ export default function Account() {
   );
 }
 
-// TODO: Use real data instead of mock data
 function AccountBio(props: { address: string }) {
+  const { handleError } = useError();
   const { address } = useAccount();
-  const [account, setAccount] = useState<any>();
+  const { loadJsonFromIpfs } = useIpfs();
+  const [bioData, setBioData] = useState<any>();
+
+  // Contract states
+  const { status, error, data } = useContractRead({
+    address: process.env.NEXT_PUBLIC_BIO_CONTRACT_ADDRESS,
+    abi: bioContractAbi,
+    functionName: "getURI",
+    args: [ethers.utils.getAddress(props.address)],
+  });
 
   useEffect(() => {
-    setAccount(accounts.find((account) => account.address === props.address));
-  }, [props.address]);
+    if (status === "success" && data) {
+      loadJsonFromIpfs(data)
+        .then((result) => setBioData(result))
+        .catch((error) => handleError(error, true));
+    }
+    if (status === "error" && error) {
+      setBioData({});
+    }
+  }, [status, error, data]);
 
-  return (
-    <>
-      {/* Bio image */}
-      <Box sx={{ mb: 3 }}>
-        <Avatar
-          sx={{
-            width: 164,
-            height: 164,
-            borderRadius: 164,
-          }}
-          src={account?.avatar}
-        >
-          <Person sx={{ fontSize: 64 }} />
-        </Avatar>
-      </Box>
-      {/* Account address */}
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        textAlign="center"
-        sx={{ mb: 1.5 }}
-      >
-        Account {addressToShortAddress(props.address)}
-      </Typography>
-      {/* Bio text */}
-      {account?.bio && (
+  if (bioData) {
+    return (
+      <>
+        {/* Bio image */}
+        <Box sx={{ mb: 3 }}>
+          <Avatar
+            sx={{
+              width: 164,
+              height: 164,
+              borderRadius: 164,
+            }}
+            src={bioData?.image}
+          >
+            <Person sx={{ fontSize: 64 }} />
+          </Avatar>
+        </Box>
+        {/* Account address */}
         <Typography
-          variant="h6"
+          variant="h4"
+          fontWeight={700}
           textAlign="center"
-          sx={{ maxWidth: 480, mb: 2 }}
+          sx={{ mb: 1.5 }}
         >
-          {account.bio}
+          Account {addressToShortAddress(props.address)}
         </Typography>
-      )}
-      {/* Bio social links */}
-      {account?.links && (
+        {/* Bio text */}
+        {bioData?.text && (
+          <Typography
+            variant="h6"
+            textAlign="center"
+            sx={{ maxWidth: 480, mb: 2 }}
+          >
+            {bioData.text}
+          </Typography>
+        )}
+        {/* Bio social links */}
         <Stack direction="row" spacing={2}>
-          {account.links.twitter && (
-            <MuiLink href={account.links.twitter} target="_blank">
+          {bioData.twitter && (
+            <MuiLink href={bioData.twitter} target="_blank">
               <Twitter />
             </MuiLink>
           )}
-          {account.links.telegram && (
-            <MuiLink href={account.links.telegram} target="_blank">
+          {bioData.telegram && (
+            <MuiLink href={bioData.telegram} target="_blank">
               <Telegram />
             </MuiLink>
           )}
-          {account.links.instagram && (
-            <MuiLink href={account.links.instagram} target="_blank">
+          {bioData.instagram && (
+            <MuiLink href={bioData.instagram} target="_blank">
               <Instagram />
             </MuiLink>
           )}
         </Stack>
-      )}
-      {/* Edit bio button */}
-      {address === props.address && (
-        <Box sx={{ mt: 2 }}>
-          <Link href="/accounts/edit" legacyBehavior>
-            <XlLoadingButton variant="contained">Edit</XlLoadingButton>
-          </Link>
-        </Box>
-      )}
-    </>
-  );
+        {/* Edit bio button */}
+        {address === props.address && (
+          <Box sx={{ mt: 2 }}>
+            <Link href="/accounts/edit" legacyBehavior>
+              <XlLoadingButton variant="contained">Edit</XlLoadingButton>
+            </Link>
+          </Box>
+        )}
+      </>
+    );
+  }
+
+  return <Skeleton variant="rounded" width={540} height={48} />;
 }
 
 // TODO: Use real data instead of mock data
@@ -130,7 +153,11 @@ function AccountBets(props: { address: string }) {
       >
         🤝 Account bets
       </Typography>
-      {account?.bets && <BetList bets={account.bets} />}
+      {account?.bets ? (
+        <BetList bets={account.bets} />
+      ) : (
+        <Typography>No bets yet</Typography>
+      )}
     </>
   );
 }
