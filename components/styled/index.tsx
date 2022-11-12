@@ -21,6 +21,14 @@ export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   })
 );
 
+export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
+  ({ theme }) => ({
+    fontSize: "18px",
+    borderRadius: "78px",
+    padding: "14px 28px",
+  })
+);
+
 export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
   display: "flex",
   flexDirection: "column",

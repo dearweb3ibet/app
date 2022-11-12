@@ -9,11 +9,13 @@ import {
 import { Stack } from "@mui/system";
 import BetList from "components/bet/BetList";
 import Layout from "components/layout";
-import { CentralizedBox } from "components/styled";
+import { CentralizedBox, XlLoadingButton } from "components/styled";
 import { accounts } from "data/mock";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { addressToShortAddress } from "utils/converters";
+import { useAccount } from "wagmi";
 
 /**
  * Page with an account.
@@ -23,6 +25,7 @@ import { addressToShortAddress } from "utils/converters";
 export default function Account() {
   const router = useRouter();
   const { slug } = router.query;
+  const { address } = useAccount();
   const [account, setAccount] = useState<any>();
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function Account() {
   return (
     <Layout>
       <CentralizedBox>
-        {/* Avatar */}
+        {/* Bio image */}
         <Box sx={{ mb: 3 }}>
           <Avatar
             sx={{
@@ -45,7 +48,7 @@ export default function Account() {
             <Person sx={{ fontSize: 64 }} />
           </Avatar>
         </Box>
-        {/* Title */}
+        {/* Account address */}
         <Typography
           variant="h4"
           fontWeight={700}
@@ -54,7 +57,7 @@ export default function Account() {
         >
           Account {addressToShortAddress(slug as string)}
         </Typography>
-        {/* Bio */}
+        {/* Bio text */}
         {account?.bio && (
           <Typography
             variant="h6"
@@ -64,7 +67,7 @@ export default function Account() {
             {account.bio}
           </Typography>
         )}
-        {/* Social links */}
+        {/* Bio social links */}
         {account?.links && (
           <Stack direction="row" spacing={2}>
             {account.links.twitter && (
@@ -83,6 +86,14 @@ export default function Account() {
               </MuiLink>
             )}
           </Stack>
+        )}
+        {/* Edit bio button */}
+        {address === (slug as string) && (
+          <Box sx={{ mt: 2 }}>
+            <Link href="/accounts/edit" legacyBehavior>
+              <XlLoadingButton variant="contained">Edit</XlLoadingButton>
+            </Link>
+          </Box>
         )}
         {/* Bets */}
         {account?.bets && (
