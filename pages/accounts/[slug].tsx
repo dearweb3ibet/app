@@ -45,7 +45,7 @@ export default function Account() {
 function AccountBio(props: { address: string }) {
   const { handleError } = useError();
   const { address } = useAccount();
-  const { loadJsonFromIpfs } = useIpfs();
+  const { loadJsonFromIpfs, ipfsUrlToHttpUrl } = useIpfs();
   const [bioData, setBioData] = useState<any>();
 
   // Contract states
@@ -78,7 +78,7 @@ function AccountBio(props: { address: string }) {
               height: 164,
               borderRadius: 164,
             }}
-            src={bioData?.image}
+            src={bioData.image ? ipfsUrlToHttpUrl(bioData.image) : undefined}
           >
             <Person sx={{ fontSize: 64 }} />
           </Avatar>
