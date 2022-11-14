@@ -10,17 +10,28 @@ import {
 import BetList from "components/bet/BetList";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
-import { ethChartData, ethLastBets } from "data/mock";
+import { ethChartData } from "data/mock";
+import useError from "hooks/useError";
+import useSubgraph from "hooks/useSubgraph";
+import { useEffect, useState } from "react";
 import { Bubble } from "react-chartjs-2";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 /**
  * Page with bets.
- *
- * TODO: Use real data instead of mock data
  */
 export default function Bets() {
+  const { handleError } = useError();
+  const { findBets } = useSubgraph();
+  const [lastBets, setLastBets] = useState<any>();
+
+  useEffect(() => {
+    findBets(undefined, 25, 0)
+      .then((result) => setLastBets(result))
+      .catch((error) => handleError(error, true));
+  }, []);
+
   const chartOptions = {
     scales: {
       x: {
@@ -75,7 +86,7 @@ export default function Bets() {
         <Typography variant="h6" textAlign="center" sx={{ mb: 3 }}>
           🤝 Last bets
         </Typography>
-        <BetList bets={ethLastBets} />
+        <BetList bets={lastBets} />
       </CentralizedBox>
     </Layout>
   );

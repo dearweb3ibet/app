@@ -8,23 +8,6 @@ export const ethChartData = [
   { x: 56, y: 4800, r: 14 },
 ];
 
-export const ethLastBets = [
-  {
-    id: 1,
-    symbol: "ETHUSD",
-    minPrice: 1300,
-    maxPrice: 1500,
-    dayStartTimestamp: 1669852800,
-  },
-  {
-    id: 2,
-    symbol: "ETHUSD",
-    minPrice: 1800,
-    maxPrice: 3000,
-    dayStartTimestamp: 1671062400,
-  },
-];
-
 export const winningSize = 0.32;
 export const winningDistributeDate = 1669852800;
 
