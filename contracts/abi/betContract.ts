@@ -89,6 +89,77 @@ export const betContractAbi = [
     inputs: [
       {
         indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "createdDate",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "symbol",
+            type: "string",
+          },
+          {
+            internalType: "int256",
+            name: "minPrice",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "maxPrice",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "dayStartTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "rate",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "firstMember",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "secondMember",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "winner",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "winning",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Bet.Params",
+        name: "params",
+        type: "tuple",
+      },
+    ],
+    name: "ParamsSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
         internalType: "address",
         name: "from",
         type: "address",

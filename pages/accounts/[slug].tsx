@@ -12,10 +12,10 @@ import BetList from "components/bet/BetList";
 import Layout from "components/layout";
 import { CentralizedBox, XlLoadingButton } from "components/styled";
 import { bioContractAbi } from "contracts/abi/bioContract";
-import { accounts } from "data/mock";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
+import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -135,12 +135,15 @@ function AccountBio(props: { address: string }) {
   return <Skeleton variant="rounded" width={540} height={48} />;
 }
 
-// TODO: Use real data instead of mock data
 function AccountBets(props: { address: string }) {
-  const [account, setAccount] = useState<any>();
+  const { handleError } = useError();
+  const { findBets } = useSubgraph();
+  const [accountBets, setAccountBets] = useState<any>();
 
   useEffect(() => {
-    setAccount(accounts.find((account) => account.address === props.address));
+    findBets(props.address, 25, 0)
+      .then((result) => setAccountBets(result))
+      .catch((error) => handleError(error, true));
   }, [props.address]);
 
   return (
@@ -153,8 +156,8 @@ function AccountBets(props: { address: string }) {
       >
         🤝 Account bets
       </Typography>
-      {account?.bets ? (
-        <BetList bets={account.bets} />
+      {accountBets ? (
+        <BetList bets={accountBets} />
       ) : (
         <Typography>No bets yet</Typography>
       )}
