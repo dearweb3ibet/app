@@ -1,4 +1,4 @@
-import { Container, Toolbar } from "@mui/material";
+import { Container, SxProps, Toolbar } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
@@ -7,7 +7,11 @@ import Navigation from "./Navigation";
 /**
  * Component with layout.
  */
-export default function Layout({ children }: any) {
+export default function Layout(props: {
+  sx?: SxProps;
+  hideToolbar?: boolean;
+  children: any;
+}) {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
@@ -25,9 +29,10 @@ export default function Layout({ children }: any) {
           minHeight: "100%",
         }}
       >
-        <Box sx={{ py: 4 }}>
-          <Toolbar />
-          {children}
+        {/* Box with content */}
+        <Box sx={{ py: 4, ...props.sx }}>
+          {!props.hideToolbar && <Toolbar />}
+          {props.children}
         </Box>
       </Container>
     </Box>
