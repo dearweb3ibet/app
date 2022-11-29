@@ -16,7 +16,9 @@ export default function Layout(props: {
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
       <Head>
-        <title>dearweb3ibet</title>
+        <title>
+          dearweb3ibet - let's move from words to bets on the blockchain!
+        </title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Navigation />

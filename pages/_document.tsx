@@ -4,7 +4,10 @@ function Document() {
   return (
     <Html>
       <Head>
-        <meta name="description" content="dearweb3ibet" />
+        <meta
+          name="description"
+          content="dearweb3ibet - let's move from words to bets on the blockchain!"
+        />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
