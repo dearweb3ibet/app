@@ -1,4 +1,5 @@
 import { Box, Link as MuiLink, MenuItem, Typography } from "@mui/material";
+import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
 import {
@@ -79,28 +80,31 @@ function CreatedBetMessage(props: { betId: string }) {
   );
 }
 
+// TODO: Calculate the default form dates relative to the current date
+// TODO: Implement using of different fee currencies
 function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
   // Form states
   const [formValues, setFormValues] = useState({
-    rate: 0.01,
+    fee: 0.01,
+    feeCurrency: "MATIC",
     symbol: "ETHUSD",
-    minPrice: 1200,
-    maxPrice: 1600,
-    date: "2023-01-01",
+    targetMinPrice: 1200,
+    targetMaxPrice: 1600,
+    targetTimestamp: "2023-01-14",
+    participationDeadlineTimestamp: "2023-01-01",
   });
   const debouncedFormValues = useDebounce(formValues);
   const formValidationSchema = yup.object({
-    rate: yup.number().required(),
+    fee: yup.number().required(),
+    feeCurrency: yup.string().required(),
     symbol: yup.string().required(),
-    minPrice: yup.number().required(),
-    maxPrice: yup.number().required(),
-    date: yup.string().required(),
+    targetMinPrice: yup.number().required(),
+    targetMaxPrice: yup.number().required(),
+    targetTimestamp: yup.string().required(),
   });
 
   // Account state
   const { address } = useAccount();
-  // Network state
-  const { chain } = useNetwork();
   // Contract states
   const { config: contractConfig } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
@@ -123,21 +127,25 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
 
   function formValuesToContractArgs(values: any): any {
     const uri = "";
+    const fee = ethers.utils.parseEther(values.fee?.toString() || "0");
     const symbol = values.symbol;
-    const minPrice = BigNumber.from(values.minPrice || 0);
-    const maxPrice = BigNumber.from(values.maxPrice || 0);
-    const dayStartTimestamp = BigNumber.from(
-      new Date(values.date).getTime() / 1000
+    const targetMinPrice = BigNumber.from(values.targetMinPrice || 0);
+    const targetMaxPrice = BigNumber.from(values.targetMaxPrice || 0);
+    const targetTimestamp = BigNumber.from(
+      new Date(values.targetTimestamp).getTime() / 1000
     );
-    const rate = ethers.utils.parseEther(values.rate?.toString() || "0");
+    const participationDeadlineTimestamp = BigNumber.from(
+      new Date(values.participationDeadlineTimestamp).getTime() / 1000
+    );
     return [
       uri,
+      fee,
       symbol,
-      minPrice,
-      maxPrice,
-      dayStartTimestamp,
-      rate,
-      { value: rate },
+      targetMinPrice,
+      targetMaxPrice,
+      targetTimestamp,
+      participationDeadlineTimestamp,
+      { value: fee },
     ];
   }
 
@@ -166,23 +174,29 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
         {({ values, errors, touched, handleChange }) => (
           <Form>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
-            {/* Rate input */}
-            <WidgetWrapper
-              title="I bet"
-              subtitle={chain?.nativeCurrency?.symbol}
-              color="#2B6EFD"
-              sx={{ mb: 2 }}
-            >
-              <WidgetInputTextField
-                id="rate"
-                name="rate"
-                type="number"
-                value={values.rate}
-                onChange={handleChange}
-                error={touched.rate && Boolean(errors.rate)}
-                helperText={touched.rate && errors.rate}
-                disabled={isFormDisabled}
-              />
+            {/* Fee input */}
+            <WidgetWrapper title="I bet" color="#2B6EFD" sx={{ mb: 2 }}>
+              <Stack direction="row" spacing={1}>
+                <WidgetInputTextField
+                  id="fee"
+                  name="fee"
+                  type="number"
+                  value={values.fee}
+                  onChange={handleChange}
+                  error={touched.fee && Boolean(errors.fee)}
+                  helperText={touched.fee && errors.fee}
+                  disabled={isFormDisabled}
+                />
+                <WidgetInputSelect
+                  id="symbol"
+                  name="symbol"
+                  value={values.feeCurrency}
+                  onChange={handleChange}
+                  disabled={isFormDisabled}
+                >
+                  <MenuItem value="MATIC">MATIC</MenuItem>
+                </WidgetInputSelect>
+              </Stack>
             </WidgetWrapper>
             {/* Symbol input */}
             <WidgetWrapper title="That" color="#410c92" sx={{ mb: 3 }}>
@@ -201,7 +215,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               will cost
             </Typography>
-            {/* Min price input */}
+            {/* Target min price input */}
             <WidgetWrapper
               title="More than"
               subtitle="USD"
@@ -209,13 +223,13 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
               sx={{ mb: 3 }}
             >
               <WidgetInputTextField
-                id="minPrice"
-                name="minPrice"
+                id="targetMinPrice"
+                name="targetMinPrice"
                 type="number"
-                value={values.minPrice}
+                value={values.targetMinPrice}
                 onChange={handleChange}
-                error={touched.minPrice && Boolean(errors.minPrice)}
-                helperText={touched.minPrice && errors.minPrice}
+                error={touched.targetMinPrice && Boolean(errors.targetMinPrice)}
+                helperText={touched.targetMinPrice && errors.targetMinPrice}
                 disabled={isFormDisabled}
               />
             </WidgetWrapper>
@@ -223,7 +237,7 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and
             </Typography>
-            {/* Max price input */}
+            {/* Target max price input */}
             <WidgetWrapper
               title="Less than"
               subtitle="USD"
@@ -231,26 +245,52 @@ function CreateBetForm(props: { onSuccessCreate: (betId: string) => void }) {
               sx={{ mb: 2 }}
             >
               <WidgetInputTextField
-                id="maxPrice"
-                name="maxPrice"
+                id="targetMaxPrice"
+                name="targetMaxPrice"
                 type="number"
-                value={values.maxPrice}
+                value={values.targetMaxPrice}
                 onChange={handleChange}
-                error={touched.maxPrice && Boolean(errors.maxPrice)}
-                helperText={touched.maxPrice && errors.maxPrice}
+                error={touched.targetMaxPrice && Boolean(errors.targetMaxPrice)}
+                helperText={touched.targetMaxPrice && errors.targetMaxPrice}
                 disabled={isFormDisabled}
               />
             </WidgetWrapper>
-            {/* Date */}
-            <WidgetWrapper title="On" color="#4B144B" sx={{ mb: 6 }}>
+            {/* Target timestamp input */}
+            <WidgetWrapper title="On" color="#4B144B" sx={{ mb: 3 }}>
               <WidgetInputTextField
-                id="date"
-                name="date"
+                id="targetTimestamp"
+                name="targetTimestamp"
                 type="date"
-                value={values.date}
+                value={values.targetTimestamp}
                 onChange={handleChange}
-                error={touched.date && Boolean(errors.date)}
-                helperText={touched.date && errors.date}
+                error={
+                  touched.targetTimestamp && Boolean(errors.targetTimestamp)
+                }
+                helperText={touched.targetTimestamp && errors.targetTimestamp}
+                disabled={isFormDisabled}
+                sx={{ width: 180 }}
+              />
+            </WidgetWrapper>
+            {/* Text divider */}
+            <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
+              and other accounts can take part in this bet
+            </Typography>
+            {/* Participation deadline timestamp input */}
+            <WidgetWrapper title="Before" color="#E97E27" sx={{ mb: 6 }}>
+              <WidgetInputTextField
+                id="participationDeadlineTimestamp"
+                name="participationDeadlineTimestamp"
+                type="date"
+                value={values.participationDeadlineTimestamp}
+                onChange={handleChange}
+                error={
+                  touched.participationDeadlineTimestamp &&
+                  Boolean(errors.participationDeadlineTimestamp)
+                }
+                helperText={
+                  touched.participationDeadlineTimestamp &&
+                  errors.participationDeadlineTimestamp
+                }
                 disabled={isFormDisabled}
                 sx={{ width: 180 }}
               />

@@ -7,8 +7,13 @@ export const betContractAbi = [
         type: "address",
       },
       {
+        internalType: "address",
+        name: "contestAddress",
+        type: "address",
+      },
+      {
         internalType: "uint256",
-        name: "fee",
+        name: "contestFeePercent",
         type: "uint256",
       },
     ],
@@ -97,7 +102,17 @@ export const betContractAbi = [
         components: [
           {
             internalType: "uint256",
-            name: "createdDate",
+            name: "createdTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "creatorAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "creatorFee",
             type: "uint256",
           },
           {
@@ -107,43 +122,43 @@ export const betContractAbi = [
           },
           {
             internalType: "int256",
-            name: "minPrice",
+            name: "targetMinPrice",
             type: "int256",
           },
           {
             internalType: "int256",
-            name: "maxPrice",
+            name: "targetMaxPrice",
             type: "int256",
           },
           {
             internalType: "uint256",
-            name: "dayStartTimestamp",
+            name: "targetTimestamp",
             type: "uint256",
           },
           {
             internalType: "uint256",
-            name: "rate",
+            name: "participationDeadlineTimestamp",
             type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "firstMember",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "secondMember",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "winner",
-            type: "address",
           },
           {
             internalType: "uint256",
-            name: "winning",
+            name: "feeForSuccess",
             type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "feeForFailure",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isClosed",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isSuccessful",
+            type: "bool",
           },
         ],
         indexed: false,
@@ -153,6 +168,52 @@ export const betContractAbi = [
       },
     ],
     name: "ParamsSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isFeeForSuccess",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "winning",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Bet.Participant",
+        name: "participant",
+        type: "tuple",
+      },
+    ],
+    name: "ParticipantSet",
     type: "event",
   },
   {
@@ -202,19 +263,6 @@ export const betContractAbi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "accept",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -252,9 +300,27 @@ export const betContractAbi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "close",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "string",
         name: "uri",
         type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
       },
       {
         internalType: "string",
@@ -263,22 +329,22 @@ export const betContractAbi = [
       },
       {
         internalType: "int256",
-        name: "minPrice",
+        name: "targetMinPrice",
         type: "int256",
       },
       {
         internalType: "int256",
-        name: "maxPrice",
+        name: "targetMaxPrice",
         type: "int256",
       },
       {
         internalType: "uint256",
-        name: "dayStartTimestamp",
+        name: "targetTimestamp",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "rate",
+        name: "participationDeadlineTimestamp",
         type: "uint256",
       },
     ],
@@ -346,7 +412,20 @@ export const betContractAbi = [
   },
   {
     inputs: [],
-    name: "getFee",
+    name: "getContestAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getContestFeePercent",
     outputs: [
       {
         internalType: "uint256",
@@ -371,7 +450,17 @@ export const betContractAbi = [
         components: [
           {
             internalType: "uint256",
-            name: "createdDate",
+            name: "createdTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "creatorAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "creatorFee",
             type: "uint256",
           },
           {
@@ -381,38 +470,84 @@ export const betContractAbi = [
           },
           {
             internalType: "int256",
-            name: "minPrice",
+            name: "targetMinPrice",
             type: "int256",
           },
           {
             internalType: "int256",
-            name: "maxPrice",
+            name: "targetMaxPrice",
             type: "int256",
           },
           {
             internalType: "uint256",
-            name: "dayStartTimestamp",
+            name: "targetTimestamp",
             type: "uint256",
           },
           {
             internalType: "uint256",
-            name: "rate",
+            name: "participationDeadlineTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "feeForSuccess",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "feeForFailure",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isClosed",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isSuccessful",
+            type: "bool",
+          },
+        ],
+        internalType: "struct Bet.Params",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getParticipants",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
             type: "uint256",
           },
           {
             internalType: "address",
-            name: "firstMember",
+            name: "accountAddress",
             type: "address",
           },
           {
-            internalType: "address",
-            name: "secondMember",
-            type: "address",
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
           },
           {
-            internalType: "address",
-            name: "winner",
-            type: "address",
+            internalType: "bool",
+            name: "isFeeForSuccess",
+            type: "bool",
           },
           {
             internalType: "uint256",
@@ -420,9 +555,9 @@ export const betContractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct Bet.Params",
+        internalType: "struct Bet.Participant[]",
         name: "",
-        type: "tuple",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -589,12 +724,25 @@ export const betContractAbi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "contestAddress",
+        type: "address",
+      },
+    ],
+    name: "setContestAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
-        name: "fee",
+        name: "contestFeePercent",
         type: "uint256",
       },
     ],
-    name: "setFee",
+    name: "setContestFeePercent",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -629,6 +777,29 @@ export const betContractAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isFeeForSuccess",
+        type: "bool",
+      },
+    ],
+    name: "takePart",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -684,19 +855,6 @@ export const betContractAbi = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "verify",
-    outputs: [],
-    stateMutability: "payable",
     type: "function",
   },
 ] as const;
