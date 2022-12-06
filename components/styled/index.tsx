@@ -2,6 +2,8 @@ import { LoadingButton, LoadingButtonProps } from "@mui/lab";
 import {
   Box,
   BoxProps,
+  Divider,
+  DividerProps,
   Link,
   LinkProps,
   Select,
@@ -13,11 +15,22 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
+export const ThickDivider = styled(Divider)<DividerProps>(({ theme }) => ({
+  width: 540,
+  borderBottomWidth: 5,
+}));
+
 export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
-  ({ theme }) => ({
+  ({ theme, variant }) => ({
     fontSize: "24px",
     borderRadius: "78px",
     padding: "24px 48px",
+    ...(variant === "outlined" && {
+      border: "4px solid",
+      "&:hover": {
+        border: "4px solid",
+      },
+    }),
   })
 );
 
