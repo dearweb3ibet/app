@@ -80,7 +80,7 @@ export default function Navigation() {
               </Typography>
             </Link>
           </Box>
-          {/* Top 100 accounts link */}
+          {/* Contest link */}
           <Box sx={{ flexGrow: 0, mr: 3.5 }}>
             <Link href="/accounts/top" passHref legacyBehavior>
               <Typography
@@ -91,7 +91,7 @@ export default function Navigation() {
                   textDecoration: "none",
                 }}
               >
-                Top 100
+                Contest
               </Typography>
             </Link>
           </Box>
