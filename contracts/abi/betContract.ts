@@ -12,8 +12,18 @@ export const betContractAbi = [
         type: "address",
       },
       {
+        internalType: "address",
+        name: "usageAddress",
+        type: "address",
+      },
+      {
         internalType: "uint256",
         name: "contestFeePercent",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "usageFeePercent",
         type: "uint256",
       },
     ],
@@ -178,6 +188,12 @@ export const betContractAbi = [
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "participantAccountAddress",
+        type: "address",
       },
       {
         components: [
@@ -564,6 +580,32 @@ export const betContractAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getUsageAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getUsageFeePercent",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -743,6 +785,32 @@ export const betContractAbi = [
       },
     ],
     name: "setContestFeePercent",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "usageAddress",
+        type: "address",
+      },
+    ],
+    name: "setUsageAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "usageFeePercent",
+        type: "uint256",
+      },
+    ],
+    name: "setUsageFeePercent",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
