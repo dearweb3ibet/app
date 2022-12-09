@@ -7,11 +7,11 @@ import { addressToShortAddress } from "utils/converters";
 import { useNetwork } from "wagmi";
 
 /**
- * Page with top accounts.
+ * Page with a contest.
  *
  * TODO: Use real data instead of mock data
  */
-export default function TopAccounts() {
+export default function Contest() {
   // Network states
   const { chain } = useNetwork();
 

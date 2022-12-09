@@ -82,7 +82,7 @@ export default function Navigation() {
           </Box>
           {/* Contest link */}
           <Box sx={{ flexGrow: 0, mr: 3.5 }}>
-            <Link href="/accounts/top" passHref legacyBehavior>
+            <Link href="/contests" passHref legacyBehavior>
               <Typography
                 component="a"
                 sx={{
