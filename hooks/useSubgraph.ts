@@ -15,7 +15,24 @@ export default function useSubgraph() {
     return response.bets;
   };
 
-  return { findBets };
+  let findContestWaveParticipants = async function (
+    contestAddress: string,
+    waveIndex: number,
+    first?: number,
+    skip?: number
+  ) {
+    const response = await makeSubgraphQuery(
+      getFindContestWaveParticipantsQuery(
+        contestAddress,
+        waveIndex,
+        first,
+        skip
+      )
+    );
+    return response.contestWaveParticipants;
+  };
+
+  return { findBets, findContestWaveParticipants };
 }
 
 async function makeSubgraphQuery(query: string) {
@@ -45,7 +62,7 @@ function getFindBetsQuery(firstMember?: string, first?: number, skip?: number) {
     : "";
   let filterParams = `where: {${firstMemberFilter}}`;
   let sortParams = `orderBy: createdDate, orderDirection: desc`;
-  let paginationParams = `first: ${first}, skip: ${skip}`;
+  let paginationParams = `first: ${first || 10}, skip: ${skip || 0}`;
   return `{
       bets(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
@@ -61,4 +78,25 @@ function getFindBetsQuery(firstMember?: string, first?: number, skip?: number) {
         winning
       }
     }`;
+}
+
+function getFindContestWaveParticipantsQuery(
+  contestAddress: string,
+  waveIndex: number,
+  first?: number,
+  skip?: number
+) {
+  let waveFilter = `wave: "${contestAddress.toLowerCase()}_${waveIndex}"`;
+  let filterParams = `where: {${waveFilter}}`;
+  let sortParams = `orderBy: variance, orderDirection: desc`;
+  let paginationParams = `first: ${first || 10}, skip: ${skip || 0}`;
+  return `{
+    contestWaveParticipants(${filterParams}, ${sortParams}, ${paginationParams}) {
+      id
+      accountAddress
+      successes
+      failures
+      variance
+    }
+  }`;
 }
