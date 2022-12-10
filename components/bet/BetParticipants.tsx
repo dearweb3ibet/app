@@ -38,8 +38,6 @@ export default function BetParticipants(props: {
     setParticipantsForFailure(participantsForFailure);
   }, [props.participants]);
 
-  console.log("participantsForSuccess", participantsForSuccess);
-
   return (
     <Box sx={{ ...props.sx }}>
       <ThickDivider sx={{ mb: 4 }} />
