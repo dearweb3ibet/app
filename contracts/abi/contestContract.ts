@@ -189,91 +189,29 @@ export const contestContractAbi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+      {
         internalType: "address[]",
         name: "winners",
         type: "address[]",
       },
     ],
-    name: "closeLastWave",
+    name: "closeWave",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [],
-    name: "getLastWave",
+    name: "getLastWaveIndex",
     outputs: [
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "startTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "endTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "closeTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "winnersNumber",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "winning",
-            type: "uint256",
-          },
-          {
-            internalType: "address[]",
-            name: "winners",
-            type: "address[]",
-          },
-        ],
-        internalType: "struct Contest.Wave",
+        internalType: "uint256",
         name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getLastWaveParticipants",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "accountAddress",
-            type: "address",
-          },
-          {
-            internalType: "int256",
-            name: "successes",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "failures",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "variance",
-            type: "int256",
-          },
-        ],
-        internalType: "struct Contest.WaveParticipant[]",
-        name: "",
-        type: "tuple[]",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
