@@ -22,6 +22,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import * as yup from "yup";
+import BetFeesMessage from "./BetFeesMessage";
 
 /**
  * A component with form to take part in a bet.
@@ -162,6 +163,7 @@ export default function BetTakePartForm(props: {
             </Form>
           )}
         </Formik>
+        <BetFeesMessage sx={{ mt: 4 }} />
       </Box>
     );
   }
