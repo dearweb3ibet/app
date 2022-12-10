@@ -1,5 +1,4 @@
 import { contestContractAbi } from "contracts/abi/contestContract";
-import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useContractRead } from "wagmi";
@@ -11,18 +10,17 @@ export default function Contest() {
   const router = useRouter();
 
   // State of contract reading to get waves number
-  const { data: wavesNumber } = useContractRead({
+  const { data: lastWaveIndex } = useContractRead({
     address: process.env.NEXT_PUBLIC_CONTEST_CONTRACT_ADDRESS,
     abi: contestContractAbi,
-    functionName: "getWavesNumber",
+    functionName: "getLastWaveIndex",
   });
 
   useEffect(() => {
-    if (wavesNumber) {
-      const lastWaveIndex = wavesNumber.sub(ethers.constants.One);
+    if (lastWaveIndex) {
       router.push(`/contests/waves/${lastWaveIndex.toString()}`);
     }
-  }, [wavesNumber]);
+  }, [lastWaveIndex]);
 
   return <></>;
 }
