@@ -1,4 +1,12 @@
-import { AppBar, Button, Container, Toolbar, Typography } from "@mui/material";
+import { AlternateEmail, GitHub, PhotoCamera } from "@mui/icons-material";
+import {
+  AppBar,
+  Button,
+  Container,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
@@ -96,8 +104,30 @@ export default function Navigation() {
             </Link>
           </Box>
           {/* Connect button */}
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, mr: 2 }}>
             <ConnectButton showBalance={false} />
+          </Box>
+          {/* GitHub link */}
+          <Box sx={{ flexGrow: 0 }}>
+            <IconButton
+              href="https://github.com/dearweb3ibet"
+              target="_blank"
+              component="a"
+              sx={{ color: "#000000" }}
+            >
+              <GitHub />
+            </IconButton>
+          </Box>
+          {/* Email link */}
+          <Box sx={{ flexGrow: 0 }}>
+            <IconButton
+              href="mailto:dearweb3ibet@gmail.com"
+              target="_blank"
+              component="a"
+              sx={{ color: "#000000" }}
+            >
+              <AlternateEmail />
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>
