@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Skeleton, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
@@ -55,12 +55,17 @@ export default function EditAccount() {
   return (
     <Layout>
       <CentralizedBox>
-        {bioData && <EditAccountForm bioData={bioData} />}
+        {bioData ? (
+          <EditAccountForm bioData={bioData} />
+        ) : (
+          <Skeleton variant="rounded" width={400} height={48} />
+        )}
       </CentralizedBox>
     </Layout>
   );
 }
 
+// TODO: Use username for socials instead of links
 function EditAccountForm(props: { bioData: any }) {
   const { handleError } = useError();
   const { uploadJsonToIpfs } = useIpfs();
@@ -71,6 +76,7 @@ function EditAccountForm(props: { bioData: any }) {
   // Form states
   const [formValues, setFormValues] = useState({
     image: props.bioData?.image as string,
+    name: props.bioData?.name as string,
     text: props.bioData?.text as string,
     twitter: props.bioData?.twitter as string,
     telegram: props.bioData?.telegram as string,
@@ -78,6 +84,7 @@ function EditAccountForm(props: { bioData: any }) {
   });
   const formValidationSchema = yup.object({
     image: yup.string(),
+    name: yup.string(),
     text: yup.string(),
     twitter: yup.string(),
     telegram: yup.string(),
@@ -145,6 +152,7 @@ function EditAccountForm(props: { bioData: any }) {
         <Form>
           <FormikHelper onChange={(values: any) => setFormValues(values)} />
           {/* Image */}
+          {/* TODO: Use file input */}
           <Box sx={{ width: 400, mb: 2 }}>
             <TextField
               fullWidth
@@ -160,14 +168,30 @@ function EditAccountForm(props: { bioData: any }) {
               disabled={isFormDisabled}
             />
           </Box>
+          {/* Name */}
+          <Box sx={{ width: 400, mb: 2 }}>
+            <TextField
+              fullWidth
+              id="name"
+              name="name"
+              label="Name"
+              placeholder="Alice"
+              type="string"
+              value={values.name}
+              onChange={handleChange}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+              disabled={isFormDisabled}
+            />
+          </Box>
           {/* Text */}
           <Box sx={{ width: 400, mb: 2 }}>
             <TextField
               fullWidth
               id="text"
               name="text"
-              label="Text"
-              placeholder="Alice, crypto enthusiast..."
+              label="Bio"
+              placeholder="crypto enthusiast..."
               type="string"
               multiline={true}
               rows={3}

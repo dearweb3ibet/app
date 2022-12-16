@@ -34,8 +34,9 @@ export default function Account() {
       {slug && (
         <CentralizedBox>
           <AccountBio address={slug as string} />
-          <Divider sx={{ width: 540, mt: 5, mb: 5 }} />
-          <AccountBets address={slug as string} />
+          {/* TODO: Fix account bets component */}
+          {/* <Divider sx={{ width: 540, mt: 5, mb: 5 }} /> */}
+          {/* <AccountBets address={slug as string} /> */}
         </CentralizedBox>
       )}
     </Layout>
@@ -83,26 +84,24 @@ function AccountBio(props: { address: string }) {
             <Person sx={{ fontSize: 64 }} />
           </Avatar>
         </Box>
-        {/* Account address */}
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          sx={{ mb: 1.5 }}
-        >
-          Account {addressToShortAddress(props.address)}
-        </Typography>
+        {/* Name */}
+        {bioData?.name && (
+          <Typography
+            variant="h4"
+            fontWeight={700}
+            textAlign="center"
+            sx={{ mb: 0.5 }}
+          >
+            {bioData.name}
+          </Typography>
+        )}
         {/* Bio text */}
         {bioData?.text && (
-          <Typography
-            variant="h6"
-            textAlign="center"
-            sx={{ maxWidth: 480, mb: 2 }}
-          >
+          <Typography textAlign="center" sx={{ maxWidth: 480, mb: 1.5 }}>
             {bioData.text}
           </Typography>
         )}
-        {/* Bio social links */}
+        {/* Bio social links address */}
         <Stack direction="row" spacing={2}>
           {bioData.twitter && (
             <MuiLink href={bioData.twitter} target="_blank">
@@ -119,6 +118,10 @@ function AccountBio(props: { address: string }) {
               <Instagram />
             </MuiLink>
           )}
+          {/* TODO: Add copy button */}
+          <Typography fontWeight={700}>
+            {addressToShortAddress(props.address)}
+          </Typography>
         </Stack>
         {/* Edit bio button */}
         {address === props.address && (
