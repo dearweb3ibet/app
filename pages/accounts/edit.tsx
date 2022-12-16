@@ -65,7 +65,6 @@ export default function EditAccount() {
   );
 }
 
-// TODO: Use username for socials instead of links
 function EditAccountForm(props: { bioData: any }) {
   const { handleError } = useError();
   const { uploadJsonToIpfs } = useIpfs();
@@ -137,7 +136,7 @@ function EditAccountForm(props: { bioData: any }) {
 
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Account updated");
+      showToastSuccess("Changes saved, account will be updated soon");
       router.push(`/accounts/${address}`);
     }
   }, [isTransactionSuccess]);
@@ -209,7 +208,7 @@ function EditAccountForm(props: { bioData: any }) {
               id="twitter"
               name="twitter"
               label="Twitter"
-              placeholder="https://twitter.com/username"
+              placeholder="username"
               type="string"
               value={values.twitter}
               onChange={handleChange}
@@ -225,7 +224,7 @@ function EditAccountForm(props: { bioData: any }) {
               id="telegram"
               name="telegram"
               label="Telegram"
-              placeholder="https://t.me/username"
+              placeholder="username"
               type="string"
               value={values.telegram}
               onChange={handleChange}
@@ -241,7 +240,7 @@ function EditAccountForm(props: { bioData: any }) {
               id="instagram"
               name="instagram"
               label="Instagram"
-              placeholder="https://instagram.com/username"
+              placeholder="username"
               type="string"
               value={values.instagram}
               onChange={handleChange}
