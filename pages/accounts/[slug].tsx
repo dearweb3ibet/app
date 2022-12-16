@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Divider,
+  IconButton,
   Link as MuiLink,
   Skeleton,
   Typography,
@@ -102,21 +103,44 @@ function AccountBio(props: { address: string }) {
           </Typography>
         )}
         {/* Bio social links address */}
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" alignItems="center">
           {bioData.twitter && (
-            <MuiLink href={bioData.twitter} target="_blank">
+            <IconButton
+              href={`https://twitter.com/${bioData.twitter}`}
+              target="_blank"
+              component="a"
+              color="primary"
+            >
               <Twitter />
-            </MuiLink>
+            </IconButton>
           )}
           {bioData.telegram && (
-            <MuiLink href={bioData.telegram} target="_blank">
+            <IconButton
+              href={`https://t.me/${bioData.telegram}`}
+              target="_blank"
+              component="a"
+              color="primary"
+            >
               <Telegram />
-            </MuiLink>
+            </IconButton>
           )}
           {bioData.instagram && (
-            <MuiLink href={bioData.instagram} target="_blank">
+            <IconButton
+              href={`https://instagram.com/${bioData.instagram}`}
+              target="_blank"
+              component="a"
+              color="primary"
+            >
               <Instagram />
-            </MuiLink>
+            </IconButton>
+          )}
+          {(bioData.twitter || bioData.telegram || bioData.instagram) && (
+            <Divider
+              flexItem
+              orientation="vertical"
+              variant="middle"
+              sx={{ borderWidth: 2, ml: 1.3, mr: 2 }}
+            />
           )}
           {/* TODO: Add copy button */}
           <Typography fontWeight={700}>
