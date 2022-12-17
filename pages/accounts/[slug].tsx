@@ -1,5 +1,4 @@
-import { Divider } from "@mui/material";
-import AccountBets from "components/account/AccountBets";
+import AccountBetParticipationTabs from "components/account/AccountBetParticipationTabs";
 import AccountBio from "components/account/AccountBio";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
@@ -17,8 +16,10 @@ export default function Account() {
       {slug && (
         <CentralizedBox>
           <AccountBio address={slug as string} />
-          <Divider sx={{ width: 540, mt: 5, mb: 5 }} />
-          <AccountBets address={slug as string} />
+          <AccountBetParticipationTabs
+            address={slug as string}
+            sx={{ mt: 4 }}
+          />
         </CentralizedBox>
       )}
     </Layout>

@@ -13,6 +13,8 @@ import Link from "next/link";
 
 /**
  * A component with a list of bets.
+ *
+ * TODO: Use bet card component instead of table.
  */
 export default function BetList(props: { bets: Array<any>; sx?: SxProps }) {
   if (props.bets) {

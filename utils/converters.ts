@@ -10,3 +10,10 @@ export function addressToShortAddress(address: string): string {
   }
   return shortAddress?.toLowerCase();
 }
+
+/**
+ * Convert "BTCUSD" to "BTC".
+ */
+export function symbolToShortSymbol(symbol: string): string {
+  return symbol.replace("USD", "");
+}

@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import { WidgetLink, WidgetTypography } from "components/styled";
 import WidgetWrapper from "components/widget/WidgetWrapper";
 import { BigNumber, ethers } from "ethers";
-import { addressToShortAddress } from "utils/converters";
+import { addressToShortAddress, symbolToShortSymbol } from "utils/converters";
 import { useNetwork } from "wagmi";
 
 /**
@@ -65,7 +65,7 @@ export default function BetParams(props: {
       </WidgetWrapper>
       {/* Symbol */}
       <WidgetWrapper title="That" color="#410c92" sx={{ mb: 2 }}>
-        <WidgetTypography>{props.symbol.replace("USD", "")}</WidgetTypography>
+        <WidgetTypography>{symbolToShortSymbol(props.symbol)}</WidgetTypography>
       </WidgetWrapper>
       {/* Text divider */}
       <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>

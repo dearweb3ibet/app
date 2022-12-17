@@ -4,6 +4,7 @@ import axios from "axios";
  * Hook to work with subgraph.
  */
 export default function useSubgraph() {
+  // TODO: Make next function relevant to current subgraph structure
   let findBets = async function (
     firstMember?: string,
     first?: number,
@@ -13,6 +14,25 @@ export default function useSubgraph() {
       getFindBetsQuery(firstMember, first, skip)
     );
     return response.bets;
+  };
+
+  let findBetParticipants = async function (
+    accountAddress?: string,
+    isCreator?: boolean,
+    isFeeForSuccess?: boolean,
+    first?: number,
+    skip?: number
+  ) {
+    const response = await makeSubgraphQuery(
+      getFindBetParticipantsQuery(
+        accountAddress,
+        isCreator,
+        isFeeForSuccess,
+        first,
+        skip
+      )
+    );
+    return response.betParticipants;
   };
 
   let findContestWaveParticipants = async function (
@@ -32,7 +52,7 @@ export default function useSubgraph() {
     return response.contestWaveParticipants;
   };
 
-  return { findBets, findContestWaveParticipants };
+  return { findBets, findBetParticipants, findContestWaveParticipants };
 }
 
 async function makeSubgraphQuery(query: string) {
@@ -78,6 +98,45 @@ function getFindBetsQuery(firstMember?: string, first?: number, skip?: number) {
         winning
       }
     }`;
+}
+
+function getFindBetParticipantsQuery(
+  accountAddress?: string,
+  isCreator?: boolean,
+  isFeeForSuccess?: boolean,
+  first?: number,
+  skip?: number
+) {
+  let accountAddressFilter = accountAddress
+    ? `accountAddress: "${accountAddress.toLowerCase()}"`
+    : "";
+  let isCreatorFilter =
+    isCreator !== undefined ? `isCreator: ${isCreator}` : "";
+  let isFeeForSuccessFilter =
+    isFeeForSuccess !== undefined ? `isFeeForSuccess: ${isFeeForSuccess}` : "";
+  let filterParams = `where: {${accountAddressFilter}, ${isCreatorFilter}, ${isFeeForSuccessFilter}}`;
+  let sortParams = `orderBy: addedTimestamp, orderDirection: desc`;
+  let paginationParams = `first: ${first || 10}, skip: ${skip || 0}`;
+  return `{
+    betParticipants(${filterParams}, ${sortParams}, ${paginationParams}) {
+      id
+      bet {
+        id
+        params {
+          creatorAddress
+          symbol
+          targetMinPrice
+          targetMaxPrice
+          targetTimestamp
+          feeForSuccess
+          feeForFailure
+          isClosed
+          isSuccessful
+        }
+        participantsNumber
+      }
+    }
+  }`;
 }
 
 function getFindContestWaveParticipantsQuery(
