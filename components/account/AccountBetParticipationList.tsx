@@ -20,7 +20,7 @@ export default function AccountBetParticipationList(props: {
   const [participants, setParticipants] = useState<any[] | undefined>();
   const [isMoreParticipantsExist, setIsMoreParticipantsExist] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
-  const pageSize = 1;
+  const pageSize = 3;
 
   async function loadMoreParticipants() {
     try {
