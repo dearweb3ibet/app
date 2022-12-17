@@ -9,7 +9,7 @@ export default function useSubgraph() {
     firstMember?: string,
     first?: number,
     skip?: number
-  ) {
+  ): Promise<Array<any>> {
     const response = await makeSubgraphQuery(
       getFindBetsQuery(firstMember, first, skip)
     );
@@ -22,7 +22,7 @@ export default function useSubgraph() {
     isFeeForSuccess?: boolean,
     first?: number,
     skip?: number
-  ) {
+  ): Promise<Array<any>> {
     const response = await makeSubgraphQuery(
       getFindBetParticipantsQuery(
         accountAddress,
@@ -40,7 +40,7 @@ export default function useSubgraph() {
     waveIndex: number,
     first?: number,
     skip?: number
-  ) {
+  ): Promise<Array<any>> {
     const response = await makeSubgraphQuery(
       getFindContestWaveParticipantsQuery(
         contestAddress,
