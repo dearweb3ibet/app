@@ -1,4 +1,5 @@
-import { Skeleton, TextField } from "@mui/material";
+import { Person } from "@mui/icons-material";
+import { Avatar, Skeleton, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
@@ -10,7 +11,7 @@ import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -67,14 +68,17 @@ export default function EditAccount() {
 
 function EditAccountForm(props: { bioData: any }) {
   const { handleError } = useError();
-  const { uploadJsonToIpfs } = useIpfs();
+  const { uploadJsonToIpfs, uploadFileToIpfs, ipfsUrlToHttpUrl } = useIpfs();
   const { showToastSuccess } = useToasts();
   const router = useRouter();
   const { address } = useAccount();
 
   // Form states
+  const [formImageValue, setFormImageValue] = useState<{
+    file: any;
+    url: any;
+  }>();
   const [formValues, setFormValues] = useState({
-    image: props.bioData?.image as string,
     name: props.bioData?.name as string,
     text: props.bioData?.text as string,
     twitter: props.bioData?.twitter as string,
@@ -82,7 +86,6 @@ function EditAccountForm(props: { bioData: any }) {
     instagram: props.bioData?.instagram as string,
   });
   const formValidationSchema = yup.object({
-    image: yup.string(),
     name: yup.string(),
     text: yup.string(),
     twitter: yup.string(),
@@ -90,14 +93,15 @@ function EditAccountForm(props: { bioData: any }) {
     instagram: yup.string(),
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  const [formValuesUri, setFormValuesUri] = useState("");
+
+  const [updatedBioDataUri, setUpdatedBioDataUri] = useState("");
 
   // Contract states
   const { config: contractConfig } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_BIO_CONTRACT_ADDRESS,
     abi: bioContractAbi,
     functionName: "setURI",
-    args: [formValuesUri],
+    args: [updatedBioDataUri],
   });
   const {
     data: contractWriteData,
@@ -115,24 +119,68 @@ function EditAccountForm(props: { bioData: any }) {
     isTransactionLoading ||
     isTransactionSuccess;
 
+  async function onImageChange(event: ChangeEvent<HTMLInputElement>) {
+    try {
+      // Get file
+      const file = event.target.files?.[0];
+      if (!file) {
+        return;
+      }
+      // Check file size
+      const isLessThan2Mb = file.size / 1024 / 1024 < 2;
+      if (!isLessThan2Mb) {
+        throw new Error(
+          "Only JPG/PNG/GIF files with size smaller than 2MB are currently supported!"
+        );
+      }
+      // Read file
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        if (fileReader.readyState === 2) {
+          // Save states
+          setFormImageValue({
+            file: file,
+            url: fileReader.result,
+          });
+        }
+      };
+      fileReader.readAsDataURL(file);
+    } catch (error: any) {
+      handleError(error, true);
+    }
+  }
+
   async function submit(values: any) {
     try {
       setIsFormSubmitting(true);
-      const { ipfsUrl } = await uploadJsonToIpfs(values);
-      setFormValuesUri(ipfsUrl);
+      // Upload image to ipfs
+      let imageIpfsUrl;
+      if (formImageValue?.file) {
+        const { ipfsUrl } = await uploadFileToIpfs(formImageValue.file);
+        imageIpfsUrl = ipfsUrl;
+      }
+      // Init updated bio data
+      const updatedBioData = {
+        image: imageIpfsUrl || props.bioData.image,
+        ...values,
+      };
+      // Upload updated bio data to ipfs
+      const { ipfsUrl } = await uploadJsonToIpfs(updatedBioData);
+      setUpdatedBioDataUri(ipfsUrl);
     } catch (error: any) {
       handleError(error, true);
-    } finally {
       setIsFormSubmitting(false);
     }
   }
 
   useEffect(() => {
-    if (formValuesUri !== "" && contractWrite && !isContractWriteLoading) {
-      setFormValuesUri("");
+    // Write data to contract if form was submitted
+    if (updatedBioDataUri !== "" && contractWrite && !isContractWriteLoading) {
+      setUpdatedBioDataUri("");
       contractWrite?.();
+      setIsFormSubmitting(false);
     }
-  }, [formValuesUri, contractWrite, isContractWriteLoading]);
+  }, [updatedBioDataUri, contractWrite, isContractWriteLoading]);
 
   useEffect(() => {
     if (isTransactionSuccess) {
@@ -151,21 +199,44 @@ function EditAccountForm(props: { bioData: any }) {
         <Form>
           <FormikHelper onChange={(values: any) => setFormValues(values)} />
           {/* Image */}
-          {/* TODO: Use file input */}
-          <Box sx={{ width: 400, mb: 2 }}>
-            <TextField
-              fullWidth
-              id="image"
-              name="image"
-              label="Image"
-              placeholder="ipfs://bafybeig..."
-              type="string"
-              value={values.image}
-              onChange={handleChange}
-              error={touched.image && Boolean(errors.image)}
-              helperText={touched.image && errors.image}
-              disabled={isFormDisabled}
-            />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mb: 4,
+            }}
+          >
+            <label
+              htmlFor="image"
+              style={{ display: "block", width: 164, height: 164 }}
+            >
+              <Avatar
+                sx={{
+                  cursor: !isFormDisabled ? "pointer" : undefined,
+                  width: 164,
+                  height: 164,
+                  borderRadius: 164,
+                }}
+                src={
+                  formImageValue?.url ||
+                  (props.bioData?.image
+                    ? ipfsUrlToHttpUrl(props.bioData.image)
+                    : undefined)
+                }
+              >
+                <Person sx={{ fontSize: 64 }} />
+              </Avatar>
+              <input
+                hidden
+                id="image"
+                name="image"
+                type="file"
+                accept="image/*"
+                onChange={onImageChange}
+                disabled={isFormDisabled}
+              />
+            </label>
           </Box>
           {/* Name */}
           <Box sx={{ width: 400, mb: 2 }}>
