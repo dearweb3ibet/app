@@ -2,7 +2,7 @@ import { Skeleton, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import BetCard from "components/bet/BetCard";
 import Layout from "components/layout";
-import { CentralizedBox } from "components/styled";
+import { CentralizedBox, XxlLoadingButton } from "components/styled";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
 import Bet from "interfaces/Bet";
@@ -10,18 +10,34 @@ import { useEffect, useState } from "react";
 
 /**
  * Page with bets.
- *
- * TODO: Add button to load more bets
  */
 export default function Bets() {
   const { handleError } = useError();
   const { findBets } = useSubgraph();
-  const [lastBets, setLastBets] = useState<Array<Bet> | undefined>();
+  const [bets, setBets] = useState<Array<Bet> | undefined>();
+  const [isMoreBetsExist, setIsMoreBetsExist] = useState(true);
+  const [pageNumber, setPageNumber] = useState(0);
+  const pageSize = 3;
+
+  async function loadMoreBets() {
+    try {
+      const nextPageNumber = pageNumber + 1;
+      const loadedBets = await findBets(
+        pageSize,
+        (nextPageNumber - 1) * pageSize
+      );
+      setBets(bets ? [...bets, ...loadedBets] : loadedBets);
+      setPageNumber(nextPageNumber);
+      if (loadedBets.length === 0) {
+        setIsMoreBetsExist(false);
+      }
+    } catch (error: any) {
+      handleError(error, true);
+    }
+  }
 
   useEffect(() => {
-    findBets()
-      .then((result) => setLastBets(result))
-      .catch((error) => handleError(error, true));
+    loadMoreBets();
   }, []);
 
   return (
@@ -36,12 +52,31 @@ export default function Bets() {
         >
           👀 Last bets
         </Typography>
-        {lastBets ? (
+        {bets ? (
           <Box>
+            {/* List */}
             <Stack spacing={2}>
-              {lastBets.map((bet) => (
+              {bets.map((bet) => (
                 <BetCard key={bet.id} bet={bet} />
               ))}
+              {/* Actions */}
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+                sx={{ mt: 4 }}
+              >
+                {isMoreBetsExist && (
+                  <XxlLoadingButton
+                    variant="outlined"
+                    onClick={() => {
+                      loadMoreBets();
+                    }}
+                  >
+                    Load More
+                  </XxlLoadingButton>
+                )}
+              </Stack>
             </Stack>
           </Box>
         ) : (
