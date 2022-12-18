@@ -1,4 +1,4 @@
-import { AlternateEmail, GitHub, PhotoCamera } from "@mui/icons-material";
+import { AlternateEmail, GitHub } from "@mui/icons-material";
 import {
   AppBar,
   Button,
@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { contact } from "constants/contact";
 import Link from "next/link";
 
 import packageJson from "package.json";
@@ -110,7 +111,7 @@ export default function Navigation() {
           {/* GitHub link */}
           <Box sx={{ flexGrow: 0 }}>
             <IconButton
-              href="https://github.com/dearweb3ibet"
+              href={contact.github}
               target="_blank"
               component="a"
               sx={{ color: "#000000" }}
@@ -121,7 +122,7 @@ export default function Navigation() {
           {/* Email link */}
           <Box sx={{ flexGrow: 0 }}>
             <IconButton
-              href="mailto:dearweb3ibet@gmail.com"
+              href={`mailto:${contact.email}`}
               target="_blank"
               component="a"
               sx={{ color: "#000000" }}

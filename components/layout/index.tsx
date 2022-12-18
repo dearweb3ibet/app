@@ -2,6 +2,7 @@ import { Container, SxProps, Toolbar } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
+import Footer from "./Footer";
 import Navigation from "./Navigation";
 
 /**
@@ -37,6 +38,7 @@ export default function Layout(props: {
           {props.children}
         </Box>
       </Container>
+      <Footer />
     </Box>
   );
 }
