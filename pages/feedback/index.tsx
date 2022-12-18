@@ -111,7 +111,7 @@ export default function Feedback() {
                   id="message"
                   name="message"
                   label="Your message *"
-                  placeholder="crypto enthusiast..."
+                  placeholder="I think that..."
                   type="string"
                   multiline={true}
                   rows={3}
