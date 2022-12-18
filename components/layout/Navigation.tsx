@@ -1,4 +1,4 @@
-import { AlternateEmail, GitHub } from "@mui/icons-material";
+import { GitHub } from "@mui/icons-material";
 import {
   AppBar,
   Button,
