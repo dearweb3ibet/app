@@ -11,7 +11,6 @@ import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { contact } from "constants/contact";
 import Link from "next/link";
-
 import packageJson from "package.json";
 import { useAccount } from "wagmi";
 
@@ -117,17 +116,6 @@ export default function Navigation() {
               sx={{ color: "#000000" }}
             >
               <GitHub />
-            </IconButton>
-          </Box>
-          {/* Email link */}
-          <Box sx={{ flexGrow: 0 }}>
-            <IconButton
-              href={`mailto:${contact.email}`}
-              target="_blank"
-              component="a"
-              sx={{ color: "#000000" }}
-            >
-              <AlternateEmail />
             </IconButton>
           </Box>
         </Toolbar>
