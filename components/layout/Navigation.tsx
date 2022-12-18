@@ -47,7 +47,7 @@ export default function Navigation() {
               </Typography>
             </Link>
             <Typography color="text.secondary" variant="body2">
-              {packageJson.version}
+              beta ({packageJson.version})
             </Typography>
           </Box>
           {/* New bet button */}
