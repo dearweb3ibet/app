@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import { BigNumber } from "ethers";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
+import ContestWaveParticipant from "interfaces/ContestWaveParticipant";
 import { useEffect, useState } from "react";
 import { addressToShortAddress } from "utils/converters";
 
@@ -15,7 +16,9 @@ export default function ContestParticipants(props: {
 }) {
   const { handleError } = useError();
   const { findContestWaveParticipants } = useSubgraph();
-  const [waveParticipants, setWaveParticipants] = useState<any[] | undefined>();
+  const [waveParticipants, setWaveParticipants] = useState<
+    ContestWaveParticipant[] | undefined
+  >();
 
   useEffect(() => {
     findContestWaveParticipants(

@@ -1,6 +1,7 @@
 import axios from "axios";
 import Bet from "interfaces/Bet";
 import BetParticipant from "interfaces/BetParticipant";
+import ContestWaveParticipant from "interfaces/ContestWaveParticipant";
 
 /**
  * Hook to work with subgraph.
@@ -130,19 +131,17 @@ export default function useSubgraph() {
     return betParticipants;
   };
 
-  // TODO: Use interface instead of "any" for return values
   let findContestWaveParticipants = async function (
     contestAddress: string,
     waveIndex: number,
     first = defaultFirst,
     skip = defaultSkip
-  ): Promise<Array<any>> {
-    // Filters and params
+  ): Promise<Array<ContestWaveParticipant>> {
+    // Prepare query
     const waveFilter = `wave: "${contestAddress.toLowerCase()}_${waveIndex}"`;
     const filterParams = `where: {${waveFilter}}`;
     const sortParams = `orderBy: variance, orderDirection: desc`;
     const paginationParams = `first: ${first}, skip: ${skip}`;
-    // Query
     const query = `{
       contestWaveParticipants(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
@@ -154,7 +153,18 @@ export default function useSubgraph() {
     }`;
     // Make query and return result
     const response = await makeSubgraphQuery(query);
-    return response.contestWaveParticipants;
+    // return response.contestWaveParticipants;
+    const contestWaveParticipants: Array<ContestWaveParticipant> = [];
+    response.contestWaveParticipants?.forEach((contestWaveParticipant: any) => {
+      contestWaveParticipants.push({
+        id: contestWaveParticipant.id,
+        accountAddress: contestWaveParticipant.accountAddress,
+        successes: contestWaveParticipant.successes,
+        failures: contestWaveParticipant.failures,
+        variance: contestWaveParticipant.variance,
+      });
+    });
+    return contestWaveParticipants;
   };
 
   return { findBets, findBetParticipants, findContestWaveParticipants };
