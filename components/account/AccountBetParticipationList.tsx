@@ -61,15 +61,15 @@ export default function AccountBetParticipationList(props: {
               <BetCard
                 key={participant.id}
                 id={participant.bet.id}
-                creatorAddress={participant.bet.params.creatorAddress}
-                symbol={participant.bet.params.symbol}
-                targetMinPrice={participant.bet.params.targetMinPrice}
-                targetMaxPrice={participant.bet.params.targetMaxPrice}
-                targetTimestamp={participant.bet.params.targetTimestamp}
-                feeForSuccess={participant.bet.params.feeForSuccess}
-                feeForFailure={participant.bet.params.feeForFailure}
-                isClosed={participant.bet.params.isClosed}
-                isSuccessful={participant.bet.params.isSuccessful}
+                creatorAddress={participant.bet.creatorAddress}
+                symbol={participant.bet.symbol}
+                targetMinPrice={participant.bet.targetMinPrice}
+                targetMaxPrice={participant.bet.targetMaxPrice}
+                targetTimestamp={participant.bet.targetTimestamp}
+                feeForSuccess={participant.bet.feeForSuccess}
+                feeForFailure={participant.bet.feeForFailure}
+                isClosed={participant.bet.isClosed}
+                isSuccessful={participant.bet.isSuccessful}
                 participantsNumber={participant.bet.participantsNumber}
               />
             ))}

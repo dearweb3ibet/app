@@ -122,17 +122,15 @@ function getFindBetParticipantsQuery(
       id
       bet {
         id
-        params {
-          creatorAddress
-          symbol
-          targetMinPrice
-          targetMaxPrice
-          targetTimestamp
-          feeForSuccess
-          feeForFailure
-          isClosed
-          isSuccessful
-        }
+        creatorAddress
+        symbol
+        targetMinPrice
+        targetMaxPrice
+        targetTimestamp
+        feeForSuccess
+        feeForFailure
+        isClosed
+        isSuccessful
         participantsNumber
       }
     }
