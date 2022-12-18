@@ -4,6 +4,7 @@ import BetCard from "components/bet/BetCard";
 import { XxlLoadingButton } from "components/styled";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
+import BetParticipant from "interfaces/BetParticipant";
 import { useEffect, useState } from "react";
 
 /**
@@ -17,7 +18,9 @@ export default function AccountBetParticipationList(props: {
 }) {
   const { handleError } = useError();
   const { findBetParticipants } = useSubgraph();
-  const [participants, setParticipants] = useState<any[] | undefined>();
+  const [participants, setParticipants] = useState<
+    Array<BetParticipant> | undefined
+  >();
   const [isMoreParticipantsExist, setIsMoreParticipantsExist] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 3;
@@ -57,21 +60,8 @@ export default function AccountBetParticipationList(props: {
         <>
           {/* List */}
           <Stack spacing={2}>
-            {participants.map((participant: any) => (
-              <BetCard
-                key={participant.id}
-                id={participant.bet.id}
-                creatorAddress={participant.bet.creatorAddress}
-                symbol={participant.bet.symbol}
-                targetMinPrice={participant.bet.targetMinPrice}
-                targetMaxPrice={participant.bet.targetMaxPrice}
-                targetTimestamp={participant.bet.targetTimestamp}
-                feeForSuccess={participant.bet.feeForSuccess}
-                feeForFailure={participant.bet.feeForFailure}
-                isClosed={participant.bet.isClosed}
-                isSuccessful={participant.bet.isSuccessful}
-                participantsNumber={participant.bet.participantsNumber}
-              />
+            {participants.map((participant) => (
+              <BetCard key={participant.id} bet={participant.bet} />
             ))}
           </Stack>
           {/* Actions */}

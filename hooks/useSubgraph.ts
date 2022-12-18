@@ -1,53 +1,71 @@
 import axios from "axios";
+import Bet from "interfaces/Bet";
+import BetParticipant from "interfaces/BetParticipant";
 
 /**
  * Hook to work with subgraph.
- *
- * TODO: Use types for values, that functions return
  */
 export default function useSubgraph() {
-  // TODO: Make next function relevant to current subgraph structure
+  const defaultFirst = 10;
+  const defaultSkip = 0;
+
   let findBets = async function (
-    firstMember?: string,
-    first?: number,
-    skip?: number
-  ): Promise<Array<any>> {
-    // Filters and params
-    const firstMemberFilter = firstMember
-      ? `firstMember: "${firstMember.toLowerCase()}"`
-      : "";
-    const filterParams = `where: {${firstMemberFilter}}`;
-    const sortParams = `orderBy: createdDate, orderDirection: desc`;
-    const paginationParams = `first: ${first || 10}, skip: ${skip || 0}`;
-    // Query
+    first = defaultFirst,
+    skip = defaultSkip
+  ): Promise<Array<Bet>> {
+    // Prepare query
+    const sortParams = `orderBy: createdTimestamp, orderDirection: desc`;
+    const paginationParams = `first: ${first}, skip: ${skip}`;
     const query = `{
-      bets(${filterParams}, ${sortParams}, ${paginationParams}) {
+      bets(${sortParams}, ${paginationParams}) {
         id
-        createdDate
+        createdTimestamp
+        creatorAddress
+        creatorFee
         symbol
-        minPrice
-        maxPrice
-        dayStartTimestamp
-        rate
-        firstMember
-        secondMember
-        winner
-        winning
+        targetMinPrice
+        targetMaxPrice
+        targetTimestamp
+        participationDeadlineTimestamp
+        feeForSuccess
+        feeForFailure
+        isClosed
+        isSuccessful
+        participantsNumber
       }
     }`;
     // Make query and return result
     const response = await makeSubgraphQuery(query);
-    return response.bets;
+    const bets: Array<Bet> = [];
+    response.bets?.forEach((bet: any) => {
+      bets.push({
+        id: bet.id,
+        createdTimestamp: bet.createdTimestamp,
+        creatorAddress: bet.creatorAddress,
+        creatorFee: bet.creatorFee,
+        symbol: bet.symbol,
+        targetMinPrice: bet.targetMinPrice,
+        targetMaxPrice: bet.targetMaxPrice,
+        targetTimestamp: bet.targetTimestamp,
+        participationDeadlineTimestamp: bet.participationDeadlineTimestamp,
+        feeForSuccess: bet.feeForSuccess,
+        feeForFailure: bet.feeForFailure,
+        isClosed: bet.isClosed,
+        isSuccessful: bet.isSuccessful,
+        participantsNumber: bet.participantsNumber,
+      });
+    });
+    return bets;
   };
 
   let findBetParticipants = async function (
     accountAddress?: string,
     isCreator?: boolean,
     isFeeForSuccess?: boolean,
-    first?: number,
-    skip?: number
-  ): Promise<Array<any>> {
-    // Filters and params
+    first = defaultFirst,
+    skip = defaultSkip
+  ): Promise<Array<BetParticipant>> {
+    // Prepare query
     const accountAddressFilter = accountAddress
       ? `accountAddress: "${accountAddress.toLowerCase()}"`
       : "";
@@ -59,8 +77,7 @@ export default function useSubgraph() {
         : "";
     const filterParams = `where: {${accountAddressFilter}, ${isCreatorFilter}, ${isFeeForSuccessFilter}}`;
     const sortParams = `orderBy: addedTimestamp, orderDirection: desc`;
-    const paginationParams = `first: ${first || 10}, skip: ${skip || 0}`;
-    // Query
+    const paginationParams = `first: ${first}, skip: ${skip}`;
     const query = `{
       betParticipants(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
@@ -81,20 +98,50 @@ export default function useSubgraph() {
     }`;
     // Make query and return result
     const response = await makeSubgraphQuery(query);
-    return response.betParticipants;
+    const betParticipants: Array<BetParticipant> = [];
+    response.betParticipants?.forEach((betParticipant: any) => {
+      betParticipants.push({
+        id: betParticipant.id,
+        bet: {
+          id: betParticipant.bet.id,
+          createdTimestamp: betParticipant.bet.createdTimestamp,
+          creatorAddress: betParticipant.bet.creatorAddress,
+          creatorFee: betParticipant.bet.creatorFee,
+          symbol: betParticipant.bet.symbol,
+          targetMinPrice: betParticipant.bet.targetMinPrice,
+          targetMaxPrice: betParticipant.bet.targetMaxPrice,
+          targetTimestamp: betParticipant.bet.targetTimestamp,
+          participationDeadlineTimestamp:
+            betParticipant.bet.participationDeadlineTimestamp,
+          feeForSuccess: betParticipant.bet.feeForSuccess,
+          feeForFailure: betParticipant.bet.feeForFailure,
+          isClosed: betParticipant.bet.isClosed,
+          isSuccessful: betParticipant.bet.isSuccessful,
+          participantsNumber: betParticipant.bet.participantsNumber,
+        },
+        addedTimestamp: betParticipant.addedTimestamp,
+        accountAddress: betParticipant.accountAddress,
+        fee: betParticipant.fee,
+        isCreator: betParticipant.isCreator,
+        isFeeForSuccess: betParticipant.isFeeForSuccess,
+        winning: betParticipant.winning,
+      });
+    });
+    return betParticipants;
   };
 
+  // TODO: Use interface instead of "any" for return values
   let findContestWaveParticipants = async function (
     contestAddress: string,
     waveIndex: number,
-    first?: number,
-    skip?: number
+    first = defaultFirst,
+    skip = defaultSkip
   ): Promise<Array<any>> {
     // Filters and params
     const waveFilter = `wave: "${contestAddress.toLowerCase()}_${waveIndex}"`;
     const filterParams = `where: {${waveFilter}}`;
     const sortParams = `orderBy: variance, orderDirection: desc`;
-    const paginationParams = `first: ${first || 10}, skip: ${skip || 0}`;
+    const paginationParams = `first: ${first}, skip: ${skip}`;
     // Query
     const query = `{
       contestWaveParticipants(${filterParams}, ${sortParams}, ${paginationParams}) {
