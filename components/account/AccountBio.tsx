@@ -36,10 +36,14 @@ export default function AccountBio(props: { address: string }) {
   });
 
   useEffect(() => {
-    if (status === "success" && data) {
-      loadJsonFromIpfs(data)
-        .then((result) => setBioData(result))
-        .catch((error) => handleError(error, true));
+    if (status === "success") {
+      if (data) {
+        loadJsonFromIpfs(data)
+          .then((result) => setBioData(result))
+          .catch((error) => handleError(error, true));
+      } else {
+        setBioData({});
+      }
     }
     if (status === "error" && error) {
       setBioData({});

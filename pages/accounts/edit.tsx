@@ -31,10 +31,14 @@ export default function EditAccount() {
   });
 
   useEffect(() => {
-    if (address && contractReadStatus === "success" && contractReadData) {
-      loadJsonFromIpfs(contractReadData)
-        .then((result) => setBioData(result))
-        .catch((error) => handleError(error, true));
+    if (address && contractReadStatus === "success") {
+      if (contractReadData) {
+        loadJsonFromIpfs(contractReadData)
+          .then((result) => setBioData(result))
+          .catch((error) => handleError(error, true));
+      } else {
+        setBioData({});
+      }
     }
     if (address && contractReadStatus === "error" && contractReadError) {
       setBioData({});
