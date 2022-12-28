@@ -10,17 +10,17 @@ export default function Contest() {
   const router = useRouter();
 
   // State of contract reading to get waves number
-  const { data: lastWaveIndex } = useContractRead({
+  const { data: lastWaveId } = useContractRead({
     address: process.env.NEXT_PUBLIC_CONTEST_CONTRACT_ADDRESS,
     abi: contestContractAbi,
-    functionName: "getLastWaveIndex",
+    functionName: "getCurrentCounter",
   });
 
   useEffect(() => {
-    if (lastWaveIndex) {
-      router.push(`/contests/waves/${lastWaveIndex.toString()}`);
+    if (lastWaveId) {
+      router.push(`/contests/waves/${lastWaveId.toString()}`);
     }
-  }, [lastWaveIndex]);
+  }, [lastWaveId]);
 
   return <></>;
 }

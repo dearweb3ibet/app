@@ -11,7 +11,7 @@ import { addressToShortAddress } from "utils/converters";
  * A component with contest wave participants.
  */
 export default function ContestParticipants(props: {
-  waveIndex: BigNumber;
+  waveId: BigNumber;
   sx?: SxProps;
 }) {
   const { handleError } = useError();
@@ -23,11 +23,11 @@ export default function ContestParticipants(props: {
   useEffect(() => {
     findContestWaveParticipants(
       process.env.NEXT_PUBLIC_CONTEST_CONTRACT_ADDRESS || "",
-      props.waveIndex.toNumber()
+      props.waveId.toNumber()
     )
       .then((result) => setWaveParticipants(result))
       .catch((error) => handleError(error, true));
-  }, [props.waveIndex]);
+  }, [props.waveId]);
 
   return (
     <Box sx={{ ...props.sx }}>

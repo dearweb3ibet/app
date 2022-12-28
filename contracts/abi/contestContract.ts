@@ -3,6 +3,19 @@ export const contestContractAbi = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "previousOwner",
@@ -34,7 +47,7 @@ export const contestContractAbi = [
         type: "uint256",
       },
     ],
-    name: "Receiving",
+    name: "Received",
     type: "event",
   },
   {
@@ -43,7 +56,7 @@ export const contestContractAbi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "index",
+        name: "id",
         type: "uint256",
       },
       {
@@ -80,12 +93,12 @@ export const contestContractAbi = [
           },
         ],
         indexed: false,
-        internalType: "struct Contest.Wave",
+        internalType: "struct DataTypes.ContestWave",
         name: "wave",
         type: "tuple",
       },
     ],
-    name: "WaveClose",
+    name: "WaveClosed",
     type: "event",
   },
   {
@@ -94,7 +107,7 @@ export const contestContractAbi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "index",
+        name: "id",
         type: "uint256",
       },
       {
@@ -131,12 +144,12 @@ export const contestContractAbi = [
           },
         ],
         indexed: false,
-        internalType: "struct Contest.Wave",
+        internalType: "struct DataTypes.ContestWave",
         name: "wave",
         type: "tuple",
       },
     ],
-    name: "WaveCreate",
+    name: "WaveCreated",
     type: "event",
   },
   {
@@ -145,7 +158,7 @@ export const contestContractAbi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "index",
+        name: "id",
         type: "uint256",
       },
       {
@@ -178,7 +191,7 @@ export const contestContractAbi = [
           },
         ],
         indexed: false,
-        internalType: "struct Contest.WaveParticipant",
+        internalType: "struct DataTypes.ContestWaveParticipant",
         name: "participant",
         type: "tuple",
       },
@@ -190,7 +203,7 @@ export const contestContractAbi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "index",
+        name: "id",
         type: "uint256",
       },
       {
@@ -206,7 +219,7 @@ export const contestContractAbi = [
   },
   {
     inputs: [],
-    name: "getLastWaveIndex",
+    name: "getCurrentCounter",
     outputs: [
       {
         internalType: "uint256",
@@ -218,10 +231,23 @@ export const contestContractAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getHubAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
-        name: "index",
+        name: "id",
         type: "uint256",
       },
     ],
@@ -260,7 +286,7 @@ export const contestContractAbi = [
             type: "address[]",
           },
         ],
-        internalType: "struct Contest.Wave",
+        internalType: "struct DataTypes.ContestWave",
         name: "",
         type: "tuple",
       },
@@ -272,7 +298,7 @@ export const contestContractAbi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "index",
+        name: "id",
         type: "uint256",
       },
     ],
@@ -301,7 +327,7 @@ export const contestContractAbi = [
             type: "int256",
           },
         ],
-        internalType: "struct Contest.WaveParticipant[]",
+        internalType: "struct DataTypes.ContestWaveParticipant[]",
         name: "",
         type: "tuple[]",
       },
@@ -310,16 +336,16 @@ export const contestContractAbi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getWavesNumber",
-    outputs: [
+    inputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
+        internalType: "address",
+        name: "hubAddress",
+        type: "address",
       },
     ],
-    stateMutability: "view",
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -338,17 +364,44 @@ export const contestContractAbi = [
   {
     inputs: [
       {
-        internalType: "address[]",
-        name: "betParticipantAddresses",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "betParticipantWinnings",
-        type: "uint256[]",
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isFeeForSuccess",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isWinner",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "winning",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypes.BetParticipant[]",
+        name: "betParticipants",
+        type: "tuple[]",
       },
     ],
-    name: "processBetParticipants",
+    name: "processClosedBetParticipants",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -356,6 +409,19 @@ export const contestContractAbi = [
   {
     inputs: [],
     name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "hubAddress",
+        type: "address",
+      },
+    ],
+    name: "setHubAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

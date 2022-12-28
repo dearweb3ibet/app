@@ -13,19 +13,19 @@ import { useEffect, useState } from "react";
 export default function ContestWave() {
   const router = useRouter();
   const { slug } = router.query;
-  const [waveIndex, setWaveIndex] = useState<BigNumber | undefined>();
+  const [waveId, setWaveId] = useState<BigNumber | undefined>();
 
   useEffect(() => {
-    setWaveIndex(slug ? BigNumber.from(slug as string) : undefined);
+    setWaveId(slug ? BigNumber.from(slug as string) : undefined);
   }, [slug]);
 
   return (
     <Layout>
       <CentralizedBox>
-        {waveIndex && !waveIndex.isNegative() ? (
+        {waveId && !waveId.isNegative() ? (
           <>
-            <ContestHeader waveIndex={waveIndex} />
-            <ContestParticipants waveIndex={waveIndex} sx={{ mt: 3 }} />
+            <ContestHeader waveId={waveId} />
+            <ContestParticipants waveId={waveId} sx={{ mt: 3 }} />
           </>
         ) : (
           <Skeleton variant="rounded" width={540} height={48} />

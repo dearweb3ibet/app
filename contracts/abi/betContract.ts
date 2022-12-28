@@ -1,36 +1,5 @@
 export const betContractAbi = [
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "betCheckerAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "contestAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "usageAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "contestFeePercent",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "usageFeePercent",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -78,6 +47,19 @@ export const betContractAbi = [
       },
     ],
     name: "ApprovalForAll",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
     type: "event",
   },
   {
@@ -172,7 +154,7 @@ export const betContractAbi = [
           },
         ],
         indexed: false,
-        internalType: "struct Bet.Params",
+        internalType: "struct DataTypes.BetParams",
         name: "params",
         type: "tuple",
       },
@@ -218,18 +200,36 @@ export const betContractAbi = [
             type: "bool",
           },
           {
+            internalType: "bool",
+            name: "isWinner",
+            type: "bool",
+          },
+          {
             internalType: "uint256",
             name: "winning",
             type: "uint256",
           },
         ],
         indexed: false,
-        internalType: "struct Bet.Participant",
+        internalType: "struct DataTypes.BetParticipant",
         name: "participant",
         type: "tuple",
       },
     ],
     name: "ParticipantSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Paused",
     type: "event",
   },
   {
@@ -274,6 +274,19 @@ export const betContractAbi = [
       },
     ],
     name: "URISet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Unpaused",
     type: "event",
   },
   {
@@ -396,57 +409,38 @@ export const betContractAbi = [
   },
   {
     inputs: [],
-    name: "getBetCheckerAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "feedSymbol",
-        type: "string",
-      },
-    ],
-    name: "getBetCheckerFeedAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getContestAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getContestFeePercent",
     outputs: [
       {
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCurrentCounter",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getHubAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -525,7 +519,7 @@ export const betContractAbi = [
             type: "bool",
           },
         ],
-        internalType: "struct Bet.Params",
+        internalType: "struct DataTypes.BetParams",
         name: "",
         type: "tuple",
       },
@@ -566,27 +560,19 @@ export const betContractAbi = [
             type: "bool",
           },
           {
+            internalType: "bool",
+            name: "isWinner",
+            type: "bool",
+          },
+          {
             internalType: "uint256",
             name: "winning",
             type: "uint256",
           },
         ],
-        internalType: "struct Bet.Participant[]",
+        internalType: "struct DataTypes.BetParticipant[]",
         name: "",
         type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getUsageAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
       },
     ],
     stateMutability: "view",
@@ -603,6 +589,29 @@ export const betContractAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "hubAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "contestFeePercent",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "usageFeePercent",
+        type: "uint256",
+      },
+    ],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -669,6 +678,26 @@ export const betContractAbi = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "paused",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -753,32 +782,6 @@ export const betContractAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "betCheckerAddress",
-        type: "address",
-      },
-    ],
-    name: "setBetCheckerAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "contestAddress",
-        type: "address",
-      },
-    ],
-    name: "setContestAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
         name: "contestFeePercent",
         type: "uint256",
@@ -793,11 +796,11 @@ export const betContractAbi = [
     inputs: [
       {
         internalType: "address",
-        name: "usageAddress",
+        name: "hubAddress",
         type: "address",
       },
     ],
-    name: "setUsageAddress",
+    name: "setHubAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -921,6 +924,13 @@ export const betContractAbi = [
       },
     ],
     name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "uppause",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

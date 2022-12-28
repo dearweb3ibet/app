@@ -133,12 +133,12 @@ export default function useSubgraph() {
 
   let findContestWaveParticipants = async function (
     contestAddress: string,
-    waveIndex: number,
+    waveId: number,
     first = defaultFirst,
     skip = defaultSkip
   ): Promise<Array<ContestWaveParticipant>> {
     // Prepare query
-    const waveFilter = `wave: "${contestAddress.toLowerCase()}_${waveIndex}"`;
+    const waveFilter = `wave: "${contestAddress.toLowerCase()}_${waveId}"`;
     const filterParams = `where: {${waveFilter}}`;
     const sortParams = `orderBy: variance, orderDirection: desc`;
     const paginationParams = `first: ${first}, skip: ${skip}`;

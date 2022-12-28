@@ -8,7 +8,7 @@ import { useBalance, useContractRead, useNetwork } from "wagmi";
  * A component with contest title and details.
  */
 export default function ContestHeader(props: {
-  waveIndex: BigNumber;
+  waveId: BigNumber;
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
@@ -18,7 +18,7 @@ export default function ContestHeader(props: {
     address: process.env.NEXT_PUBLIC_CONTEST_CONTRACT_ADDRESS,
     abi: contestContractAbi,
     functionName: "getWave",
-    args: [props.waveIndex],
+    args: [props.waveId],
   });
 
   // State of contract reading to get balance
@@ -35,7 +35,7 @@ export default function ContestHeader(props: {
         textAlign="center"
         sx={{ mb: 1.5 }}
       >
-        🏆 Contest #{props.waveIndex.toNumber()}
+        🏆 Contest #{props.waveId.toNumber()}
       </Typography>
       {/* Details if wave is not closed */}
       {wave && wave.closeTimestamp.eq(ethers.constants.Zero) && (
