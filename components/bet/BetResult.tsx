@@ -4,7 +4,8 @@ import { ThickDivider, WidgetTypography } from "components/styled";
 import WidgetWrapper from "components/widget/WidgetWrapper";
 import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { useAccount, useNetwork } from "wagmi";
+import { getContractsChain } from "utils/network";
+import { useAccount } from "wagmi";
 
 /**
  * A component with bet result.
@@ -18,7 +19,6 @@ export default function BetResult(props: {
   participants: readonly any[];
   sx?: SxProps;
 }) {
-  const { chain } = useNetwork();
   const { address } = useAccount();
   const [winning, setWinning] = useState<BigNumber | undefined>();
   const [losing, setLosing] = useState<BigNumber | undefined>();
@@ -74,7 +74,9 @@ export default function BetResult(props: {
                 ? ethers.utils.formatEther(props.feeForFailure)
                 : ethers.utils.formatEther(props.feeForSuccess)}
             </WidgetTypography>
-            <WidgetTypography>{chain?.nativeCurrency?.symbol}</WidgetTypography>
+            <WidgetTypography>
+              {getContractsChain().nativeCurrency?.symbol}
+            </WidgetTypography>
           </Stack>
         </WidgetWrapper>
         {/* Text divider */}
@@ -98,7 +100,7 @@ export default function BetResult(props: {
                 </WidgetTypography>
               )}
               <WidgetTypography>
-                {chain?.nativeCurrency?.symbol}
+                {getContractsChain().nativeCurrency?.symbol}
               </WidgetTypography>
             </Stack>
           </WidgetWrapper>

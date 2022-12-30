@@ -3,14 +3,12 @@ import { Box } from "@mui/system";
 import { BigNumber, ethers } from "ethers";
 import Bet from "interfaces/Bet";
 import { addressToShortAddress, symbolToShortSymbol } from "utils/converters";
-import { useNetwork } from "wagmi";
+import { getContractsChain } from "utils/network";
 
 /**
  * A component with a bet card.
  */
 export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
-  const { chain } = useNetwork();
-
   return (
     <Box
       sx={{
@@ -82,7 +80,7 @@ export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
               BigNumber.from(props.bet.feeForFailure)
             )
           )}{" "}
-          {chain?.nativeCurrency?.symbol}
+          {getContractsChain().nativeCurrency?.symbol}
         </Typography>
       </Stack>
     </Box>

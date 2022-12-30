@@ -4,7 +4,7 @@ import { WidgetLink, WidgetTypography } from "components/styled";
 import WidgetWrapper from "components/widget/WidgetWrapper";
 import { BigNumber, ethers } from "ethers";
 import { addressToShortAddress, symbolToShortSymbol } from "utils/converters";
-import { useNetwork } from "wagmi";
+import { getContractsChain } from "utils/network";
 
 /**
  * A component with bet parameters.
@@ -23,8 +23,6 @@ export default function BetParams(props: {
   isSuccessful: boolean;
   sx?: SxProps;
 }) {
-  const { chain } = useNetwork();
-
   return (
     <Box sx={{ ...props.sx }}>
       {/* Id */}
@@ -60,7 +58,9 @@ export default function BetParams(props: {
           <WidgetTypography>
             {ethers.utils.formatEther(props.creatorFee)}
           </WidgetTypography>
-          <WidgetTypography>{chain?.nativeCurrency?.symbol}</WidgetTypography>
+          <WidgetTypography>
+            {getContractsChain().nativeCurrency?.symbol}
+          </WidgetTypography>
         </Stack>
       </WidgetWrapper>
       {/* Symbol */}

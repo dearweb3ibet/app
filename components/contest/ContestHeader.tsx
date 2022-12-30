@@ -2,7 +2,8 @@ import { SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { contestContractAbi } from "contracts/abi/contestContract";
 import { BigNumber, ethers } from "ethers";
-import { useBalance, useContractRead, useNetwork } from "wagmi";
+import { getContractsChain } from "utils/network";
+import { useBalance, useContractRead } from "wagmi";
 
 /**
  * A component with contest title and details.
@@ -11,8 +12,6 @@ export default function ContestHeader(props: {
   waveId: BigNumber;
   sx?: SxProps;
 }) {
-  const { chain } = useNetwork();
-
   // State of contract reading to get wave
   const { data: wave } = useContractRead({
     address: process.env.NEXT_PUBLIC_CONTEST_CONTRACT_ADDRESS,
@@ -43,7 +42,8 @@ export default function ContestHeader(props: {
           <strong>Top {wave.winnersNumber.toNumber()}</strong> accounts will
           share{" "}
           <strong>
-            {contestBalance?.formatted} {chain?.nativeCurrency?.symbol}
+            {contestBalance?.formatted}{" "}
+            {getContractsChain().nativeCurrency?.symbol}
           </strong>{" "}
           after{" "}
           <strong>

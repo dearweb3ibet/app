@@ -13,11 +13,11 @@ import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
 import { useState } from "react";
+import { getContractsChain } from "utils/network";
 import {
   useAccount,
   useContractEvent,
   useContractWrite,
-  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -30,7 +30,6 @@ import BetFeesMessage from "./BetFeesMessage";
 export default function BetCreateForm(props: {
   onSuccessCreate: (id: string) => void;
 }) {
-  const { chain } = useNetwork();
   const { address } = useAccount();
 
   // Form states
@@ -143,7 +142,7 @@ export default function BetCreateForm(props: {
                   disabled={isFormDisabled}
                 >
                   <MenuItem value="native">
-                    {chain?.nativeCurrency?.symbol}
+                    {getContractsChain().nativeCurrency?.symbol}
                   </MenuItem>
                 </WidgetInputSelect>
               </Stack>

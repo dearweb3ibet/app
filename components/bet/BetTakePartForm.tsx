@@ -14,10 +14,10 @@ import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
+import { getContractsChain } from "utils/network";
 import {
   useAccount,
   useContractWrite,
-  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -34,7 +34,6 @@ export default function BetTakePartForm(props: {
   onSuccess?: Function;
   sx?: SxProps;
 }) {
-  const { chain } = useNetwork();
   const { isConnected, address } = useAccount();
   const { showToastSuccess } = useToasts();
 
@@ -125,7 +124,7 @@ export default function BetTakePartForm(props: {
                     disabled={isFormDisabled}
                   >
                     <MenuItem value="native">
-                      {chain?.nativeCurrency?.symbol}
+                      {getContractsChain().nativeCurrency?.symbol}
                     </MenuItem>
                   </WidgetInputSelect>
                 </Stack>

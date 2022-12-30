@@ -4,7 +4,8 @@ import { ThickDivider } from "components/styled";
 import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { addressToShortAddress } from "utils/converters";
-import { useAccount, useNetwork } from "wagmi";
+import { getContractsChain } from "utils/network";
+import { useAccount } from "wagmi";
 
 /**
  * A component with bet participants.
@@ -69,7 +70,6 @@ function BetOneSideParticipants(props: {
   creatorAddress: string;
   sx?: SxProps;
 }) {
-  const { chain } = useNetwork();
   const { address } = useAccount();
 
   return (
@@ -96,7 +96,8 @@ function BetOneSideParticipants(props: {
         textAlign="center"
         sx={{ color: "#FFFFFF", fontWeight: 700, mb: 2 }}
       >
-        {ethers.utils.formatEther(props.fee)} {chain?.nativeCurrency?.symbol}
+        {ethers.utils.formatEther(props.fee)}{" "}
+        {getContractsChain().nativeCurrency?.symbol}
       </Typography>
       {/* Participants */}
       {props.participants.length > 0 ? (
@@ -120,7 +121,7 @@ function BetOneSideParticipants(props: {
               <Typography>placed</Typography>
               <Typography>
                 {ethers.utils.formatEther(participant.fee)}{" "}
-                {chain?.nativeCurrency?.symbol}
+                {getContractsChain().nativeCurrency?.symbol}
               </Typography>
             </Stack>
           ))}
