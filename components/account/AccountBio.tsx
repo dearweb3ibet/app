@@ -123,7 +123,6 @@ export default function AccountBio(props: { address: string }) {
               sx={{ borderWidth: 2, ml: 1.3, mr: 2 }}
             />
           )}
-          {/* TODO: Add copy button */}
           <Typography fontWeight={700}>
             {addressToShortAddress(props.address)}
           </Typography>
