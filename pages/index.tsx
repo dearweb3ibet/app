@@ -9,9 +9,9 @@ import {
 import Link from "next/link";
 
 /**
- * Home page.
+ * Landing page.
  */
-export default function Home() {
+export default function Landing() {
   return (
     <Layout>
       <CentralizedBox>
