@@ -50,12 +50,12 @@ export default function Landing() {
               color="#2B6EFD"
             />
             <StepCard
-              icon="🤞"
+              icon="👥"
               title="2. Invite friends and followers"
               color="#410C92"
             />
-            <StepCard icon="🤞" title="3. Win or lose" color="#9747FF" />
-            <StepCard icon="🤞" title="4. Earn rating" color="#1DB954" />
+            <StepCard icon="🏆" title="3. Win or lose" color="#9747FF" />
+            <StepCard icon="👍" title="4. Earn rating" color="#1DB954" />
           </Box>
         </Box>
         <XxlLoadingButton variant="contained" href="/bets/new" sx={{ mt: 4 }}>
