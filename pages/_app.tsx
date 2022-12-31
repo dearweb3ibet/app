@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@mui/material";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import { DialogProvider } from "context/dialog";
 import type { AppProps } from "next/app";
 import NextNProgress from "nextjs-progressbar";
 import { SnackbarProvider } from "notistack";
@@ -44,8 +45,10 @@ export default function App({ Component, pageProps }: AppProps) {
       <RainbowKitProvider chains={chains}>
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={3}>
-            <NextNProgress height={4} />
-            {pageLoaded ? <Component {...pageProps} /> : null}
+            <DialogProvider>
+              <NextNProgress height={4} />
+              {pageLoaded ? <Component {...pageProps} /> : null}
+            </DialogProvider>
           </SnackbarProvider>
         </ThemeProvider>
       </RainbowKitProvider>

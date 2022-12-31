@@ -1,9 +1,11 @@
 import { Stack, SxProps } from "@mui/material";
+import BetShareDialog from "components/dialog/BetShareDialog";
 import { XxlLoadingButton } from "components/styled";
+import { DialogContext } from "context/dialog";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -35,16 +37,14 @@ export default function BetActions(props: {
 }
 
 function BetShareButton(props: { id: string }) {
-  const { showToastSuccess } = useToasts();
-  const betLink = `${global.window.location.origin}/bets/${props.id}`;
+  const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
     <XxlLoadingButton
       variant="outlined"
-      onClick={() => {
-        navigator.clipboard.writeText(betLink);
-        showToastSuccess("Link copied");
-      }}
+      onClick={() =>
+        showDialog?.(<BetShareDialog id={props.id} onClose={closeDialog} />)
+      }
     >
       Share
     </XxlLoadingButton>
