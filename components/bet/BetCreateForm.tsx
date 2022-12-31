@@ -158,6 +158,7 @@ export default function BetCreateForm(props: {
               >
                 <MenuItem value="ETHUSD">ETH</MenuItem>
                 <MenuItem value="BTCUSD">BTC</MenuItem>
+                <MenuItem value="MATICUSD">MATIC</MenuItem>
               </WidgetInputSelect>
             </WidgetWrapper>
             {/* Text divider */}
