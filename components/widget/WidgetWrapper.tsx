@@ -28,9 +28,9 @@ export default function WidgetWrapper(props: {
       }}
     >
       <Typography
+        variant="h4"
         sx={{
           color: "#FFFFFF",
-          fontSize: 32,
           fontWeight: 700,
           minWidth: 180,
           mr: 3,
