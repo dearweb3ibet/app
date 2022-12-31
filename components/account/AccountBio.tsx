@@ -120,7 +120,7 @@ export default function AccountBio(props: { address: string }) {
               flexItem
               orientation="vertical"
               variant="middle"
-              sx={{ borderWidth: 2, ml: 1.3, mr: 2 }}
+              sx={{ borderRightWidth: 4, ml: 1.3, mr: 2 }}
             />
           )}
           <Typography fontWeight={700}>
