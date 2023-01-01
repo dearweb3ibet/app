@@ -1,4 +1,4 @@
-import { Stack, SxProps, Typography } from "@mui/material";
+import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { ThickDivider } from "components/styled";
 import { BigNumber, ethers } from "ethers";
@@ -45,17 +45,17 @@ export default function BetParticipants(props: {
       <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
         or look at participations
       </Typography>
-      <BetOneSideParticipants
-        title="👍 for bet success"
-        fee={props.feeForSuccess}
+      <BetParticipantsCard
         participants={participantsForSuccess}
+        isParticipantsForBetSuccess={true}
+        participantsFee={props.feeForSuccess}
         creatorAddress={props.creatorAddress}
         sx={{ bgcolor: "#1DB954", mb: 2 }}
       />
-      <BetOneSideParticipants
-        title="👎 for bet failure"
-        fee={props.feeForFailure}
+      <BetParticipantsCard
         participants={participantsForFailure}
+        isParticipantsForBetSuccess={false}
+        participantsFee={props.feeForFailure}
         creatorAddress={props.creatorAddress}
         sx={{ bgcolor: "#FF4400" }}
       />
@@ -63,15 +63,13 @@ export default function BetParticipants(props: {
   );
 }
 
-function BetOneSideParticipants(props: {
-  title: string;
-  fee: BigNumber;
+function BetParticipantsCard(props: {
   participants: readonly any[];
+  isParticipantsForBetSuccess: boolean;
+  participantsFee: BigNumber;
   creatorAddress: string;
   sx?: SxProps;
 }) {
-  const { address } = useAccount();
-
   return (
     <Box
       sx={{
@@ -89,41 +87,28 @@ function BetOneSideParticipants(props: {
         variant="h4"
         sx={{ color: "#FFFFFF", fontWeight: 700, mb: 1 }}
       >
-        {props.title}
+        {props.isParticipantsForBetSuccess
+          ? "👍 for bet success"
+          : "👎 for bet failure"}
       </Typography>
       {/* Fee */}
       <Typography
         textAlign="center"
         sx={{ color: "#FFFFFF", fontWeight: 700, mb: 2 }}
       >
-        {ethers.utils.formatEther(props.fee)}{" "}
+        {ethers.utils.formatEther(props.participantsFee)}{" "}
         {getContractsChain().nativeCurrency?.symbol}
       </Typography>
       {/* Participants */}
       {props.participants.length > 0 ? (
         <Stack spacing={1}>
           {props.participants.map((participant, index) => (
-            <Stack
+            <BetParticipantCard
               key={index}
-              direction="row"
-              spacing={2}
-              sx={{ bgcolor: "#FFFFFF", py: 2, px: 4, borderRadius: 3 }}
-            >
-              <Typography>
-                {addressToShortAddress(participant.accountAddress)}
-              </Typography>
-              {participant.accountAddress === props.creatorAddress && (
-                <Typography>(author)</Typography>
-              )}
-              {participant.accountAddress === address && (
-                <Typography>(you)</Typography>
-              )}
-              <Typography>placed</Typography>
-              <Typography>
-                {ethers.utils.formatEther(participant.fee)}{" "}
-                {getContractsChain().nativeCurrency?.symbol}
-              </Typography>
-            </Stack>
+              creatorAddress={props.creatorAddress}
+              participantAddress={participant.accountAddress}
+              participantFee={participant.fee}
+            />
           ))}
         </Stack>
       ) : (
@@ -137,5 +122,38 @@ function BetOneSideParticipants(props: {
         </Stack>
       )}
     </Box>
+  );
+}
+
+function BetParticipantCard(props: {
+  participantAddress: string;
+  participantFee: BigNumber;
+  creatorAddress: string;
+  sx?: SxProps;
+}) {
+  const { address } = useAccount();
+
+  return (
+    <Stack
+      direction="row"
+      justifyContent="center"
+      spacing={1}
+      sx={{ bgcolor: "#FFFFFF", py: 2, px: 4, borderRadius: 3, ...props.sx }}
+    >
+      <MuiLink href={`/accounts/${props.participantAddress}`} fontWeight={700}>
+        {addressToShortAddress(props.participantAddress)}
+      </MuiLink>
+      {props.participantAddress === props.creatorAddress && (
+        <Typography fontWeight={700}>(author)</Typography>
+      )}
+      {props.participantAddress === address && (
+        <Typography fontWeight={700}>(you)</Typography>
+      )}
+      <Typography>placed</Typography>
+      <Typography fontWeight={700}>
+        {ethers.utils.formatEther(props.participantFee)}{" "}
+        {getContractsChain().nativeCurrency?.symbol}
+      </Typography>
+    </Stack>
   );
 }
