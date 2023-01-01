@@ -6,6 +6,7 @@ import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
 import { useContext, useEffect } from "react";
+import { getContractsChain } from "utils/network";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -60,6 +61,7 @@ function BetCloseButton(props: { id: string; onSuccess?: Function }) {
     abi: betContractAbi,
     functionName: "close",
     args: [BigNumber.from(props.id)],
+    chainId: getContractsChain().id,
   });
   const {
     data: contractWriteData,

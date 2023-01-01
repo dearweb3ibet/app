@@ -10,6 +10,7 @@ import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
+import { getContractsChain } from "utils/network";
 import {
   useAccount,
   useContractWrite,
@@ -57,6 +58,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
     abi: bioContractAbi,
     functionName: "setURI",
     args: [updatedBioDataUri],
+    chainId: getContractsChain().id,
   });
   const {
     data: contractWriteData,
@@ -291,7 +293,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
               }
               variant="contained"
               type="submit"
-              disabled={isFormDisabled}
+              disabled={isFormDisabled || !contractWrite}
             >
               Save
             </XxlLoadingButton>

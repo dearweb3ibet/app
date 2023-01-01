@@ -56,6 +56,7 @@ export default function BetTakePartForm(props: {
     abi: betContractAbi,
     functionName: "takePart",
     args: formValuesToContractArgs(debouncedFormValues),
+    chainId: getContractsChain().id,
   });
   const {
     data: contractWriteData,

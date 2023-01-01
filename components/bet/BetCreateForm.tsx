@@ -61,6 +61,7 @@ export default function BetCreateForm(props: {
       abi: betContractAbi,
       functionName: "create",
       args: formValuesToContractArgs(debouncedFormValues),
+      chainId: getContractsChain().id,
       onError(error: any) {
         showToastError(error);
       },
