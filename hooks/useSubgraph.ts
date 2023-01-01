@@ -1,4 +1,5 @@
 import axios from "axios";
+import Account from "interfaces/Account";
 import Bet from "interfaces/Bet";
 import BetParticipant from "interfaces/BetParticipant";
 import ContestWaveParticipant from "interfaces/ContestWaveParticipant";
@@ -9,6 +10,35 @@ import ContestWaveParticipant from "interfaces/ContestWaveParticipant";
 export default function useSubgraph() {
   const defaultFirst = 10;
   const defaultSkip = 0;
+
+  let findAccounts = async function (
+    id?: string,
+    first = defaultFirst,
+    skip = defaultSkip
+  ): Promise<Array<Account>> {
+    // Prepare query
+    const idFilter = id ? `id: "${id.toLowerCase()}"` : "";
+    const filterParams = `where: {${idFilter}}`;
+    const paginationParams = `first: ${first}, skip: ${skip}`;
+    const query = `{
+     accounts(${filterParams}, ${paginationParams}) {
+       id
+       successes
+       failures
+     }
+   }`;
+    // Make query and return result
+    const response = await makeSubgraphQuery(query);
+    const accounts: Array<Account> = [];
+    response.accounts?.forEach((account: any) => {
+      accounts.push({
+        id: account.id,
+        successes: account.successes,
+        failures: account.failures,
+      });
+    });
+    return accounts;
+  };
 
   let findBets = async function (
     first = defaultFirst,
@@ -167,7 +197,12 @@ export default function useSubgraph() {
     return contestWaveParticipants;
   };
 
-  return { findBets, findBetParticipants, findContestWaveParticipants };
+  return {
+    findAccounts,
+    findBets,
+    findBetParticipants,
+    findContestWaveParticipants,
+  };
 }
 
 async function makeSubgraphQuery(query: string) {

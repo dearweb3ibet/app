@@ -13,6 +13,8 @@ import { bioContractAbi } from "contracts/abi/bioContract";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
+import useSubgraph from "hooks/useSubgraph";
+import Account from "interfaces/Account";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { addressToShortAddress } from "utils/converters";
@@ -24,8 +26,10 @@ import { useAccount, useContractRead } from "wagmi";
 export default function AccountBio(props: { address: string }) {
   const { handleError } = useError();
   const { address } = useAccount();
+  const { findAccounts } = useSubgraph();
   const { loadJsonFromIpfs, ipfsUrlToHttpUrl } = useIpfs();
   const [bioData, setBioData] = useState<any>();
+  const [accountData, setAccountData] = useState<Account | undefined>();
 
   // Contract states
   const { status, error, data } = useContractRead({
@@ -49,6 +53,15 @@ export default function AccountBio(props: { address: string }) {
       setBioData({});
     }
   }, [status, error, data]);
+
+  useEffect(() => {
+    setAccountData(undefined);
+    findAccounts(props.address)
+      .then((result) =>
+        setAccountData(result.length > 0 ? result[0] : undefined)
+      )
+      .catch((error) => handleError(error, true));
+  }, [props.address]);
 
   if (bioData) {
     return (
@@ -83,7 +96,7 @@ export default function AccountBio(props: { address: string }) {
             {bioData.text}
           </Typography>
         )}
-        {/* Bio social links address */}
+        {/* Bio social links, address, successes, failures */}
         <Stack direction="row" alignItems="center">
           {bioData.twitter && (
             <IconButton
@@ -123,9 +136,23 @@ export default function AccountBio(props: { address: string }) {
               sx={{ borderRightWidth: 4, ml: 1.3, mr: 2 }}
             />
           )}
-          <Typography fontWeight={700}>
+          <Typography fontWeight={700} sx={{ mr: 1.5 }}>
             {addressToShortAddress(props.address)}
           </Typography>
+          {accountData && (
+            <>
+              <Typography
+                fontWeight={700}
+                color="success.main"
+                sx={{ mr: 1.5 }}
+              >
+                👍 {accountData.successes}
+              </Typography>
+              <Typography fontWeight={700} color="error.main">
+                👎 {accountData.failures}
+              </Typography>
+            </>
+          )}
         </Stack>
         {/* Edit bio button */}
         {address === props.address && (
