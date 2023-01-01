@@ -40,7 +40,7 @@ export default function useIpfs() {
     if (!ipfsUrl || !ipfsUrl.startsWith(ipfsUrlPrefix)) {
       throw new Error(`Fail to converting IPFS URL to HTTP URL: ${ipfsUrl}`);
     }
-    return ipfsUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
+    return ipfsUrl.replace("ipfs://", "https://w3s.link/ipfs/");
   };
 
   return {
