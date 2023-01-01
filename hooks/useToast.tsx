@@ -1,5 +1,6 @@
 import { truncate } from "lodash";
 import { useSnackbar } from "notistack";
+import { errorToString } from "utils/converters";
 
 /**
  * Hook for work with toasts.
@@ -14,14 +15,9 @@ export default function useToasts() {
   };
 
   let showToastError = function (error: any) {
-    let message = JSON.stringify(error);
-    if (error?.message) {
-      message = error.message;
-    }
-    if (error?.error?.data?.message) {
-      message = error.error.data.message.replace("execution reverted: ", "");
-    }
-    message = truncate(`Error: ${message}`, { length: 256 });
+    const message = truncate(`Error: ${errorToString(error)}`, {
+      length: 256,
+    });
     enqueueSnackbar(message, {
       variant: "error",
     });

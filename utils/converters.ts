@@ -17,3 +17,14 @@ export function addressToShortAddress(address: string): string {
 export function symbolToShortSymbol(symbol: string): string {
   return symbol.replace("USD", "");
 }
+
+export function errorToString(error: any): string {
+  let errorString = JSON.stringify(error);
+  if (error?.message) {
+    errorString = error.message;
+  }
+  if (error?.error?.data?.message) {
+    errorString = error.error.data.message.replace("execution reverted: ", "");
+  }
+  return errorString;
+}
