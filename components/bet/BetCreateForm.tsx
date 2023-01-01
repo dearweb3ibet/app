@@ -12,6 +12,7 @@ import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
+import useToasts from "hooks/useToast";
 import { useState } from "react";
 import { getContractsChain } from "utils/network";
 import {
@@ -31,6 +32,7 @@ export default function BetCreateForm(props: {
   onSuccessCreate: (id: string) => void;
 }) {
   const { address } = useAccount();
+  const { showToastError } = useToasts();
 
   // Form states
   const [formValues, setFormValues] = useState({
@@ -39,8 +41,8 @@ export default function BetCreateForm(props: {
     symbol: "ETHUSD",
     targetMinPrice: 1200,
     targetMaxPrice: 1600,
-    targetTimestamp: "2023-01-14",
-    participationDeadlineTimestamp: "2023-01-01",
+    targetTimestamp: "2023-02-15",
+    participationDeadlineTimestamp: "2023-02-01",
   });
   const debouncedFormValues = useDebounce(formValues);
   const formValidationSchema = yup.object({
@@ -53,17 +55,21 @@ export default function BetCreateForm(props: {
   });
 
   // Contract states
-  const { config: contractConfig } = usePrepareContractWrite({
-    address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
-    abi: betContractAbi,
-    functionName: "create",
-    args: formValuesToContractArgs(debouncedFormValues),
-  });
+  const { config: contractPrepareConfig, isError: isContractPrepareError } =
+    usePrepareContractWrite({
+      address: process.env.NEXT_PUBLIC_BET_CONTRACT_ADDRESS,
+      abi: betContractAbi,
+      functionName: "create",
+      args: formValuesToContractArgs(debouncedFormValues),
+      onError(error: any) {
+        showToastError(error);
+      },
+    });
   const {
     data: contractWriteData,
     isLoading: isContractWriteLoading,
     write: contractWrite,
-  } = useContractWrite(contractConfig);
+  } = useContractWrite(contractPrepareConfig);
   const { isLoading: isTransactionLoading, isSuccess: isTransactionSuccess } =
     useWaitForTransaction({
       hash: contractWriteData?.hash,
@@ -257,7 +263,9 @@ export default function BetCreateForm(props: {
                 loading={isContractWriteLoading || isTransactionLoading}
                 variant="contained"
                 type="submit"
-                disabled={isFormDisabled || !contractWrite}
+                disabled={
+                  isFormDisabled || isContractPrepareError || !contractWrite
+                }
               >
                 Make Bet
               </XxlLoadingButton>
