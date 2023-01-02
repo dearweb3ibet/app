@@ -1,4 +1,4 @@
-import { Link as MuiLink, Typography, SxProps, Avatar } from "@mui/material";
+import { Avatar, Link as MuiLink, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Layout from "components/layout";
 import {
@@ -30,7 +30,7 @@ export default function Landing() {
             from words to bets on the blockchain!
           </Typography>
         </Box>
-        <ThickDivider sx={{ mt: 8 }} />
+        <ThickDivider sx={{ width: 1 / 2, mt: 8 }} />
         {/* How does it work */}
         <Box sx={{ mt: 8, width: 1 }}>
           <Typography variant="h4" fontWeight={700} textAlign="center">
