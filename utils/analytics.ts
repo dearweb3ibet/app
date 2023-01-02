@@ -16,7 +16,14 @@ export function initAnalytics() {
   if (isAnalyticsEnabled() && process.env.NEXT_PUBLIC_POST_HOG_KEY) {
     posthog.init(process.env.NEXT_PUBLIC_POST_HOG_KEY, {
       api_host: "https://app.posthog.com",
+      debug: false,
     });
+  }
+}
+
+export function handleDefineAccountAddressEvent(accountAddress: string) {
+  if (isAnalyticsEnabled()) {
+    posthog.alias(accountAddress);
   }
 }
 

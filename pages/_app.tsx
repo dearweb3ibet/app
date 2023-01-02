@@ -5,6 +5,7 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import AnalyticsHelper from "components/helper/AnalyticsHelper";
 import { DialogProvider } from "context/dialog";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
@@ -67,7 +68,6 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events]);
 
   return (
@@ -80,7 +80,12 @@ export default function App({ Component, pageProps }: AppProps) {
           <SnackbarProvider maxSnack={3}>
             <DialogProvider>
               <NextNProgress height={4} />
-              {pageLoaded ? <Component {...pageProps} /> : null}
+              {pageLoaded && (
+                <>
+                  <AnalyticsHelper />
+                  <Component {...pageProps} />
+                </>
+              )}
             </DialogProvider>
           </SnackbarProvider>
         </ThemeProvider>
