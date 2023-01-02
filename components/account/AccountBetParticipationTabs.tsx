@@ -18,7 +18,7 @@ export default function AccountBetParticipationTabs(props: {
   }
 
   return (
-    <Box sx={{ width: 680, ...props.sx }}>
+    <Box sx={{ width: 1, ...props.sx }}>
       <TabContext value={tabValue}>
         <TabList
           centered

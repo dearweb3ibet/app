@@ -89,63 +89,81 @@ export default function AccountBio(props: { address: string }) {
             {bioData.text}
           </Typography>
         )}
-        {/* Bio social links, address, successes, failures */}
-        <Stack direction="row" alignItems="center">
-          {bioData.twitter && (
-            <IconButton
-              href={`https://twitter.com/${bioData.twitter}`}
-              target="_blank"
-              component="a"
-              color="primary"
-            >
-              <Twitter />
-            </IconButton>
-          )}
-          {bioData.telegram && (
-            <IconButton
-              href={`https://t.me/${bioData.telegram}`}
-              target="_blank"
-              component="a"
-              color="primary"
-            >
-              <Telegram />
-            </IconButton>
-          )}
-          {bioData.instagram && (
-            <IconButton
-              href={`https://instagram.com/${bioData.instagram}`}
-              target="_blank"
-              component="a"
-              color="primary"
-            >
-              <Instagram />
-            </IconButton>
-          )}
-          {(bioData.twitter || bioData.telegram || bioData.instagram) && (
-            <Divider
-              flexItem
-              orientation="vertical"
-              variant="middle"
-              sx={{ borderRightWidth: 4, ml: 1.3, mr: 2 }}
-            />
-          )}
-          <Typography fontWeight={700} sx={{ mr: 1.5 }}>
-            {addressToShortAddress(props.address)}
-          </Typography>
-          {accountData && (
-            <>
-              <Typography
-                fontWeight={700}
-                color="success.main"
-                sx={{ mr: 1.5 }}
+        {/* Bio social links,  */}
+        <Stack
+          direction={{ xs: "column-reverse", md: "row" }}
+          alignItems="center"
+        >
+          {/* Social links */}
+          <Stack direction="row" alignItems="center">
+            {bioData.twitter && (
+              <IconButton
+                href={`https://twitter.com/${bioData.twitter}`}
+                target="_blank"
+                component="a"
+                color="primary"
               >
-                👍 {accountData.successes}
-              </Typography>
-              <Typography fontWeight={700} color="error.main">
-                👎 {accountData.failures}
-              </Typography>
-            </>
-          )}
+                <Twitter />
+              </IconButton>
+            )}
+            {bioData.telegram && (
+              <IconButton
+                href={`https://t.me/${bioData.telegram}`}
+                target="_blank"
+                component="a"
+                color="primary"
+              >
+                <Telegram />
+              </IconButton>
+            )}
+            {bioData.instagram && (
+              <IconButton
+                href={`https://instagram.com/${bioData.instagram}`}
+                target="_blank"
+                component="a"
+                color="primary"
+              >
+                <Instagram />
+              </IconButton>
+            )}
+            {(bioData.twitter || bioData.telegram || bioData.instagram) && (
+              <Divider
+                flexItem
+                orientation="vertical"
+                variant="middle"
+                sx={{
+                  display: { xs: "none", md: "block" },
+                  borderRightWidth: 4,
+                  ml: 1.3,
+                  mr: 2,
+                }}
+              />
+            )}
+          </Stack>
+          {/* Address, successes, failures */}
+          <Stack
+            direction="row"
+            alignItems="center"
+            sx={{ mb: { xs: 1, md: 0 } }}
+          >
+            <Typography fontWeight={700} sx={{ mr: 1.5 }}>
+              {addressToShortAddress(props.address)}
+            </Typography>
+            {accountData && (
+              <>
+                <Typography
+                  fontWeight={700}
+                  color="success.main"
+                  sx={{ mr: 1.5 }}
+                >
+                  👍 {accountData.successes}
+                </Typography>
+                <Typography fontWeight={700} color="error.main">
+                  👎 {accountData.failures}
+                </Typography>
+              </>
+            )}
+          </Stack>
         </Stack>
         {/* Edit bio button */}
         {address === props.address && (
