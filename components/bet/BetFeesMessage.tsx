@@ -23,7 +23,7 @@ export default function BetFeesMessage(props: { sx?: SxProps }) {
 
   if (contestFeePercent && usageFeePercent) {
     return (
-      <Box sx={{ maxWidth: 420, ...props.sx }}>
+      <Box sx={{ px: { xs: 4, md: 8 }, ...props.sx }}>
         <Typography textAlign="center">
           <strong>{contestFeePercent.toNumber()}%</strong> of the winnings will
           be sent to the contest and{" "}
