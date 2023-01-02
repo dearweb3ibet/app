@@ -1,4 +1,4 @@
-import { Container, SxProps, Toolbar } from "@mui/material";
+import { Breakpoint, Container, SxProps, Toolbar } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
@@ -9,8 +9,9 @@ import Navigation from "./Navigation";
  * Component with layout.
  */
 export default function Layout(props: {
-  sx?: SxProps;
+  maxWidth?: Breakpoint;
   hideToolbar?: boolean;
+  sx?: SxProps;
   children: any;
 }) {
   return (
@@ -24,7 +25,7 @@ export default function Layout(props: {
       </Head>
       <Navigation />
       <Container
-        maxWidth="lg"
+        maxWidth={props.maxWidth || "md"}
         sx={{
           display: "flex",
           flexDirection: "column",
