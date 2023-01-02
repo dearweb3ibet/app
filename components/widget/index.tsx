@@ -14,7 +14,6 @@ export default function Widget(props: {
   return (
     <Box
       sx={{
-        maxWidth: 540,
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
         alignItems: "center",

@@ -24,7 +24,7 @@ export default function BetParams(props: {
   sx?: SxProps;
 }) {
   return (
-    <Box sx={{ ...props.sx }}>
+    <Box sx={{ width: 1, ...props.sx }}>
       {/* Id */}
       <Typography
         variant="h4"

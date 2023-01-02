@@ -58,7 +58,7 @@ export default function Bet() {
     !isBetParticipantsFetching;
 
   return (
-    <Layout>
+    <Layout maxWidth="sm">
       <CentralizedBox>
         {isDataReady ? (
           <>

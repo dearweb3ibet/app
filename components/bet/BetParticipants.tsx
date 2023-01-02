@@ -40,7 +40,7 @@ export default function BetParticipants(props: {
   }, [props.participants]);
 
   return (
-    <Box sx={{ ...props.sx }}>
+    <Box sx={{ width: 1, ...props.sx }}>
       <ThickDivider sx={{ mb: 4 }} />
       <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
         or look at participations
@@ -73,7 +73,6 @@ function BetParticipantsCard(props: {
   return (
     <Box
       sx={{
-        maxWidth: 540,
         bgcolor: "#000000",
         borderRadius: 3,
         py: 2,

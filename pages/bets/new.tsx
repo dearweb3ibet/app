@@ -10,7 +10,7 @@ export default function NewBet() {
   const [createdBetId, setCreatedBetId] = useState<string | undefined>();
 
   return (
-    <Layout>
+    <Layout maxWidth="sm">
       {createdBetId ? (
         <BetCreatedMessage id={createdBetId} />
       ) : (

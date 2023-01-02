@@ -90,7 +90,7 @@ export default function BetTakePartForm(props: {
 
   if (!props.isClosed && isConnected && !isAddressParticipant) {
     return (
-      <Box sx={{ ...props.sx }}>
+      <Box sx={{ width: 1, ...props.sx }}>
         <ThickDivider sx={{ mb: 4 }} />
         {/* Text divider */}
         <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>

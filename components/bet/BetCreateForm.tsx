@@ -126,7 +126,7 @@ export default function BetCreateForm(props: {
         onSubmit={() => contractWrite?.()}
       >
         {({ values, errors, touched, handleChange }) => (
-          <Form>
+          <Form style={{ width: "100%" }}>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Fee input */}
             <Widget title="I bet" color="#2B6EFD" sx={{ mb: 2 }}>

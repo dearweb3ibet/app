@@ -27,7 +27,7 @@ export default function BetActions(props: {
       direction={{ xs: "column", md: "row" }}
       spacing={2}
       justifyContent="center"
-      sx={{ ...props.sx }}
+      sx={{ width: 1, ...props.sx }}
     >
       <BetShareButton id={props.id} />
       {!props.isClosed && (

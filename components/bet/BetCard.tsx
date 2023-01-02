@@ -13,8 +13,7 @@ export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
-        width: 1,
+        flexDirection: { xs: "column", md: "row" },
         border: "solid",
         borderColor: !props.bet.isClosed
           ? "divider"
@@ -47,13 +46,26 @@ export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
         </Typography>
       </Stack>
       {/* Symbol */}
-      <Stack sx={{ alignItems: "flex-end", justifyContent: "center", ml: 6 }}>
+      <Stack
+        sx={{
+          alignItems: { md: "flex-end" },
+          justifyContent: "center",
+          ml: { md: 8 },
+        }}
+      >
         <Typography variant="h4" fontWeight={700}>
           {symbolToShortSymbol(props.bet.symbol)}
         </Typography>
       </Stack>
       {/* More, less, on */}
-      <Stack sx={{ alignItems: "flex-end", justifyContent: "center", ml: 6 }}>
+      <Stack
+        sx={{
+          alignItems: { md: "flex-end" },
+          justifyContent: "center",
+          ml: { md: 6 },
+          minWidth: { md: 160 },
+        }}
+      >
         <Typography>
           MORE <strong>{props.bet.targetMinPrice} USD</strong>
         </Typography>
@@ -70,7 +82,14 @@ export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
         </Typography>
       </Stack>
       {/* Participants, fee */}
-      <Stack sx={{ alignItems: "flex-end", justifyContent: "center", ml: 6 }}>
+      <Stack
+        sx={{
+          alignItems: { md: "flex-end" },
+          justifyContent: "center",
+          ml: { md: 6 },
+          minWidth: { md: 120 },
+        }}
+      >
         <Typography fontWeight={700}>
           {props.bet.participantsNumber} 👥
         </Typography>

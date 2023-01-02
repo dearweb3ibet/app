@@ -57,32 +57,29 @@ export default function Bets() {
           👀 Last bets
         </Typography>
         {bets ? (
-          <Box>
-            {/* List */}
-            <Stack spacing={2}>
-              {bets.map((bet) => (
-                <BetCard key={bet.id} bet={bet} />
-              ))}
-              {/* Actions */}
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="center"
-                sx={{ mt: 4 }}
-              >
-                {isMoreBetsExist && (
-                  <XxlLoadingButton
-                    variant="outlined"
-                    onClick={() => {
-                      loadMoreBets();
-                    }}
-                  >
-                    Load More
-                  </XxlLoadingButton>
-                )}
-              </Stack>
+          <Stack spacing={2} sx={{ width: 1 }}>
+            {bets.map((bet) => (
+              <BetCard key={bet.id} bet={bet} />
+            ))}
+            {/* Actions */}
+            <Stack
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+              sx={{ mt: 4 }}
+            >
+              {isMoreBetsExist && (
+                <XxlLoadingButton
+                  variant="outlined"
+                  onClick={() => {
+                    loadMoreBets();
+                  }}
+                >
+                  Load More
+                </XxlLoadingButton>
+              )}
             </Stack>
-          </Box>
+          </Stack>
         ) : (
           <FullWidthSkeleton />
         )}

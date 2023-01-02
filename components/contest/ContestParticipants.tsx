@@ -36,7 +36,6 @@ export default function ContestParticipants(props: {
           <Box
             key={index}
             sx={{
-              width: 540,
               border: "solid",
               borderRadius: 3,
               borderWidth: 4,
