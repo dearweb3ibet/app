@@ -44,7 +44,7 @@ export default function EditAccount() {
   }, [address, contractReadStatus, contractReadError, contractReadData]);
 
   return (
-    <Layout>
+    <Layout maxWidth="xs">
       <CentralizedBox>
         {bioData ? (
           <AccountEditBioForm bioData={bioData} />

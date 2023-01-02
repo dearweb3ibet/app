@@ -153,7 +153,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
       onSubmit={submit}
     >
       {({ values, errors, touched, handleChange }) => (
-        <Form>
+        <Form style={{ width: "100%" }}>
           <FormikHelper onChange={(values: any) => setFormValues(values)} />
           {/* Image */}
           <Box
@@ -196,7 +196,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
             </label>
           </Box>
           {/* Name */}
-          <Box sx={{ width: 400, mb: 2 }}>
+          <Box sx={{ mb: 2 }}>
             <TextField
               fullWidth
               id="name"
@@ -212,7 +212,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
             />
           </Box>
           {/* Text */}
-          <Box sx={{ width: 400, mb: 2 }}>
+          <Box sx={{ mb: 2 }}>
             <TextField
               fullWidth
               id="text"
@@ -230,7 +230,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
             />
           </Box>
           {/* Twitter */}
-          <Box sx={{ width: 400, mb: 2 }}>
+          <Box sx={{ mb: 2 }}>
             <TextField
               fullWidth
               id="twitter"
@@ -246,7 +246,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
             />
           </Box>
           {/* Telegram */}
-          <Box sx={{ width: 400, mb: 2 }}>
+          <Box sx={{ mb: 2 }}>
             <TextField
               fullWidth
               id="telegram"
@@ -262,7 +262,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
             />
           </Box>
           {/* Instagram */}
-          <Box sx={{ width: 400, mb: 2 }}>
+          <Box sx={{ mb: 2 }}>
             <TextField
               fullWidth
               id="instagram"

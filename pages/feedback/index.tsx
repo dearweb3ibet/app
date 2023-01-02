@@ -48,7 +48,7 @@ export default function Feedback() {
   }
 
   return (
-    <Layout>
+    <Layout maxWidth="xs">
       <CentralizedBox>
         {/* Title */}
         <Typography
@@ -70,10 +70,10 @@ export default function Feedback() {
           onSubmit={submit}
         >
           {({ values, errors, touched, handleChange }) => (
-            <Form>
+            <Form style={{ width: "100%" }}>
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
               {/* Name */}
-              <Box sx={{ width: 400, mb: 2 }}>
+              <Box sx={{ mb: 2 }}>
                 <TextField
                   fullWidth
                   id="name"
@@ -89,7 +89,7 @@ export default function Feedback() {
                 />
               </Box>
               {/* Email */}
-              <Box sx={{ width: 400, mb: 2 }}>
+              <Box sx={{ mb: 2 }}>
                 <TextField
                   fullWidth
                   id="email"
@@ -105,7 +105,7 @@ export default function Feedback() {
                 />
               </Box>
               {/* Message */}
-              <Box sx={{ width: 400, mb: 2 }}>
+              <Box sx={{ mb: 2 }}>
                 <TextField
                   fullWidth
                   id="message"
