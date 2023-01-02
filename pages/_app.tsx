@@ -7,11 +7,12 @@ import {
 import "@rainbow-me/rainbowkit/styles.css";
 import { DialogProvider } from "context/dialog";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { SnackbarProvider } from "notistack";
 import { useEffect, useState } from "react";
 import { theme } from "theme";
-import { palette } from "theme/palette";
+import { handlePageViewEvent, initAnalytics } from "utils/analytics";
 import { getContractsChain } from "utils/network";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -38,12 +39,36 @@ const wagmiClient = createClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const [pageLoaded, setPageLoaded] = useState(false);
 
-  // Fix for hydration error (docs - https://github.com/vercel/next.js/discussions/35773#discussioncomment-3484225)
+  /**
+   * Fix for hydration error (docs - https://github.com/vercel/next.js/discussions/35773#discussioncomment-3484225)
+   */
   useEffect(() => {
     setPageLoaded(true);
   }, []);
+
+  /**
+   * Init analytics.
+   */
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
+  /**
+   * Send page view event to analytics if page changed via router.
+   */
+  useEffect(() => {
+    const handleRouteChange = function () {
+      handlePageViewEvent();
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.events]);
 
   return (
     <WagmiConfig client={wagmiClient}>

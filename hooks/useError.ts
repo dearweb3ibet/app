@@ -1,3 +1,4 @@
+import { handleCatchErrorEvent } from "utils/analytics";
 import useToast from "./useToast";
 
 /**
@@ -8,6 +9,7 @@ export default function useError() {
 
   let handleError = function (error: Error, isErrorToastRequired: boolean) {
     console.error(error);
+    handleCatchErrorEvent(error);
     if (isErrorToastRequired) {
       showToastError(error);
     }
