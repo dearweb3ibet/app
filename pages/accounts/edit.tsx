@@ -1,14 +1,12 @@
-import { Skeleton } from "@mui/material";
 import AccountEditBioForm from "components/account/AccountEditBioForm";
 import Layout from "components/layout";
-import { CentralizedBox } from "components/styled";
+import { CentralizedBox, FullWidthSkeleton } from "components/styled";
 import { bioContractAbi } from "contracts/abi/bioContract";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useEffect, useState } from "react";
 import { useAccount, useContractRead } from "wagmi";
-
 /**
  * Page to edit account.
  */
@@ -51,7 +49,7 @@ export default function EditAccount() {
         {bioData ? (
           <AccountEditBioForm bioData={bioData} />
         ) : (
-          <Skeleton variant="rounded" width={400} height={48} />
+          <FullWidthSkeleton />
         )}
       </CentralizedBox>
     </Layout>

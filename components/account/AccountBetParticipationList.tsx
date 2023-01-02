@@ -1,7 +1,7 @@
-import { Skeleton, SxProps } from "@mui/material";
+import { SxProps } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import BetCard from "components/bet/BetCard";
-import { XxlLoadingButton } from "components/styled";
+import { FullWidthSkeleton, XxlLoadingButton } from "components/styled";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
 import BetParticipant from "interfaces/BetParticipant";
@@ -84,7 +84,7 @@ export default function AccountBetParticipationList(props: {
           </Stack>
         </>
       ) : (
-        <Skeleton variant="rounded" sx={{ width: "100%", height: 48 }} />
+        <FullWidthSkeleton />
       )}
     </Box>
   );

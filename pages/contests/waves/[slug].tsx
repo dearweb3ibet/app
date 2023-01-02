@@ -1,8 +1,7 @@
-import { Skeleton } from "@mui/material";
 import ContestHeader from "components/contest/ContestHeader";
 import ContestParticipants from "components/contest/ContestParticipants";
 import Layout from "components/layout";
-import { CentralizedBox } from "components/styled";
+import { CentralizedBox, FullWidthSkeleton } from "components/styled";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -28,7 +27,7 @@ export default function ContestWave() {
             <ContestParticipants waveId={waveId} sx={{ mt: 3 }} />
           </>
         ) : (
-          <Skeleton variant="rounded" width={540} height={48} />
+          <FullWidthSkeleton />
         )}
       </CentralizedBox>
     </Layout>

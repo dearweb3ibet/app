@@ -1,8 +1,12 @@
-import { Skeleton, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import BetCard from "components/bet/BetCard";
 import Layout from "components/layout";
-import { CentralizedBox, XxlLoadingButton } from "components/styled";
+import {
+  CentralizedBox,
+  FullWidthSkeleton,
+  XxlLoadingButton,
+} from "components/styled";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
 import Bet from "interfaces/Bet";
@@ -80,7 +84,7 @@ export default function Bets() {
             </Stack>
           </Box>
         ) : (
-          <Skeleton variant="rounded" sx={{ width: 540, height: 48 }} />
+          <FullWidthSkeleton />
         )}
       </CentralizedBox>
     </Layout>

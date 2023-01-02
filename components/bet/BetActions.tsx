@@ -24,7 +24,7 @@ export default function BetActions(props: {
 }) {
   return (
     <Stack
-      direction="row"
+      direction={{ xs: "column", md: "row" }}
       spacing={2}
       justifyContent="center"
       sx={{ ...props.sx }}

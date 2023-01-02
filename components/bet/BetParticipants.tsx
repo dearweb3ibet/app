@@ -73,7 +73,7 @@ function BetParticipantsCard(props: {
   return (
     <Box
       sx={{
-        width: 540,
+        maxWidth: 540,
         bgcolor: "#000000",
         borderRadius: 3,
         py: 2,
@@ -135,25 +135,34 @@ function BetParticipantCard(props: {
 
   return (
     <Stack
-      direction="row"
+      direction={{ xs: "column", md: "row" }}
       justifyContent="center"
       spacing={1}
       sx={{ bgcolor: "#FFFFFF", py: 2, px: 4, borderRadius: 3, ...props.sx }}
     >
-      <MuiLink href={`/accounts/${props.participantAddress}`} fontWeight={700}>
-        {addressToShortAddress(props.participantAddress)}
-      </MuiLink>
-      {props.participantAddress === props.creatorAddress && (
-        <Typography fontWeight={700}>(author)</Typography>
-      )}
-      {props.participantAddress === address && (
-        <Typography fontWeight={700}>(you)</Typography>
-      )}
-      <Typography>placed</Typography>
-      <Typography fontWeight={700}>
-        {ethers.utils.formatEther(props.participantFee)}{" "}
-        {getContractsChain().nativeCurrency?.symbol}
-      </Typography>
+      {/* Account */}
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <MuiLink
+          href={`/accounts/${props.participantAddress}`}
+          fontWeight={700}
+        >
+          {addressToShortAddress(props.participantAddress)}
+        </MuiLink>
+        {props.participantAddress === props.creatorAddress && (
+          <Typography fontWeight={700}>(author)</Typography>
+        )}
+        {props.participantAddress === address && (
+          <Typography fontWeight={700}>(you)</Typography>
+        )}
+      </Stack>
+      {/* Fee */}
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <Typography>placed</Typography>
+        <Typography fontWeight={700}>
+          {ethers.utils.formatEther(props.participantFee)}{" "}
+          {getContractsChain().nativeCurrency?.symbol}
+        </Typography>
+      </Stack>
     </Stack>
   );
 }

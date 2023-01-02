@@ -5,7 +5,7 @@ import BetParticipants from "components/bet/BetParticipants";
 import BetResult from "components/bet/BetResult";
 import BetTakePartForm from "components/bet/BetTakePartForm";
 import Layout from "components/layout";
-import { CentralizedBox } from "components/styled";
+import { CentralizedBox, FullWidthSkeleton } from "components/styled";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
@@ -115,7 +115,7 @@ export default function Bet() {
             />
           </>
         ) : (
-          <Skeleton variant="rounded" width={540} height={48} />
+          <FullWidthSkeleton />
         )}
       </CentralizedBox>
     </Layout>

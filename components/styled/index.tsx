@@ -8,6 +8,8 @@ import {
   LinkProps,
   Select,
   SelectProps,
+  Skeleton,
+  SkeletonProps,
   TextField,
   TextFieldProps,
   Typography,
@@ -19,6 +21,13 @@ export const ThickDivider = styled(Divider)<DividerProps>(({ theme }) => ({
   width: "100%",
   borderBottomWidth: 5,
 }));
+
+export const FullWidthSkeleton = styled(Skeleton)<SkeletonProps>(
+  ({ theme }) => ({
+    width: "100%",
+    height: "64px",
+  })
+);
 
 export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme, variant }) => ({

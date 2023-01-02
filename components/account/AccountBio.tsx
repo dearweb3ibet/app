@@ -1,14 +1,7 @@
 import { Instagram, Person, Telegram, Twitter } from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Divider,
-  IconButton,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { XlLoadingButton } from "components/styled";
+import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
 import { bioContractAbi } from "contracts/abi/bioContract";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
@@ -166,5 +159,5 @@ export default function AccountBio(props: { address: string }) {
     );
   }
 
-  return <Skeleton variant="rounded" width={540} height={48} />;
+  return <FullWidthSkeleton />;
 }
