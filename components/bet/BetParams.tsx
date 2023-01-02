@@ -3,7 +3,11 @@ import { Box } from "@mui/system";
 import { WidgetLink, WidgetTypography } from "components/styled";
 import Widget from "components/widget";
 import { BigNumber, ethers } from "ethers";
-import { addressToShortAddress, symbolToShortSymbol } from "utils/converters";
+import {
+  addressToShortAddress,
+  symbolToShortSymbol,
+  targetPriceBigNumberToNumber,
+} from "utils/converters";
 import { getContractsChain } from "utils/network";
 
 /**
@@ -74,7 +78,9 @@ export default function BetParams(props: {
       {/* Target min price */}
       <Widget title="More than" color="#1DB954" sx={{ mb: 2 }}>
         <Stack direction="row" spacing={1}>
-          <WidgetTypography>{props.targetMinPrice.toString()}</WidgetTypography>
+          <WidgetTypography>
+            {targetPriceBigNumberToNumber(props.targetMinPrice)}
+          </WidgetTypography>
           <WidgetTypography>USD</WidgetTypography>
         </Stack>
       </Widget>
@@ -85,7 +91,9 @@ export default function BetParams(props: {
       {/* Target max price */}
       <Widget title="Less than" color="#FF4400" sx={{ mb: 2 }}>
         <Stack direction="row" spacing={1}>
-          <WidgetTypography>{props.targetMaxPrice.toString()}</WidgetTypography>
+          <WidgetTypography>
+            {targetPriceBigNumberToNumber(props.targetMaxPrice)}
+          </WidgetTypography>
           <WidgetTypography>USD</WidgetTypography>
         </Stack>
       </Widget>

@@ -14,6 +14,7 @@ import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
 import useToasts from "hooks/useToast";
 import { useState } from "react";
+import { targetPriceNumberToBigNumber } from "utils/converters";
 import { getContractsChain } from "utils/network";
 import {
   useAccount,
@@ -83,8 +84,12 @@ export default function BetCreateForm(props: {
     const uri = "";
     const fee = ethers.utils.parseEther(values.fee?.toString() || "0");
     const symbol = values.symbol;
-    const targetMinPrice = BigNumber.from(values.targetMinPrice || 0);
-    const targetMaxPrice = BigNumber.from(values.targetMaxPrice || 0);
+    const targetMinPrice = BigNumber.from(
+      targetPriceNumberToBigNumber(values.targetMinPrice).toString()
+    );
+    const targetMaxPrice = BigNumber.from(
+      targetPriceNumberToBigNumber(values.targetMaxPrice).toString()
+    );
     const targetTimestamp = BigNumber.from(
       new Date(values.targetTimestamp).getTime() / 1000
     );

@@ -2,7 +2,11 @@ import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { BigNumber, ethers } from "ethers";
 import Bet from "interfaces/Bet";
-import { addressToShortAddress, symbolToShortSymbol } from "utils/converters";
+import {
+  addressToShortAddress,
+  symbolToShortSymbol,
+  targetPriceBigNumberStringToNumber,
+} from "utils/converters";
 import { getContractsChain } from "utils/network";
 
 /**
@@ -67,10 +71,16 @@ export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
         }}
       >
         <Typography>
-          MORE <strong>{props.bet.targetMinPrice} USD</strong>
+          MORE{" "}
+          <strong>
+            {targetPriceBigNumberStringToNumber(props.bet.targetMinPrice)} USD
+          </strong>
         </Typography>
         <Typography>
-          LESS <strong>{props.bet.targetMaxPrice} USD</strong>
+          LESS{" "}
+          <strong>
+            {targetPriceBigNumberStringToNumber(props.bet.targetMaxPrice)} USD
+          </strong>
         </Typography>
         <Typography>
           ON{" "}
