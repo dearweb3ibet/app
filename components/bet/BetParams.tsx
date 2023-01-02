@@ -49,10 +49,7 @@ export default function BetParams(props: {
       </Widget>
       {/* Creator address */}
       <Widget title="Account" color="#333333" sx={{ mb: 2 }}>
-        <WidgetLink
-          href={`/accounts/${props.creatorAddress.toString()}`}
-          target="_blank"
-        >
+        <WidgetLink href={`/accounts/${props.creatorAddress.toString()}`}>
           🔗 {addressToShortAddress(props.creatorAddress.toString())}
         </WidgetLink>
       </Widget>

@@ -51,7 +51,6 @@ export default function ContestParticipants(props: {
               </Typography>
               <MuiLink
                 href={`/accounts/${participant.accountAddress}`}
-                target="_blank"
                 fontWeight={700}
                 sx={{ flexGrow: 1 }}
               >

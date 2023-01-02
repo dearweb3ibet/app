@@ -35,16 +35,13 @@ export default function BetCard(props: { bet: Bet; sx?: SxProps }) {
       <Stack sx={{ flexGrow: 1, justifyContent: "center" }}>
         <Typography>
           {!props.bet.isClosed ? "⌛" : props.bet.isSuccessful ? "👍" : "👎"}{" "}
-          <MuiLink href={`/bets/${props.bet.id}`} target="_blank">
+          <MuiLink href={`/bets/${props.bet.id}`}>
             <strong>#{props.bet.id}</strong>
           </MuiLink>
         </Typography>
         <Typography>
           👤{" "}
-          <MuiLink
-            href={`/accounts/${props.bet.creatorAddress}`}
-            target="_blank"
-          >
+          <MuiLink href={`/accounts/${props.bet.creatorAddress}`}>
             <strong>{addressToShortAddress(props.bet.creatorAddress)}</strong>
           </MuiLink>
         </Typography>
