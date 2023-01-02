@@ -59,7 +59,11 @@ export default function BetShareActions(props: { id: string; sx?: SxProps }) {
         <Typography variant="h6" textAlign="center" sx={{ mt: 6 }}>
           Or copy link
         </Typography>
-        <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={1}
+          sx={{ mt: 2 }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -67,6 +71,7 @@ export default function BetShareActions(props: { id: string; sx?: SxProps }) {
               border: 3,
               borderRadius: 5,
               px: 4,
+              minHeight: 64,
             }}
           >
             <Link href={betLink} legacyBehavior passHref>

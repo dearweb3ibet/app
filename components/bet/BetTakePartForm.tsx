@@ -7,7 +7,7 @@ import {
   WidgetInputTextField,
   XxlLoadingButton,
 } from "components/styled";
-import WidgetWrapper from "components/widget/WidgetWrapper";
+import Widget from "components/widget";
 import { betContractAbi } from "contracts/abi/betContract";
 import { ethers } from "ethers";
 import { Form, Formik } from "formik";
@@ -105,7 +105,7 @@ export default function BetTakePartForm(props: {
             <Form>
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
               {/* Fee input */}
-              <WidgetWrapper title="I bet" color="#2B6EFD" sx={{ mb: 2 }}>
+              <Widget title="I bet" color="#2B6EFD" sx={{ mb: 2 }}>
                 <Stack direction="row" spacing={1}>
                   <WidgetInputTextField
                     id="fee"
@@ -129,9 +129,9 @@ export default function BetTakePartForm(props: {
                     </MenuItem>
                   </WidgetInputSelect>
                 </Stack>
-              </WidgetWrapper>
+              </Widget>
               {/* Symbol input */}
-              <WidgetWrapper title="On" color="#410C92" sx={{ mb: 3 }}>
+              <Widget title="On" color="#410C92" sx={{ mb: 3 }}>
                 <WidgetInputSelect
                   id="isFeeForSuccess"
                   name="isFeeForSuccess"
@@ -143,7 +143,7 @@ export default function BetTakePartForm(props: {
                   <MenuItem value="false">👎 bet failure</MenuItem>
                   <MenuItem value="true">👍 bet success</MenuItem>
                 </WidgetInputSelect>
-              </WidgetWrapper>
+              </Widget>
               {/* Submit button */}
               <Stack
                 direction="row"

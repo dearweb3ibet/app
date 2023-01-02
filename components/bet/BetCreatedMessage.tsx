@@ -9,7 +9,7 @@ export default function BetPublishedMessage(props: { id: string }) {
   return (
     <CentralizedBox>
       {/* Title */}
-      <Typography variant="h4" fontWeight={700}>
+      <Typography variant="h4" textAlign="center" fontWeight={700}>
         🤟 Congrats, you made a bet!
       </Typography>
       <ThickDivider sx={{ mt: 6 }} />

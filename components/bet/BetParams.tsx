@@ -1,7 +1,7 @@
 import { Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { WidgetLink, WidgetTypography } from "components/styled";
-import WidgetWrapper from "components/widget/WidgetWrapper";
+import Widget from "components/widget";
 import { BigNumber, ethers } from "ethers";
 import { addressToShortAddress, symbolToShortSymbol } from "utils/converters";
 import { getContractsChain } from "utils/network";
@@ -36,24 +36,24 @@ export default function BetParams(props: {
         {props.id}
       </Typography>
       {/* Created timestamp */}
-      <WidgetWrapper title="On" color="#E97E27" sx={{ mb: 2 }}>
+      <Widget title="On" color="#E97E27" sx={{ mb: 2 }}>
         <WidgetTypography>
           {new Date(
             props.createdTimestamp.toNumber() * 1000
           ).toLocaleDateString()}
         </WidgetTypography>
-      </WidgetWrapper>
+      </Widget>
       {/* Creator address */}
-      <WidgetWrapper title="Account" color="#333333" sx={{ mb: 2 }}>
+      <Widget title="Account" color="#333333" sx={{ mb: 2 }}>
         <WidgetLink
           href={`/accounts/${props.creatorAddress.toString()}`}
           target="_blank"
         >
           🔗 {addressToShortAddress(props.creatorAddress.toString())}
         </WidgetLink>
-      </WidgetWrapper>
+      </Widget>
       {/* Fee */}
-      <WidgetWrapper title="Bet" color="#2B6EFD" sx={{ mb: 2 }}>
+      <Widget title="Bet" color="#2B6EFD" sx={{ mb: 2 }}>
         <Stack direction="row" spacing={1}>
           <WidgetTypography>
             {ethers.utils.formatEther(props.creatorFee)}
@@ -62,57 +62,53 @@ export default function BetParams(props: {
             {getContractsChain().nativeCurrency?.symbol}
           </WidgetTypography>
         </Stack>
-      </WidgetWrapper>
+      </Widget>
       {/* Symbol */}
-      <WidgetWrapper title="That" color="#410c92" sx={{ mb: 2 }}>
+      <Widget title="That" color="#410c92" sx={{ mb: 2 }}>
         <WidgetTypography>{symbolToShortSymbol(props.symbol)}</WidgetTypography>
-      </WidgetWrapper>
+      </Widget>
       {/* Text divider */}
       <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
         will cost
       </Typography>
       {/* Target min price */}
-      <WidgetWrapper
-        title="More than"
-        subtitle="USD"
-        color="#1DB954"
-        sx={{ mb: 2 }}
-      >
-        <WidgetTypography>{props.targetMinPrice.toString()}</WidgetTypography>
-      </WidgetWrapper>
+      <Widget title="More than" color="#1DB954" sx={{ mb: 2 }}>
+        <Stack direction="row" spacing={1}>
+          <WidgetTypography>{props.targetMinPrice.toString()}</WidgetTypography>
+          <WidgetTypography>USD</WidgetTypography>
+        </Stack>
+      </Widget>
       {/* Text divider */}
       <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
         and
       </Typography>
       {/* Target max price */}
-      <WidgetWrapper
-        title="Less than"
-        subtitle="USD"
-        color="#FF4400"
-        sx={{ mb: 2 }}
-      >
-        <WidgetTypography>{props.targetMaxPrice.toString()}</WidgetTypography>
-      </WidgetWrapper>
+      <Widget title="Less than" color="#FF4400" sx={{ mb: 2 }}>
+        <Stack direction="row" spacing={1}>
+          <WidgetTypography>{props.targetMaxPrice.toString()}</WidgetTypography>
+          <WidgetTypography>USD</WidgetTypography>
+        </Stack>
+      </Widget>
       {/* Target timestamp */}
-      <WidgetWrapper title="On" color="#4B144B" sx={{ mb: 2 }}>
+      <Widget title="On" color="#4B144B" sx={{ mb: 2 }}>
         <WidgetTypography>
           {new Date(
             props.targetTimestamp.toNumber() * 1000
           ).toLocaleDateString()}
         </WidgetTypography>
-      </WidgetWrapper>
+      </Widget>
       {/* Text divider */}
       <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
         and other accounts can take part in this bet
       </Typography>
       {/* Participation deadline timestamp */}
-      <WidgetWrapper title="Before" color="#E97E27" sx={{ mb: 2 }}>
+      <Widget title="Before" color="#E97E27" sx={{ mb: 2 }}>
         <WidgetTypography>
           {new Date(
             props.participationDeadlineTimestamp.toNumber() * 1000
           ).toLocaleDateString()}
         </WidgetTypography>
-      </WidgetWrapper>
+      </Widget>
     </Box>
   );
 }

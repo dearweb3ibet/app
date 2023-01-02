@@ -1,7 +1,7 @@
 import { Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { ThickDivider, WidgetTypography } from "components/styled";
-import WidgetWrapper from "components/widget/WidgetWrapper";
+import Widget from "components/widget";
 import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { getContractsChain } from "utils/network";
@@ -56,18 +56,18 @@ export default function BetResult(props: {
           and
         </Typography>
         {/* Is successful or not */}
-        <WidgetWrapper title="Bet" color="#2B6EFD" sx={{ mb: 2 }}>
+        <Widget title="Bet" color="#2B6EFD" sx={{ mb: 2 }}>
           <WidgetTypography>
             {props.isSuccessful ? "👍 successed" : "👎 failed"}
           </WidgetTypography>
-        </WidgetWrapper>
+        </Widget>
         {/* Text divider */}
         <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
           and participants for {props.isSuccessful ? "success" : "failure"}{" "}
           shared
         </Typography>
         {/* Total winning */}
-        <WidgetWrapper title="Winning" color="#410C92" sx={{ mb: 2 }}>
+        <Widget title="Winning" color="#410C92" sx={{ mb: 2 }}>
           <Stack direction="row" spacing={1}>
             <WidgetTypography>
               {props.isSuccessful
@@ -78,7 +78,7 @@ export default function BetResult(props: {
               {getContractsChain().nativeCurrency?.symbol}
             </WidgetTypography>
           </Stack>
-        </WidgetWrapper>
+        </Widget>
         {/* Text divider */}
         {(winning || losing) && (
           <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
@@ -87,7 +87,7 @@ export default function BetResult(props: {
         )}
         {/* Account winning or losing */}
         {(winning || losing) && (
-          <WidgetWrapper title={winning ? "Won" : "Lost"} color="#9747FF">
+          <Widget title={winning ? "Won" : "Lost"} color="#9747FF">
             <Stack direction="row" spacing={1}>
               {winning && (
                 <WidgetTypography>
@@ -103,7 +103,7 @@ export default function BetResult(props: {
                 {getContractsChain().nativeCurrency?.symbol}
               </WidgetTypography>
             </Stack>
-          </WidgetWrapper>
+          </Widget>
         )}
       </Box>
     );

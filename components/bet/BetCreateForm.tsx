@@ -7,7 +7,7 @@ import {
   WidgetInputTextField,
   XxlLoadingButton,
 } from "components/styled";
-import WidgetWrapper from "components/widget/WidgetWrapper";
+import Widget from "components/widget";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber, ethers } from "ethers";
 import { Form, Formik } from "formik";
@@ -129,7 +129,7 @@ export default function BetCreateForm(props: {
           <Form>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Fee input */}
-            <WidgetWrapper title="I bet" color="#2B6EFD" sx={{ mb: 2 }}>
+            <Widget title="I bet" color="#2B6EFD" sx={{ mb: 2 }}>
               <Stack direction="row" spacing={1}>
                 <WidgetInputTextField
                   id="fee"
@@ -142,8 +142,8 @@ export default function BetCreateForm(props: {
                   disabled={isFormDisabled}
                 />
                 <WidgetInputSelect
-                  id="symbol"
-                  name="symbol"
+                  id="feeCurrency"
+                  name="feeCurrency"
                   value={values.feeCurrency}
                   onChange={handleChange}
                   disabled={isFormDisabled}
@@ -153,9 +153,9 @@ export default function BetCreateForm(props: {
                   </MenuItem>
                 </WidgetInputSelect>
               </Stack>
-            </WidgetWrapper>
+            </Widget>
             {/* Symbol input */}
-            <WidgetWrapper title="That" color="#410c92" sx={{ mb: 3 }}>
+            <Widget title="That" color="#410c92" sx={{ mb: 3 }}>
               <WidgetInputSelect
                 id="symbol"
                 name="symbol"
@@ -167,53 +167,67 @@ export default function BetCreateForm(props: {
                 <MenuItem value="BTCUSD">BTC</MenuItem>
                 <MenuItem value="MATICUSD">MATIC</MenuItem>
               </WidgetInputSelect>
-            </WidgetWrapper>
+            </Widget>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               will cost
             </Typography>
             {/* Target min price input */}
-            <WidgetWrapper
-              title="More than"
-              subtitle="USD"
-              color="#1DB954"
-              sx={{ mb: 3 }}
-            >
-              <WidgetInputTextField
-                id="targetMinPrice"
-                name="targetMinPrice"
-                type="number"
-                value={values.targetMinPrice}
-                onChange={handleChange}
-                error={touched.targetMinPrice && Boolean(errors.targetMinPrice)}
-                helperText={touched.targetMinPrice && errors.targetMinPrice}
-                disabled={isFormDisabled}
-              />
-            </WidgetWrapper>
+            <Widget title="More than" color="#1DB954" sx={{ mb: 3 }}>
+              <Stack direction="row" spacing={1}>
+                <WidgetInputTextField
+                  id="targetMinPrice"
+                  name="targetMinPrice"
+                  type="number"
+                  value={values.targetMinPrice}
+                  onChange={handleChange}
+                  error={
+                    touched.targetMinPrice && Boolean(errors.targetMinPrice)
+                  }
+                  helperText={touched.targetMinPrice && errors.targetMinPrice}
+                  disabled={isFormDisabled}
+                />
+                <WidgetInputSelect
+                  id="targetPriceCurrency"
+                  name="targetPriceCurrency"
+                  value="USD"
+                  disabled={isFormDisabled}
+                >
+                  <MenuItem value="USD">USD</MenuItem>
+                </WidgetInputSelect>
+              </Stack>
+            </Widget>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and
             </Typography>
             {/* Target max price input */}
-            <WidgetWrapper
-              title="Less than"
-              subtitle="USD"
-              color="#FF4400"
-              sx={{ mb: 2 }}
-            >
-              <WidgetInputTextField
-                id="targetMaxPrice"
-                name="targetMaxPrice"
-                type="number"
-                value={values.targetMaxPrice}
-                onChange={handleChange}
-                error={touched.targetMaxPrice && Boolean(errors.targetMaxPrice)}
-                helperText={touched.targetMaxPrice && errors.targetMaxPrice}
-                disabled={isFormDisabled}
-              />
-            </WidgetWrapper>
+            <Widget title="Less than" color="#FF4400" sx={{ mb: 2 }}>
+              <Stack direction="row" spacing={1}>
+                <WidgetInputTextField
+                  id="targetMaxPrice"
+                  name="targetMaxPrice"
+                  type="number"
+                  value={values.targetMaxPrice}
+                  onChange={handleChange}
+                  error={
+                    touched.targetMaxPrice && Boolean(errors.targetMaxPrice)
+                  }
+                  helperText={touched.targetMaxPrice && errors.targetMaxPrice}
+                  disabled={isFormDisabled}
+                />
+                <WidgetInputSelect
+                  id="targetPriceCurrency"
+                  name="targetPriceCurrency"
+                  value="USD"
+                  disabled={isFormDisabled}
+                >
+                  <MenuItem value="USD">USD</MenuItem>
+                </WidgetInputSelect>
+              </Stack>
+            </Widget>
             {/* Target timestamp input */}
-            <WidgetWrapper title="On" color="#4B144B" sx={{ mb: 3 }}>
+            <Widget title="On" color="#4B144B" sx={{ mb: 3 }}>
               <WidgetInputTextField
                 id="targetTimestamp"
                 name="targetTimestamp"
@@ -227,13 +241,13 @@ export default function BetCreateForm(props: {
                 disabled={isFormDisabled}
                 sx={{ width: 180 }}
               />
-            </WidgetWrapper>
+            </Widget>
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and other accounts can take part in this bet
             </Typography>
             {/* Participation deadline timestamp input */}
-            <WidgetWrapper title="Before" color="#E97E27" sx={{ mb: 6 }}>
+            <Widget title="Before" color="#E97E27" sx={{ mb: 6 }}>
               <WidgetInputTextField
                 id="participationDeadlineTimestamp"
                 name="participationDeadlineTimestamp"
@@ -251,7 +265,7 @@ export default function BetCreateForm(props: {
                 disabled={isFormDisabled}
                 sx={{ width: 180 }}
               />
-            </WidgetWrapper>
+            </Widget>
             {/* Submit button */}
             <Box
               sx={{
