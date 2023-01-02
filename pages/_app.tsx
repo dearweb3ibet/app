@@ -1,5 +1,9 @@
 import { ThemeProvider } from "@mui/material";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  getDefaultWallets,
+  lightTheme,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { DialogProvider } from "context/dialog";
 import type { AppProps } from "next/app";
@@ -7,6 +11,7 @@ import NextNProgress from "nextjs-progressbar";
 import { SnackbarProvider } from "notistack";
 import { useEffect, useState } from "react";
 import { theme } from "theme";
+import { palette } from "theme/palette";
 import { getContractsChain } from "utils/network";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -42,7 +47,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={lightTheme({ accentColor: theme.palette.primary.main })}
+      >
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={3}>
             <DialogProvider>
