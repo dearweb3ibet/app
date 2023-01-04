@@ -23,7 +23,7 @@ export function initAnalytics() {
 
 export function handleDefineAccountAddressEvent(accountAddress: string) {
   if (isAnalyticsEnabled()) {
-    posthog.alias(accountAddress);
+    posthog.identify(accountAddress);
   }
 }
 
