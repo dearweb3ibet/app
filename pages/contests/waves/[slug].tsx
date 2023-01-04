@@ -19,7 +19,7 @@ export default function ContestWave() {
   }, [slug]);
 
   return (
-    <Layout>
+    <Layout maxWidth="sm">
       <CentralizedBox>
         {waveId && !waveId.isNegative() ? (
           <>

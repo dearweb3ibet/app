@@ -30,7 +30,7 @@ export default function ContestParticipants(props: {
   }, [props.waveId]);
 
   return (
-    <Box sx={{ ...props.sx }}>
+    <Box sx={{ width: 1, ...props.sx }}>
       {waveParticipants &&
         waveParticipants.map((participant, index) => (
           <Box
@@ -46,7 +46,7 @@ export default function ContestParticipants(props: {
             }}
           >
             <Stack direction="row" spacing={2} alignItems="center">
-              <Typography variant="h5" fontWeight={700}>
+              <Typography variant="h5" fontWeight={700} sx={{ mr: 1 }}>
                 #{index + 1}
               </Typography>
               <MuiLink
