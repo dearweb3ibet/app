@@ -45,7 +45,7 @@ export default function ContestHeader(props: {
             {contestBalance?.formatted}{" "}
             {getContractsChain().nativeCurrency?.symbol}
           </strong>{" "}
-          after{" "}
+          on{" "}
           <strong>
             {new Date(wave.endTimestamp.toNumber() * 1000).toLocaleDateString()}
           </strong>
