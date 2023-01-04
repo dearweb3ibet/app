@@ -1,4 +1,4 @@
-import { GitHub, MenuRounded } from "@mui/icons-material";
+import { GitHub, MenuRounded, Twitter } from "@mui/icons-material";
 import {
   AppBar,
   Button,
@@ -154,6 +154,17 @@ export default function Navigation() {
               <GitHub />
             </IconButton>
           </Box>
+          {/* Twitter link */}
+          <Box sx={{ display: { xs: "none", md: "block" }, flexGrow: 0 }}>
+            <IconButton
+              href={contact.twitter}
+              target="_blank"
+              component="a"
+              sx={{ color: "#000000" }}
+            >
+              <Twitter />
+            </IconButton>
+          </Box>
           {/* Button to open mobile menu */}
           <IconButton
             onClick={handleClick}
@@ -222,11 +233,19 @@ export default function Navigation() {
               <MenuItem>Contest</MenuItem>
             </Link>
             <Divider />
+            {/* GitHub link */}
             <MenuItem href={contact.github} target="_blank" component="a">
               <ListItemIcon>
                 <GitHub fontSize="small" />
               </ListItemIcon>
               GitHub
+            </MenuItem>
+            {/* Twitter link */}
+            <MenuItem href={contact.twitter} target="_blank" component="a">
+              <ListItemIcon>
+                <Twitter fontSize="small" />
+              </ListItemIcon>
+              Twitter
             </MenuItem>
           </Menu>
         </Toolbar>
