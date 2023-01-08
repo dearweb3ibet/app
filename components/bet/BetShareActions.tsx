@@ -29,10 +29,10 @@ export default function BetShareActions(props: { id: string; sx?: SxProps }) {
           ...props.sx,
         }}
       >
-        {/* Buttons to share via social networks */}
         <Typography variant="h6" textAlign="center">
-          Share this bet with your friends
+          🗣️ Share this bet with your friends
         </Typography>
+        {/* Buttons to share via social networks */}
         <Stack
           direction="row"
           spacing={2}
