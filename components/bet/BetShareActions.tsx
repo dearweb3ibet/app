@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { XxlLoadingButton } from "components/styled";
+import { XlLoadingButton } from "components/styled";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
 
@@ -22,6 +22,7 @@ export default function BetShareActions(props: { id: string; sx?: SxProps }) {
     return (
       <Box
         sx={{
+          width: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -30,7 +31,7 @@ export default function BetShareActions(props: { id: string; sx?: SxProps }) {
       >
         {/* Buttons to share via social networks */}
         <Typography variant="h6" textAlign="center">
-          Share this bet via
+          Share this bet with your friends
         </Typography>
         <Stack
           direction="row"
@@ -56,40 +57,43 @@ export default function BetShareActions(props: { id: string; sx?: SxProps }) {
           </IconButton>
         </Stack>
         {/* Link and copy button */}
-        <Typography variant="h6" textAlign="center" sx={{ mt: 6 }}>
-          Or copy link
-        </Typography>
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={1}
-          sx={{ mt: 2 }}
+        <Box
+          sx={{
+            width: 1,
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+            alignItems: "center",
+            border: 3,
+            borderColor: "divider",
+            borderRadius: 5,
+            px: { xs: 1, md: 2 },
+            py: { xs: 2, md: 1 },
+            mt: 2,
+          }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              border: 3,
-              borderRadius: 5,
-              px: 4,
-              minHeight: 64,
-            }}
-          >
-            <Link href={betLink} legacyBehavior passHref>
-              <MuiLink sx={{ fontWeight: 700, textAlign: "center" }}>
-                🔗 {betLink}
-              </MuiLink>
-            </Link>
-          </Box>
-          <XxlLoadingButton
-            variant="contained"
+          <Link href={betLink} legacyBehavior passHref>
+            <MuiLink
+              sx={{
+                lineBreak: "anywhere",
+                fontWeight: 700,
+                textAlign: "center",
+                mb: { xs: 2, md: 0 },
+              }}
+            >
+              🔗 {betLink}
+            </MuiLink>
+          </Link>
+          <XlLoadingButton
+            variant="outlined"
             onClick={() => {
               navigator.clipboard.writeText(betLink);
               showToastSuccess("Link copied");
             }}
           >
             Copy
-          </XxlLoadingButton>
-        </Stack>
+          </XlLoadingButton>
+        </Box>
       </Box>
     );
   }

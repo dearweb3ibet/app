@@ -3,12 +3,11 @@ import { CentralizedBox, ThickDivider } from "components/styled";
 import BetShareActions from "./BetShareActions";
 
 /**
- * A component with message that bet is published.
+ * A component with message that bet is created.
  */
-export default function BetPublishedMessage(props: { id: string }) {
+export default function BetCreatedMessage(props: { id: string }) {
   return (
     <CentralizedBox>
-      {/* Title */}
       <Typography variant="h4" textAlign="center" fontWeight={700}>
         🤟 Congrats, you made a bet!
       </Typography>
