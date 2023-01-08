@@ -1,6 +1,7 @@
 import { Stack, SxProps } from "@mui/material";
 import BetShareDialog from "components/dialog/BetShareDialog";
-import { XxlLoadingButton } from "components/styled";
+import BetSubscribeDialog from "components/dialog/BetSubscribeDialog";
+import { XlLoadingButton, XxlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { betContractAbi } from "contracts/abi/betContract";
 import { BigNumber } from "ethers";
@@ -24,15 +25,16 @@ export default function BetActions(props: {
 }) {
   return (
     <Stack
-      direction={{ xs: "column", md: "row" }}
+      direction="column"
       spacing={2}
       justifyContent="center"
-      sx={{ width: 1, ...props.sx }}
+      sx={{ ...props.sx }}
     >
-      <BetShareButton id={props.id} />
       {!props.isClosed && (
         <BetCloseButton id={props.id} onSuccess={() => props.onUpdate?.()} />
       )}
+      <BetShareButton id={props.id} />
+      <BetSubscribeButton id={props.id} />
     </Stack>
   );
 }
@@ -41,14 +43,29 @@ function BetShareButton(props: { id: string }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
-    <XxlLoadingButton
+    <XlLoadingButton
       variant="outlined"
       onClick={() =>
         showDialog?.(<BetShareDialog id={props.id} onClose={closeDialog} />)
       }
     >
       Share
-    </XxlLoadingButton>
+    </XlLoadingButton>
+  );
+}
+
+function BetSubscribeButton(props: { id: string }) {
+  const { showDialog, closeDialog } = useContext(DialogContext);
+
+  return (
+    <XlLoadingButton
+      variant="outlined"
+      onClick={() =>
+        showDialog?.(<BetSubscribeDialog id={props.id} onClose={closeDialog} />)
+      }
+    >
+      Subscribe
+    </XlLoadingButton>
   );
 }
 
