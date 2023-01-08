@@ -1,5 +1,6 @@
 import { MenuItem, Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import BetSuccessTakingPartDialog from "components/dialog/BetSuccessTakingPartDialog";
 import FormikHelper from "components/helper/FormikHelper";
 import {
   ThickDivider,
@@ -8,12 +9,12 @@ import {
   XxlLoadingButton,
 } from "components/styled";
 import Widget from "components/widget";
+import { DialogContext } from "context/dialog";
 import { betContractAbi } from "contracts/abi/betContract";
 import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
-import useToasts from "hooks/useToast";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getContractsChain } from "utils/network";
 import {
   useAccount,
@@ -34,8 +35,8 @@ export default function BetTakePartForm(props: {
   onSuccess?: Function;
   sx?: SxProps;
 }) {
+  const { showDialog, closeDialog } = useContext(DialogContext);
   const { isConnected, address } = useAccount();
-  const { showToastSuccess } = useToasts();
 
   // Form states
   const [formValues, setFormValues] = useState({
@@ -83,7 +84,9 @@ export default function BetTakePartForm(props: {
 
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("You are now a bet participant!");
+      showDialog?.(
+        <BetSuccessTakingPartDialog id={props.id} onClose={closeDialog} />
+      );
       props.onSuccess?.();
     }
   }, [isTransactionSuccess]);
