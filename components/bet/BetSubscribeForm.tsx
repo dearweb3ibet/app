@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XlLoadingButton } from "components/styled";
 import { form } from "constants/form";
+import { id } from "ethers/lib/utils";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useFormSubmit from "hooks/useFormSubmit";
@@ -31,7 +32,10 @@ export default function BetSubscribeForm(props: { id: string; sx?: SxProps }) {
   async function submit(values: any, actions: any) {
     try {
       setIsFormSubmitting(true);
-      await submitForm(form.type.subscribe, values);
+      await submitForm(form.type.subscribe, {
+        bet: props.id,
+        ...values,
+      });
       showToastSuccess("You have successfully subscribed for bet updates");
       actions?.resetForm();
     } catch (error: any) {
