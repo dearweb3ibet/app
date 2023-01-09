@@ -1,4 +1,10 @@
-import { Instagram, Person, Telegram, Twitter } from "@mui/icons-material";
+import {
+  AlternateEmail,
+  Instagram,
+  Person,
+  Telegram,
+  Twitter,
+} from "@mui/icons-material";
 import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
@@ -89,13 +95,23 @@ export default function AccountBio(props: { address: string }) {
             {bioData.text}
           </Typography>
         )}
-        {/* Bio social links,  */}
+        {/* Bio links and other data */}
         <Stack
           direction={{ xs: "column-reverse", md: "row" }}
           alignItems="center"
         >
-          {/* Social links */}
+          {/* Email and social links */}
           <Stack direction="row" alignItems="center">
+            {bioData.email && (
+              <IconButton
+                href={`mailto:${bioData.email}`}
+                target="_blank"
+                component="a"
+                color="primary"
+              >
+                <AlternateEmail />
+              </IconButton>
+            )}
             {bioData.twitter && (
               <IconButton
                 href={`https://twitter.com/${bioData.twitter}`}

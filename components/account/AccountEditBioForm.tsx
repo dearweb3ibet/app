@@ -37,6 +37,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
   const [formValues, setFormValues] = useState({
     name: props.bioData?.name as string,
     text: props.bioData?.text as string,
+    email: props.bioData?.email as string,
     twitter: props.bioData?.twitter as string,
     telegram: props.bioData?.telegram as string,
     instagram: props.bioData?.instagram as string,
@@ -44,6 +45,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
   const formValidationSchema = yup.object({
     name: yup.string(),
     text: yup.string(),
+    email: yup.string(),
     twitter: yup.string(),
     telegram: yup.string(),
     instagram: yup.string(),
@@ -226,6 +228,22 @@ export default function AccountEditBioForm(props: { bioData: any }) {
               onChange={handleChange}
               error={touched.text && Boolean(errors.text)}
               helperText={touched.text && errors.text}
+              disabled={isFormDisabled}
+            />
+          </Box>
+          {/* Email */}
+          <Box sx={{ mb: 2 }}>
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              label="Email"
+              placeholder="alice@dearweb3ibet.space"
+              type="string"
+              value={values.email}
+              onChange={handleChange}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
               disabled={isFormDisabled}
             />
           </Box>
