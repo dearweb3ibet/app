@@ -3,18 +3,19 @@ import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XlLoadingButton } from "components/styled";
 import { form } from "constants/form";
-import { id } from "ethers/lib/utils";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useFormSubmit from "hooks/useFormSubmit";
 import useToasts from "hooks/useToast";
 import { useState } from "react";
+import { useAccount } from "wagmi";
 import * as yup from "yup";
 
 /**
  * A component with form to subscribe for bet updates.
  */
 export default function BetSubscribeForm(props: { id: string; sx?: SxProps }) {
+  const { address } = useAccount();
   const { handleError } = useError();
   const { submitForm } = useFormSubmit();
   const { showToastSuccess } = useToasts();
@@ -32,10 +33,14 @@ export default function BetSubscribeForm(props: { id: string; sx?: SxProps }) {
   async function submit(values: any, actions: any) {
     try {
       setIsFormSubmitting(true);
-      await submitForm(form.type.subscribe, {
-        bet: props.id,
-        ...values,
-      });
+      await submitForm(
+        form.type.subscribe,
+        {
+          bet: props.id,
+          ...values,
+        },
+        address
+      );
       showToastSuccess("You have successfully subscribed for bet updates");
       actions?.resetForm();
     } catch (error: any) {

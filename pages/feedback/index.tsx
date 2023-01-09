@@ -10,12 +10,14 @@ import useError from "hooks/useError";
 import useFormSubmit from "hooks/useFormSubmit";
 import useToasts from "hooks/useToast";
 import { useState } from "react";
+import { useAccount } from "wagmi";
 import * as yup from "yup";
 
 /**
  * Feedback page.
  */
 export default function Feedback() {
+  const { address } = useAccount();
   const { handleError } = useError();
   const { submitForm } = useFormSubmit();
   const { showToastSuccess } = useToasts();
@@ -37,7 +39,7 @@ export default function Feedback() {
   async function submit(values: any, actions: any) {
     try {
       setIsFormSubmitting(true);
-      await submitForm(form.type.feedback, values);
+      await submitForm(form.type.feedback, values, address);
       showToastSuccess("Thanks for the feedback, we'll get back soon");
       actions?.resetForm();
     } catch (error: any) {
